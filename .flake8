@@ -1,0 +1,16 @@
+[flake8]
+ignore = E265, C101, Q000, A005
+exclude =
+    .git,
+    __pycache__,
+    venv
+    ./.venv/
+filename = *.py
+accept-encodings = utf-8
+inline-quotes = single
+max-complexity = 12
+max-linenumber = 500
+max-line-length = 120
+multiline-quotes = double
+per-file-ignores =
+    core/owlreads/settings/templates/settings.dev.py: F821
