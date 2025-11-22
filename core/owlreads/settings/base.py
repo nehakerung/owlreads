@@ -1,4 +1,6 @@
 # SECURITY WARNING: keep the secret key used in production secret!
+from core.owlreads.settings import BASE_DIR
+
 SECRET_KEY = NotImplemented
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -16,6 +18,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "core.owlreads",
+    "core.users",
 ]
 
 MIDDLEWARE = [
@@ -33,7 +37,7 @@ ROOT_URLCONF = "core.owlreads.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "core" / "templates"],  # type: ignore # noqa: F821
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

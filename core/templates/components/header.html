@@ -1,0 +1,19 @@
+<header class="site-header">
+      <nav class="navbar">
+                <h1>OwlReads</h1>
+                {% if user.is_authenticated %}
+                <p> user loggd in </p>
+                <form class="logout" method="POST" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="logout-button">Logout</button>
+
+                {% else %}
+                  <form class="login" method="POST" action="{% url 'login' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="login-button">Login</button>
+
+                {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>

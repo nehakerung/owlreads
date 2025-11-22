@@ -10,6 +10,10 @@ install-pre-commit:
 lint:
 	poetry run pre-commit run --all-files
 
+.PHONY: format
+format:
+	poetry run isort .
+
 .PHONY: migrate
 migrate:
 	poetry run python -m core.manage migrate
