@@ -16,6 +16,7 @@ format:
 
 .PHONY: migrate
 migrate:
+	poetry run python -m core.manage makemigrations
 	poetry run python -m core.manage migrate
 
 .PHONY: migrations

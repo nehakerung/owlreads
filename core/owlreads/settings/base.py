@@ -20,6 +20,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core.owlreads",
     "core.users",
+    "core.books",
+    "rest_framework",
+    "core.api",
 ]
 
 MIDDLEWARE = [

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 
+from core.books.views import bookslist
 from core.users.views import login_view, logout_view, registerpage
 
 from . import views
@@ -13,4 +14,6 @@ urlpatterns = [
     path("register/", registerpage, name="register"),
     path("login/", login_view, name="login"),
     path("logout/", logout_view, name="logout"),
+    path("books/", bookslist, name="books-list"),
+    path("api/", include("core.api.urls")),
 ]
