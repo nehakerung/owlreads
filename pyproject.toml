@@ -1,10 +1,11 @@
 [project]
-name = "i-project"
+name = "owlreads"
 version = "0.1.0"
 description = ""
 authors = [
     {name = "Neha Kerung",email = "you@example.com"}
 ]
+package-mode = false
 readme = "README.md"
 requires-python = ">=3.13,<4.0"
 dependencies = [

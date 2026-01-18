@@ -1,4 +1,4 @@
-# OwlReads
+# 📚OwlReads
 
 A web application that empowers students to track their reading progress while providing teachers with valuable insights to support student development.
 

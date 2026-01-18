@@ -4,7 +4,7 @@ from core.owlreads.settings import BASE_DIR
 SECRET_KEY = NotImplemented
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -61,7 +61,7 @@ WSGI_APPLICATION = "core.owlreads.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "/Users/nehakerung/Documents/Projects/i_project/db.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
