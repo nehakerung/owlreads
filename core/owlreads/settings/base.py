@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     "users",
     "books",
     "rest_framework",
-    "api",
 ]
 
 MIDDLEWARE = [
