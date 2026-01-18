@@ -1,5 +1,5 @@
 # SECURITY WARNING: keep the secret key used in production secret!
-from core.owlreads.settings import BASE_DIR
+from owlreads.settings import BASE_DIR
 
 SECRET_KEY = NotImplemented
 
@@ -18,11 +18,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core.owlreads",
-    "core.users",
-    "core.books",
+    "owlreads",
+    "users",
+    "books",
     "rest_framework",
-    "core.api",
 ]
 
 MIDDLEWARE = [
@@ -35,7 +34,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "core.owlreads.urls"
+ROOT_URLCONF = "owlreads.urls"
 
 TEMPLATES = [
     {
@@ -52,7 +51,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "core.owlreads.wsgi.application"
+WSGI_APPLICATION = "owlreads.wsgi.application"
 
 
 # Database
