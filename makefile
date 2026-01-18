@@ -16,20 +16,20 @@ format:
 
 .PHONY: migrate
 migrate:
-	poetry run python -m core.manage makemigrations
-	poetry run python -m core.manage migrate
+	poetry run python -m core/manage makemigrations
+	poetry run python -m core/manage migrate
 
 .PHONY: migrations
 migrations:
-	poetry run python -m core.manage makemigrations
+	poetry run python -m core/manage makemigrations
 
 .PHONY: runserver
 runserver:
-	poetry run python -m core.manage runserver
+	poetry run python -m core/manage runserver
 
 .PHONY: superuser
 superuser:
-	poetry run python -m core.manage createsuperuser
+	poetry run python -m core/manage createsuperuser
 
 .PHONY: update
 update: install migrate ;
