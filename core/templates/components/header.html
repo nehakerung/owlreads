@@ -1,6 +1,27 @@
 <header class="site-header">
       <nav class="navbar">
                 <h1>OwlReads</h1>
+        <div>
+        <form method="get" action="{% url 'book-search-page' %}" class="mb-8">
+            <div class="flex gap-2">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ query }}"
+                    placeholder="Enter book title, author, or keyword..."
+                    class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                >
+                <button
+                    type="submit"
+                    class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                >
+                    Search
+                </button>
+            </div>
+        </form>
+            </div>
+                  <div>
                 {% if user.is_authenticated %}
                 <p> user loggd in </p>
                 <form class="logout" method="POST" action="{% url 'logout' %}">
@@ -13,7 +34,5 @@
                   <button type="submit" class="login-button">Login</button>
 
                 {% endif %}
-          </div>
-        </div>
-      </nav>
+                  </div>
     </header>

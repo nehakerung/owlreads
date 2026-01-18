@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -6,6 +7,7 @@ from .serializers import BookSerializer
 from .services.google_books import GoogleBooksService
 
 
+# API Views (for REST endpoints)
 class BookSearchView(APIView):
     def get(self, request):
         query = request.query_params.get('q', '')
@@ -23,7 +25,6 @@ class BookSearchView(APIView):
         if 'error' in data:
             return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        # Transform the data
         books = []
         for item in data.get('items', []):
             volume_info = item.get('volumeInfo', {})
@@ -60,3 +61,78 @@ class BookDetailView(APIView):
 
         serializer = BookSerializer(book_data)
         return Response(serializer.data)
+
+
+# Template Views (for frontend pages)
+def book_search_page(request):
+    """Render the book search page with results"""
+    query = request.GET.get('q', '')
+    books = []
+    error = None
+
+    if query:
+        try:
+            service = GoogleBooksService()
+            data = service.search_books(query, max_results=20)
+
+            if 'error' in data:
+                error = data['error']
+            else:
+                for item in data.get('items', []):
+                    volume_info = item.get('volumeInfo', {})
+                    books.append({
+                        'id': item.get('id'),
+                        'title': volume_info.get('title', 'Unknown Title'),
+                        'authors': volume_info.get('authors', []),
+                        'description': volume_info.get('description', ''),
+                        'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
+                        'published_date': volume_info.get('publishedDate', '')
+                    })
+        except Exception as e:
+            error = f"An error occurred: {str(e)}"
+
+    context = {
+        'query': query,
+        'books': books,
+        'error': error
+    }
+
+    return render(request, 'books/book_search.html', context)
+
+
+def book_detail_page(request, book_id):
+    """Render the book detail page"""
+    book = None
+    error = None
+
+    try:
+        service = GoogleBooksService()
+        data = service.get_book_by_id(book_id)
+
+        if 'error' in data:
+            error = data['error']
+        else:
+            volume_info = data.get('volumeInfo', {})
+            book = {
+                'id': data.get('id'),
+                'title': volume_info.get('title', 'Unknown Title'),
+                'authors': volume_info.get('authors', []),
+                'description': volume_info.get('description', ''),
+                'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
+                'published_date': volume_info.get('publishedDate', ''),
+                'publisher': volume_info.get('publisher', ''),
+                'page_count': volume_info.get('pageCount', ''),
+                'categories': volume_info.get('categories', []),
+                'average_rating': volume_info.get('averageRating', ''),
+                'ratings_count': volume_info.get('ratingsCount', ''),
+                'preview_link': volume_info.get('previewLink', '')
+            }
+    except Exception as e:
+        error = f"An error occurred: {str(e)}"
+
+    context = {
+        'book': book,
+        'error': error
+    }
+
+    return render(request, 'books/book_detail.html', context)
