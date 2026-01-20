@@ -4,19 +4,19 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
         <h1 class="text-4xl font-bold text-center mb-8">Search for Books</h1>
-        
+
         <form method="get" action="{% url 'book-search-page' %}" class="mb-8">
             <div class="flex gap-2">
-                <input 
-                    type="text" 
-                    name="q" 
+                <input
+                    type="text"
+                    name="q"
                     value="{{ query }}"
-                    placeholder="Enter book title, author, or keyword..." 
+                    placeholder="Enter book title, author, or keyword..."
                     class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                 >
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
                     Search
@@ -52,8 +52,8 @@
                     <!-- Book Thumbnail -->
                     <div class="flex-shrink-0">
                         {% if book.thumbnail %}
-                        <img 
-                            src="{{ book.thumbnail }}" 
+                        <img
+                            src="{{ book.thumbnail }}"
                             alt="{{ book.title }}"
                             class="w-24 h-32 object-cover rounded"
                         >
@@ -71,7 +71,7 @@
                                 {{ book.title }}
                             </a>
                         </h3>
-                        
+
                         {% if book.authors %}
                         <p class="text-gray-600 mb-2">
                             by {{ book.authors|join:", " }}
@@ -90,8 +90,8 @@
                         </p>
                         {% endif %}
 
-                        <a 
-                            href="{% url 'book-detail-page' book.id %}" 
+                        <a
+                            href="{% url 'book-detail-page' book.id %}"
                             class="inline-block mt-3 text-blue-600 hover:text-blue-800 font-medium"
                         >
                             View Details →
