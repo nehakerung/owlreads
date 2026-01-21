@@ -1,6 +1,7 @@
 # core/owlreads/urls.py
 from books.views import BookDetailView, BookSearchView, book_detail_page, book_search_page
 from django.contrib import admin
+from django.db import router
 from django.urls import include, path
 from users.views import login_view, logout_view, registerpage
 
@@ -24,4 +25,6 @@ urlpatterns = [
     # API routes
     path("api/books/search/", BookSearchView.as_view(), name='book-search'),
     path("api/books/<str:book_id>/", BookDetailView.as_view(), name='book-detail'),
+
+    path('api/', include((router.urls, 'core_api'), namespace='core_api')),
 ]

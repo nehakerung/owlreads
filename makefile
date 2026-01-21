@@ -27,6 +27,10 @@ migrations:
 runserver:
 	poetry run python core/manage.py runserver
 
+.PHONY: runnextserver
+runnextserver:
+	cd frontend && poetry run npm run dev
+
 .PHONY: superuser
 superuser:
 	poetry run python core/manage.py createsuperuser
