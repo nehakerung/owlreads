@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import "../app/ui/buttons.module.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="shortcut icon" href="../public/OwlReadsLogo.png" />
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Navbar />
+        <div className="pt-20"></div>
         {children}
       </body>
+      <Footer />
     </html>
   );
 }
