@@ -101,10 +101,10 @@
     background-color: var(--brown);
   }
 
-  /* .btnprimary:hover {
+  .btnprimary:hover {
     opacity: 0.5;
   }
-
+/*
   .btn-secondary {
       background-color: var(--green);
       color: var(--white);
