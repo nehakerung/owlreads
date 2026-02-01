@@ -5,7 +5,7 @@ import styles from "../app/ui/buttons.module.css";
 
 const Navbar = () => {
   return (
-    <nav className="fixed top-0 left-0 w-full bg-[#9dcd5a] py-6 border-b">
+    <nav className="sticky top-0 left-0 w-full z-20 bg-[#9dcd5a] py-6 border-b">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
         {/* Logo */}

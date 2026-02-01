@@ -59,6 +59,8 @@ source .venv/bin/activate
 ```
 # install dependencies / no-root is added as sometimes poetyy will try to install it as a package anywats
 poetry install --no-root
+
+npm install
 ```
 ### Running the Application
 
