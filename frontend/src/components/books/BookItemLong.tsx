@@ -3,7 +3,7 @@ import Image from "next/image"
 const BookItemLong = () => {
   return (
     <div className="flex items-center justify-between gap-6 border-b border-gray-200 py-4 mb-6 w-full flex-wrap bg-white px-4 rounded-lg shadow-sm">
-    
+
         {/* Product Image */}
             <div className="w-40 h-60 rounded-md overflow-hidden relative">
     <Image
@@ -13,7 +13,7 @@ const BookItemLong = () => {
           alt="thumbnail"
         />
     </div>
-    
+
         {/* Product Details - Name and Price */}
         <div className="flex-1 min-w-30">
           <p className="font-semibold text-gray-800">Book T</p>
@@ -24,11 +24,11 @@ const BookItemLong = () => {
         <a href="#" className="text-sm font-medium text-heading underline hover:no-underline">73 reviews</a>
     </div>
         </div>
-    
+
         <button className="btnprimary">
           Update Status
         </button>
-     
+
       </div>
   )
 }
