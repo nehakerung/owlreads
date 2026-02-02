@@ -20,7 +20,7 @@ const MobileNavBar = () => {
             Owlreads
           </SheetTitle>
         </SheetHeader>
-        
+
         <NavItems mobile/>
 
       </SheetContent>

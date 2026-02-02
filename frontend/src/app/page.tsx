@@ -1,8 +1,18 @@
 import React from 'react'
+import Hero from '../components/home/Hero'
+import Section from '../components/home/Section'
+import BookSection from '../components/home/BookSection'
+import GenrePage from './genres/[slug]/page'
+
 
 const HomePage = () => {
   return (
-    <div>Homepage</div>
+    <>
+    <Hero />
+    <GenrePage />
+    <BookSection />
+    <Section />
+    </>
   )
 }
 
