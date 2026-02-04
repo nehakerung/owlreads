@@ -10,7 +10,7 @@ const ToRead = () => {
 
     {/* Content */}
     <div className="flex items-center w-[full] gap-4 px-6 py-6 custom-overflow border border-gray-200 bg-white rounded-lg shadow-sm">
-     
+
      <BookCard />
      <BookCard />
      <BookCard />

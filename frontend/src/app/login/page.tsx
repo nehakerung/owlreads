@@ -15,10 +15,13 @@ const Login = () => {
       <h2 className="text-3xl font-semibold text-center text-gray-900">
         Log Back in!
       </h2>
-  
+      <div className="text-sm text-center text-gray-500">
       <form>
-         <button className="btnprimary">Login</button>
+        <input type="username" placeholder="Username" className="inputfield" />
+        <input type="password" placeholder="Password" className="inputfield" />
+        <button className="btnprimary">Login</button>
       </form>
+      </div>
     </div>
   </div>
   )
