@@ -25,6 +25,4 @@ urlpatterns = [
     # API routes
     path("api/books/search/", BookSearchView.as_view(), name='book-search'),
     path("api/books/<str:book_id>/", BookDetailView.as_view(), name='book-detail'),
-
-    path('api/', include((router.urls, 'core_api'), namespace='core_api')),
 ]
