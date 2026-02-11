@@ -8,9 +8,10 @@ class GoogleBooksService:
     def __init__(self):
         self.api_key = settings.GOOGLE_BOOKS_API_KEY
 
-    def search_books(self, query, max_results=10):
+    def search_books(self, query, max_results=40):
         params = {
             'q': query,
+            # googles api has a max limit of 40 results per request, so we set it to 40 by default
             'maxResults': max_results,
             'key': self.api_key
         }

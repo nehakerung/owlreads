@@ -1,17 +1,22 @@
 from django.shortcuts import render
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from .serializers import BookSerializer
 from .services.google_books import GoogleBooksService
 
 
-# API Views (for REST endpoints)
-class BookSearchView(APIView):
-    def get(self, request):
+class BookViewSet(viewsets.ViewSet):
+    """
+    ViewSet for managing book search and details via Google Books API
+    """
+
+    def list(self, request):
+        """
+        List books based on search query
+        """
         query = request.query_params.get('q', '')
-        max_results = request.query_params.get('max_results', 10)
+        # To change when adding pagination
 
         if not query:
             return Response(
@@ -20,7 +25,7 @@ class BookSearchView(APIView):
             )
 
         service = GoogleBooksService()
-        data = service.search_books(query, max_results)
+        data = service.search_books(query)
 
         if 'error' in data:
             return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -40,11 +45,13 @@ class BookSearchView(APIView):
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
 
-
-class BookDetailView(APIView):
-    def get(self, request, book_id):
+    def retrieve(self, request, pk=None):
+        """
+        Retrieve a single book by ID
+        GET /api/books/{book_id}/
+        """
         service = GoogleBooksService()
-        data = service.get_book_by_id(book_id)
+        data = service.get_book_by_id(pk)
 
         if 'error' in data:
             return Response(data, status=status.HTTP_404_NOT_FOUND)
@@ -56,7 +63,12 @@ class BookDetailView(APIView):
             'authors': volume_info.get('authors', []),
             'description': volume_info.get('description', ''),
             'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
-            'published_date': volume_info.get('publishedDate', '')
+            'published_date': volume_info.get('publishedDate', ''),
+            'page_count': volume_info.get('pageCount', ''),
+            'categories': volume_info.get('categories', []),
+            'average_rating': volume_info.get('averageRating', ''),
+            'ratings_count': volume_info.get('ratingsCount', ''),
+            'preview_link': volume_info.get('previewLink', '')
         }
 
         serializer = BookSerializer(book_data)
@@ -73,7 +85,7 @@ def book_search_page(request):
     if query:
         try:
             service = GoogleBooksService()
-            data = service.search_books(query, max_results=20)
+            data = service.search_books(query)
 
             if 'error' in data:
                 error = data['error']
@@ -119,8 +131,6 @@ def book_detail_page(request, book_id):
                 'authors': volume_info.get('authors', []),
                 'description': volume_info.get('description', ''),
                 'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
-                'published_date': volume_info.get('publishedDate', ''),
-                'publisher': volume_info.get('publisher', ''),
                 'page_count': volume_info.get('pageCount', ''),
                 'categories': volume_info.get('categories', []),
                 'average_rating': volume_info.get('averageRating', ''),
