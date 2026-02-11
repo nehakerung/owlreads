@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .serializers import BookSerializer
@@ -11,7 +10,7 @@ class BookViewSet(viewsets.ViewSet):
     """
     ViewSet for managing book search and details via Google Books API
     """
-    
+
     def list(self, request):
         """
         List books based on search query

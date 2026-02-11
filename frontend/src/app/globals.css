@@ -140,7 +140,7 @@
   }
 
   .btnprimary:hover {
-    opacity: 0.5;
+    @apply bg-[#5a4d47] transition;
   }
 /*
   .btn-secondary {
