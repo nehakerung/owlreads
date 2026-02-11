@@ -1,6 +1,5 @@
 # TODO: Investigate if images work better for views or viewsets - for now views loads more images
-from books.views import book_detail_page, book_search_page
-from books.viewsets import BookViewSet
+from books.viewsets import BookViewSet, book_detail_page, book_search_page
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
