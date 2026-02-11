@@ -14,11 +14,9 @@ class BookViewSet(viewsets.ViewSet):
     def list(self, request):
         """
         List books based on search query
-        GET /api/books/?q=search_term&max_results=10
         """
         query = request.query_params.get('q', '')
         # To change when adding pagination
-        max_results = request.query_params.get('max_results', 10)
 
         if not query:
             return Response(
@@ -27,7 +25,7 @@ class BookViewSet(viewsets.ViewSet):
             )
 
         service = GoogleBooksService()
-        data = service.search_books(query, max_results)
+        data = service.search_books(query)
 
         if 'error' in data:
             return Response(data, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -87,7 +85,7 @@ def book_search_page(request):
     if query:
         try:
             service = GoogleBooksService()
-            data = service.search_books(query, max_results=20)
+            data = service.search_books(query)
 
             if 'error' in data:
                 error = data['error']
@@ -101,7 +99,7 @@ def book_search_page(request):
                         'description': volume_info.get('description', ''),
                         'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
                         'published_date': volume_info.get('publishedDate', '')
-                        })
+                    })
         except Exception as e:
             error = f"An error occurred: {str(e)}"
 

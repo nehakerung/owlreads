@@ -4,10 +4,18 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, ArrowLeft } from "lucide-react";
 import { FormEvent } from "react";
+import Pagination from "@/src/components/pagination/pagination";
 
+interface Books {
+  id: number;
+  title: string;
+  author: string;
+  thumbnail: string;
+  description: string;
+}
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
-async function searchBooks(query: string, maxResults = 20) {
+async function searchBooks(query: string, maxResults = 30) {
   if (!query) return [];
 
   try {
@@ -70,6 +78,9 @@ export default function SearchPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const itemsPerPage = 10;
 
   // Handle new search from this page
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -95,8 +106,9 @@ export default function SearchPage() {
       setError(null);
       /* Need to typ with api response const response: MyType[] = await fetchData(); */
       try {
-        const data = await searchBooks(query, 20);
+        const data = await searchBooks(query);
         setBookItems(data);
+        setTotalPages(Math.ceil(data.length / itemsPerPage));
       } catch (err: any) {
         console.error("Error loading books:", err);
         setError(`Failed to load books: ${err.message}`);
@@ -108,6 +120,12 @@ export default function SearchPage() {
 
     fetchData();
   }, [query]);
+const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = bookItems.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
@@ -143,21 +161,22 @@ export default function SearchPage() {
           <p className="text-center text-gray-600 py-8">No books found for "{query}"</p>
         )}
 
-        {!loading && !error && bookItems.length === 0 && !query && (
-          <p className="text-center text-gray-600 py-8">Enter a search query to find books</p>
-        )}
-
         {!loading && !error && bookItems.length > 0 && (
           <div>
             <p className="text-gray-600 mb-4 font-semibold">
               Found {bookItems.length} results for "{query}"
             </p>
-            {bookItems.map((item: any) => (
+            {currentItems.map((item: any) => (
               <BookItem
                 key={item.id}
                 {...item}
               />
             ))}
+            <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
           </div>
         )}
       </div>

@@ -1,10 +1,10 @@
 from books.viewsets import book_detail_page, book_search_page
 from django.contrib import admin
 from django.urls import include, path
+from routers import router
 from users.views import login_view, logout_view, registerpage
 
 from owlreads.views import aboutpage, homepage
-from routers import router
 
 urlpatterns = [
     path('api/', include(router.urls)),

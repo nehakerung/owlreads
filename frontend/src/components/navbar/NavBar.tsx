@@ -7,7 +7,6 @@ import SearchForm from "./SearchForm";
 import NavItems from './NavItems';
 import MobileNavBar from "./MobileNavBar";
 import SearchButton from './SearchButton';
-import { FaHeartPulse } from "react-icons/fa6";
 
 const NavBar = () => {
 
