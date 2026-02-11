@@ -1,15 +1,10 @@
-# TODO: Investigate if images work better for views or viewsets - for now views loads more images
-from books.viewsets import BookViewSet, book_detail_page, book_search_page
+from books.viewsets import book_detail_page, book_search_page
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.routers import DefaultRouter
 from users.views import login_view, logout_view, registerpage
 
 from owlreads.views import aboutpage, homepage
-
-# API Router
-router = DefaultRouter()
-router.register(r'books', BookViewSet, basename='book')
+from routers import router
 
 urlpatterns = [
     path('api/', include(router.urls)),

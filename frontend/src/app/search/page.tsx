@@ -54,9 +54,6 @@ const BookItem = ({ id, title, authors, description, thumbnail, published_date }
           {authors && authors.length > 0 && (
             <p className="text-gray-600 mb-1">By: {authors.join(", ")}</p>
           )}
-          {published_date && (
-            <p className="text-sm text-gray-500">Published: {published_date}</p>
-          )}
         </div>
       </div>
       {description && (

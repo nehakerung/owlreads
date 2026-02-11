@@ -17,6 +17,7 @@ class BookViewSet(viewsets.ViewSet):
         GET /api/books/?q=search_term&max_results=10
         """
         query = request.query_params.get('q', '')
+        # To change when adding pagination
         max_results = request.query_params.get('max_results', 10)
 
         if not query:
@@ -65,7 +66,6 @@ class BookViewSet(viewsets.ViewSet):
             'description': volume_info.get('description', ''),
             'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
             'published_date': volume_info.get('publishedDate', ''),
-            'publisher': volume_info.get('publisher', ''),
             'page_count': volume_info.get('pageCount', ''),
             'categories': volume_info.get('categories', []),
             'average_rating': volume_info.get('averageRating', ''),
@@ -77,7 +77,7 @@ class BookViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-# Template Views (for frontend pages) - Keep these if you still need Django templates
+# Template Views (for frontend pages)
 def book_search_page(request):
     """Render the book search page with results"""
     query = request.GET.get('q', '')
@@ -101,7 +101,7 @@ def book_search_page(request):
                         'description': volume_info.get('description', ''),
                         'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
                         'published_date': volume_info.get('publishedDate', '')
-                    })
+                        })
         except Exception as e:
             error = f"An error occurred: {str(e)}"
 
@@ -133,8 +133,6 @@ def book_detail_page(request, book_id):
                 'authors': volume_info.get('authors', []),
                 'description': volume_info.get('description', ''),
                 'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
-                'published_date': volume_info.get('publishedDate', ''),
-                'publisher': volume_info.get('publisher', ''),
                 'page_count': volume_info.get('pageCount', ''),
                 'categories': volume_info.get('categories', []),
                 'average_rating': volume_info.get('averageRating', ''),
