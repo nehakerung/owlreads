@@ -18,4 +18,3 @@ Below are the Djoser URLs we'll be utilizing in this guide:
 `/jwt/create/`: This endpoint is used for logging in, where it authenticates the user and returns a JWT for subsequent authenticated requests.
 
 `/jwt/refresh/`: This endpoint is for refreshing an existing access token by providing a valid refresh token, thus granting a new access token.
-
