@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../app/ui/buttons.module.css";
+import styles from "@/components/ui/buttons.module.css";
 
 
 const Navbar = () => {

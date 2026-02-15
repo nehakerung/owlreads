@@ -1,6 +1,6 @@
-import BookItemLong from "@/src/components/books/BookItemLong";
+import BookItemLong from "@/components/books/BookItemLong";
 import React from "react";
-import BookSummary from "@/src/components/books/BookSummary";
+import BookSummary from "@/components/books/BookSummary";
 
 const Books = () => {
   const cartitems_count = 3;

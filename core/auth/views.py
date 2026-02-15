@@ -21,4 +21,3 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_200_OK)
         except (ObjectDoesNotExist, TokenError):
             return Response(status=status.HTTP_400_BAD_REQUEST)
-

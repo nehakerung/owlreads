@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Ubuntu} from "next/font/google";
 import "./globals.css";
-import "../app/ui/buttons.module.css";
-import Navbar from "../components/navbar/NavBar";
-import Footer from "../components/footer/footer";
+import "@/components/ui/buttons.module.css";
+import Navbar from "@/components/navbar/NavBar";
+import Footer from "@/components/footer/footer";
 
 const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
