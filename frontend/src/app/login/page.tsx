@@ -1,30 +1,12 @@
-import React from 'react'
-import Image from 'next/image'
 
-const Login = () => {
+"use client";
+
+import Login from "@/components/login/login";
+
+export default function Home() {
   return (
-    <div className="bg-gray-50 flex items-center justify-center min-h-screen px-4">
-    <div className="bg-white shadow-xl justify-center rounded-2xl p-6 sm:p-10 max-w-sm w-full flex flex-col gap-6">
-      <Image
-            src="/OwlReadsLogo.png"
-            alt="OwlReads Logo"
-            width={500}
-            height={500}
-            className="mr-3"
-          />
-      <h2 className="text-3xl font-semibold text-center text-gray-900">
-        Log Back in!
-      </h2>
-      <div className="text-sm text-center text-gray-500">
-      <form>
-        <input type="username" placeholder="Username" className="inputfield" />
-        <input type="password" placeholder="Password" className="inputfield" />
-        <button className="btnprimary">Login</button>
-      </form>
-      </div>
-    </div>
-  </div>
-  )
+    <main>
+      <Login />
+    </main>
+  );
 }
-
-export default Login

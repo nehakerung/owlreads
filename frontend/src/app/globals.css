@@ -156,7 +156,7 @@
   } */
 
   .flex-center {
-    @apply flex items-center justify-center;
+    @apply flex items-center justify-center mt-4;
   }
 
   .main-max-width {

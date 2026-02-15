@@ -1,5 +1,3 @@
-
-import BookCard from '@/components/home/BookCard'
 import React from 'react'
 import CurrentReads from '@/components/bookshelf/CurrentReads'
 import PastReads from '@/components/bookshelf/PastReads'
@@ -11,9 +9,6 @@ const ProfilePage = () => {
     <CurrentReads />
     <ToRead />
     <PastReads />
-
-
-
     </>
   )
 }

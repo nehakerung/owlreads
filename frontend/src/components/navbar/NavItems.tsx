@@ -13,8 +13,11 @@ const NavItems = ({mobile}: Props) => {
 
         <Link href="/profile" className="text-lg font-medium text-gray-900 hover:text-gray-700 transition">
         </Link>
-
-        <button className="btnprimary">Login</button>
+<Link href="/login">
+        <button className="btnprimary">
+            Login
+        </button>
+        </Link>
         <button className="btnprimary">Log Out</button>
 
         <div className="relative flex items-center h-10 w-10 justify-center">

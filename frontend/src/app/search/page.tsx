@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Search, ArrowLeft } from "lucide-react";
 import { FormEvent } from "react";
-import Pagination from "@/app/components/pagination/pagination";
+import Pagination from "@/components/pagination/pagination";
 
 interface Books {
   id: number;
