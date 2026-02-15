@@ -1,3 +1,4 @@
+from auth.views import LogoutView
 from books.viewsets import book_detail_page, book_search_page
 from django.contrib import admin
 from django.urls import include, path
@@ -26,4 +27,9 @@ urlpatterns = [
     # Template views (if you still need them)
     path('search/', book_search_page, name='book_search'),
     path('detail/<str:book_id>/', book_detail_page, name='book_detail'),
+
+    # Djoser URLs
+    path("auth/", include("djoser.urls")),
+    path("auth/", include("djoser.urls.jwt")),
+    path("auth/logout/", LogoutView.as_view()),
 ]

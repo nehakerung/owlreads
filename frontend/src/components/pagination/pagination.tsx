@@ -1,5 +1,5 @@
 'use client';
- 
+
 import { HiOutlineArrowSmLeft, HiOutlineArrowSmRight } from "react-icons/hi";
 import React from "react";
 
@@ -28,7 +28,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       Previous
     </button>
   )}
-  
+
   {/* Page numbers */}
   {Array.from({ length: totalPages }, (_, index) => (
     <button
@@ -44,7 +44,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       {index + 1}
     </button>
   ))}
-  
+
   {/* Next button - only show if not on last page */}
   {currentPage < totalPages && (
     <button
