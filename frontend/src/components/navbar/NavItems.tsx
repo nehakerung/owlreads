@@ -1,6 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
-import { FiBookOpen } from 'react-icons/fi';
+import Log from '@/components/user/log';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -16,22 +15,7 @@ const NavItems = ({ mobile }: Props) => {
         }`
       )}
     >
-      <Link
-        href="/profile"
-        className="text-lg font-medium text-gray-900 hover:text-gray-700 transition"
-      ></Link>
-      <Link href="/login">
-        <button className="btnprimary">Login</button>
-      </Link>
-      <button className="btnprimary">Log Out</button>
-
-      <div className="relative flex items-center h-10 w-10 justify-center">
-        <FiBookOpen className="text-4xl" />
-      </div>
-
-      <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-brown shadow-md">
-        {/* Replace with user profile image */}
-      </div>
+      <Log />
     </div>
   );
 };

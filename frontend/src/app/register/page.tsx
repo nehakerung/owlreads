@@ -25,7 +25,7 @@ export default function RegisterPage() {
 
     try {
       await register(username, email, password, password2);
-      router.push('/profile');
+      router.push('/');
     } catch (err: any) {
       console.log('Fetching:', err);
       setError(err.response?.data?.username?.[0] || 'Registration failed');

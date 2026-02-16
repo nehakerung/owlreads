@@ -29,12 +29,7 @@ const Navbar = () => {
 
         {/* Auth links */}
         <div className="flex items-center gap-4">
-          <button type="submit" className={styles.btnprimary}>
-            Log in
-          </button>
-          <button type="submit" className={styles.btnprimary}>
-            Register
-          </button>
+          <Log />
         </div>
       </div>
     </nav>

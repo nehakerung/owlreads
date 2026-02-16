@@ -142,18 +142,20 @@
   .btnprimary:hover {
     @apply bg-[#5a4d47] transition;
   }
-  /*
-  .btn-secondary {
-      background-color: var(--green);
-      color: var(--white);
-      border: 2px solid var(--green);
+
+  .btnsecondary {
+    @apply rounded text-white px-6 py-3 transition-all duration-150 ease-in-out;
+    background-color: var(--green);
+  }
+  .btnsecondary:hover {
+    @apply bg-[#9dcd5a] transition;
   }
 
   .btn-tertiary {
-      background-color: transparent;
-      color: var(--green);
-      border: 2px solid var(--green);
-  } */
+    background-color: transparent;
+    color: var(--green);
+    border: 2px solid var(--green);
+  }
 
   .flex-center {
     @apply flex items-center justify-center mt-4;

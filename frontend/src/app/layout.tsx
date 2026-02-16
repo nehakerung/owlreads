@@ -19,13 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={ubuntu.className}>
-      <Navbar />
-      <body>
-        <AuthProvider>
+      <AuthProvider>
+        <Navbar />
+        <body>
           <main className="w-full">{children}</main>
-        </AuthProvider>
-      </body>
-      <Footer />
+        </body>
+        <Footer />
+      </AuthProvider>
     </html>
   );
 }
