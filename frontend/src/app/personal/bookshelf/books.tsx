@@ -15,12 +15,11 @@ const Books = () => {
                 <BookItemLong />
 
 
-
             <BookItemLong />
             <BookItemLong />
           </div>
         </div>
-        {/* Cartitem */}
+
 
         <BookSummary />
       </div>
