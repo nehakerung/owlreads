@@ -3,7 +3,6 @@ from books.viewsets import book_detail_page, book_search_page
 from django.contrib import admin
 from django.urls import include, path
 from routers import router
-from users.views import login_view, logout_view, registerpage
 
 from owlreads.views import aboutpage, homepage
 
@@ -14,10 +13,7 @@ urlpatterns = [
     path("about/", aboutpage, name="about"),
 
     # User routes
-    path("users/", include("users.urls")),
-    path("register/", registerpage, name="register"),
-    path("login/", login_view, name="login"),
-    path("logout/", logout_view, name="logout"),
+    path('api/auth/', include('users.urls')),
 
     # Books frontend pages
     path("books/search/", book_search_page, name="book-search-page"),

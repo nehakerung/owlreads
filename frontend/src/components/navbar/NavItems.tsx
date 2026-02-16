@@ -13,10 +13,9 @@ const NavItems = ({mobile}: Props) => {
 
         <Link href="/profile" className="text-lg font-medium text-gray-900 hover:text-gray-700 transition">
         </Link>
-<Link href="/login">
-        <button className="btnprimary">
-            Login
-        </button>
+         <Link href="/login">
+
+        <button className="btnprimary">Login</button>
         </Link>
         <button className="btnprimary">Log Out</button>
 

@@ -4,7 +4,7 @@ import "./globals.css";
 import "@/components/ui/buttons.module.css";
 import Navbar from "@/components/navbar/NavBar";
 import Footer from "@/components/footer/footer";
-
+import { AuthProvider } from '@/context/AuthContext';
 const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
@@ -21,7 +21,9 @@ export default function RootLayout({
     <html lang="en" className={ubuntu.className}>
       <Navbar />
       <body>
-        <main className="w-full">{children}</main>
+        <AuthProvider>
+          <main className="w-full">{children}</main>
+        </AuthProvider>
       </body>
       <Footer />
     </html>
