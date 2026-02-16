@@ -1,4 +1,6 @@
 # SECURITY WARNING: keep the secret key used in production secret!
+from datetime import timedelta
+
 from owlreads.settings import BASE_DIR
 
 SECRET_KEY = NotImplemented
@@ -23,7 +25,6 @@ INSTALLED_APPS = [
     "books",
     "rest_framework",
     "corsheaders",
-    "djoser",
     "rest_framework_simplejwt.token_blacklist",
 ]
 
@@ -124,19 +125,19 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+SECRET_KEY = "django-insecure-dev-key"
+
 SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    "SIGNING_KEY": SECRET_KEY,
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
-
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-DJOSER = {
-    "PASSWORD_RESET_CONFIRM_URL": "auth/password/reset-password-confirmation/?uid={uid}&token={token}",
-    "ACTIVATION_URL": "#/activate/{uid}/{token}",
-    "SEND_ACTIVATION_EMAIL": False,
-    "SERIALIZERS": {},
-    "LOGIN_FIELD": "email",
-}
 SITE_NAME = "OwlReads"
 
 DOMAIN = ["localhost:3000}",

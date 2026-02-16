@@ -1,6 +1,6 @@
-import React from 'react'
-import Card from './Card'
-import BookCard from './BookCard'
+import React from 'react';
+import Card from './Card';
+import BookCard from './BookCard';
 
 const BookSection = () => {
   return (
@@ -16,10 +16,9 @@ const BookSection = () => {
         <BookCard />
         <BookCard />
         <BookCard />
-
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default BookSection
+export default BookSection;

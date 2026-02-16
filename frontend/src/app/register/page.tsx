@@ -4,38 +4,38 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import Image from 'next/image';
 
-export default function Login() {
+export default function RegisterPage() {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAuth();
+  const { register } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
+    if (password !== password2) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
-      await login(username, password);
-      router.push('/profile');
+      await register(username, email, password, password2);
+      router.push('/');
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'Invalid credentials');
+      console.log('Fetching:', err);
+      setError(err.response?.data?.username?.[0] || 'Registration failed');
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <Image
-          src="/OwlReadsLogo.png"
-          alt="OwlReads Logo"
-          width={500}
-          height={500}
-          className="mr-3"
-        />
-        <h2 className="text-3xl font-bold text-center">Sign In</h2>
+        <h2 className="text-3xl font-bold text-center">Create Account</h2>
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -59,6 +59,19 @@ export default function Login() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
               Password
             </label>
             <input
@@ -70,15 +83,31 @@ export default function Login() {
             />
           </div>
 
-          <button type="submit" className="btnsecondary">
-            Sign In
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+          >
+            Sign Up
           </button>
         </form>
 
         <p className="text-center text-sm text-gray-600">
-          Don't have an account?{' '}
-          <Link href="/register" className="text-#9dcd5a hover:underline">
-            Sign up
+          Already have an account?{' '}
+          <Link href="/login" className="text-blue-600 hover:underline">
+            Sign in
           </Link>
         </p>
       </div>

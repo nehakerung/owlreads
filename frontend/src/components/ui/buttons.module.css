@@ -1,0 +1,29 @@
+:root {
+  --green: #9dcd5a;
+  --brown: #473c38;
+  --white: #ffffff;
+}
+/* button */
+.btnprimary {
+  border-radius: 0.5rem;
+  background-color: var(--brown);
+  padding: 0.75rem 1.5rem;
+  color: var(--white);
+  transition: all 150ms ease-in-out;
+}
+
+.btnprimary:hover {
+  opacity: 0.5;
+}
+
+.btn-secondary {
+  background-color: var(--green);
+  color: var(--white);
+  border: 2px solid var(--green);
+}
+
+.btn-tertiary {
+  background-color: transparent;
+  color: var(--green);
+  border: 2px solid var(--green);
+}

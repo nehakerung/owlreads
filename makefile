@@ -13,6 +13,11 @@ lint:
 .PHONY: format
 format:
 	poetry run isort .
+	cd frontend && npx prettier --write .
+
+.PHONY: format-check
+format-check:
+	cd frontend && npx prettier --check .
 
 .PHONY: migrate
 migrate:

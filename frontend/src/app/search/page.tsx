@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Search, ArrowLeft } from "lucide-react";
-import { FormEvent } from "react";
-import Pagination from "@/src/components/pagination/pagination";
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Search, ArrowLeft } from 'lucide-react';
+import { FormEvent } from 'react';
+import Pagination from '@/components/pagination/pagination';
 
 interface Books {
   id: number;
@@ -13,14 +13,16 @@ interface Books {
   thumbnail: string;
   description: string;
 }
-const API_BASE_URL = "http://127.0.0.1:8000/api";
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 async function searchBooks(query: string, maxResults = 30) {
   if (!query) return [];
 
   try {
-    const url = `${API_BASE_URL}/books/?q=${encodeURIComponent(query)}&max_results=${maxResults}`;
-    console.log("Fetching:", url);
+    const url = `${API_BASE_URL}/books/?q=${encodeURIComponent(
+      query
+    )}&max_results=${maxResults}`;
+    console.log('Fetching:', url);
 
     const res = await fetch(url, {
       method: 'GET',
@@ -31,21 +33,31 @@ async function searchBooks(query: string, maxResults = 30) {
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
-      console.error("Error response:", errorData);
+      console.error('Error response:', errorData);
       throw new Error(`HTTP error! status: ${res.status}`);
     }
 
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error("Fetch error:", error);
+    console.error('Fetch error:', error);
     throw error;
   }
 }
 
-const BookItem = ({ id, title, authors, description, thumbnail, published_date }: any) => {
+const BookItem = ({
+  id,
+  title,
+  authors,
+  description,
+  thumbnail,
+  published_date,
+}: any) => {
   return (
-    <div data-id={id} className="book-item border p-4 mb-4 rounded-lg shadow hover:shadow-lg transition">
+    <div
+      data-id={id}
+      className="book-item border p-4 mb-4 rounded-lg shadow hover:shadow-lg transition"
+    >
       <div className="flex gap-4">
         {thumbnail && (
           <img
@@ -60,7 +72,7 @@ const BookItem = ({ id, title, authors, description, thumbnail, published_date }
         <div className="flex-1">
           <h3 className="text-xl font-bold mb-2">{title}</h3>
           {authors && authors.length > 0 && (
-            <p className="text-gray-600 mb-1">By: {authors.join(", ")}</p>
+            <p className="text-gray-600 mb-1">By: {authors.join(', ')}</p>
           )}
         </div>
       </div>
@@ -77,7 +89,7 @@ export default function SearchPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams.get("query") || "";
+  const query = searchParams.get('query') || '';
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const itemsPerPage = 10;
@@ -86,7 +98,7 @@ export default function SearchPage() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const newQuery = formData.get("query") as string;
+    const newQuery = formData.get('query') as string;
 
     if (newQuery.trim()) {
       router.push(`/search?query=${encodeURIComponent(newQuery)}`);
@@ -110,7 +122,7 @@ export default function SearchPage() {
         setBookItems(data);
         setTotalPages(Math.ceil(data.length / itemsPerPage));
       } catch (err: any) {
-        console.error("Error loading books:", err);
+        console.error('Error loading books:', err);
         setError(`Failed to load books: ${err.message}`);
         setBookItems([]);
       } finally {
@@ -120,7 +132,7 @@ export default function SearchPage() {
 
     fetchData();
   }, [query]);
-const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
@@ -132,14 +144,16 @@ const handlePageChange = (page: number) => {
       {/* Header with back button and search */}
       <div className="mb-6">
         <button
-          onClick={() => router.push("/")}
+          onClick={() => router.push('/')}
           className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
         >
           <ArrowLeft className="size-5" />
           Back to Home
         </button>
 
-        <h1 className="text-3xl font-bold mb-4">Search Results for "{query}"</h1>
+        <h1 className="text-3xl font-bold mb-4">
+          Search Results for "{query}"
+        </h1>
       </div>
 
       {/* Results */}
@@ -158,7 +172,9 @@ const handlePageChange = (page: number) => {
         )}
 
         {!loading && !error && bookItems.length === 0 && query && (
-          <p className="text-center text-gray-600 py-8">No books found for "{query}"</p>
+          <p className="text-center text-gray-600 py-8">
+            No books found for "{query}"
+          </p>
         )}
 
         {!loading && !error && bookItems.length > 0 && (
@@ -167,16 +183,13 @@ const handlePageChange = (page: number) => {
               Found {bookItems.length} results for "{query}"
             </p>
             {currentItems.map((item: any) => (
-              <BookItem
-                key={item.id}
-                {...item}
-              />
+              <BookItem key={item.id} {...item} />
             ))}
             <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         )}
       </div>

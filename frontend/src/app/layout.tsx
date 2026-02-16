@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
-import { Ubuntu} from "next/font/google";
-import "./globals.css";
-import "../app/ui/buttons.module.css";
-import Navbar from "../components/navbar/NavBar";
-import Footer from "../components/footer/footer";
-
-const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400", "500", "700"] });
+import type { Metadata } from 'next';
+import { Ubuntu } from 'next/font/google';
+import './globals.css';
+import '@/components/ui/buttons.module.css';
+import Navbar from '@/components/navbar/NavBar';
+import Footer from '@/components/footer/footer';
+import { AuthProvider } from '@/context/AuthContext';
+const ubuntu = Ubuntu({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
 export const metadata: Metadata = {
-  title: "OwlReads",
-  description: "Read. Share. Discover.",
+  title: 'OwlReads',
+  description: 'Read. Share. Discover.',
 };
 
 export default function RootLayout({
@@ -19,11 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={ubuntu.className}>
-      <Navbar />
-      <body>
-        <main className="w-full">{children}</main>
-      </body>
-      <Footer />
+      <AuthProvider>
+        <Navbar />
+        <body>
+          <main className="w-full">{children}</main>
+        </body>
+        <Footer />
+      </AuthProvider>
     </html>
   );
 }

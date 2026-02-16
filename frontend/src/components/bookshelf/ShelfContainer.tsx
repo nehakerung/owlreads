@@ -1,6 +1,5 @@
-import React from 'react'
-import BookCard from '../home/BookCard'
-
+import React from 'react';
+import BookCard from '../home/BookCard';
 
 const ShelfContainer = () => {
   return (
@@ -9,7 +8,7 @@ const ShelfContainer = () => {
       <BookCard />
       <BookCard />
     </div>
-  )
-}
+  );
+};
 
-export default ShelfContainer
+export default ShelfContainer;

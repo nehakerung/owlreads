@@ -1,6 +1,6 @@
-import BookItemLong from "@/src/components/books/BookItemLong";
-import React from "react";
-import BookSummary from "@/src/components/books/BookSummary";
+import BookItemLong from '@/components/books/BookItemLong';
+import React from 'react';
+import BookSummary from '@/components/books/BookSummary';
 
 const Books = () => {
   const cartitems_count = 3;
@@ -13,11 +13,12 @@ const Books = () => {
         <div className="w-150 max-lg:w-full border border-gray-200 shadow-sm rounded-lg bg-white overflow-hidden flex-1">
           <div className="max-h-150 overflow-y-auto px-6 py-4">
             <BookItemLong />
+
             <BookItemLong />
+
             <BookItemLong />
           </div>
         </div>
-        {/* Cartitem */}
 
         <BookSummary />
       </div>

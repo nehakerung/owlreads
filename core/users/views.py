@@ -1,31 +1,21 @@
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.shortcuts import redirect, render
+from django.contrib.auth.models import User
+from rest_framework import generics
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .serializers import RegisterSerializer, UserSerializer
 
 
-def registerpage(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            login(request, form.save())
-            return redirect("about")
-    else:
-        form = UserCreationForm()
-    return render(request, "users/register.html", {"form": form})
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
 
 
-def login_view(request):
-    if request.method == "POST":
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            login(request, form.get_user())
-            return redirect("about")
-    else:
-        form = AuthenticationForm()
-    return render(request, "users/login.html", {"form": form})
+class UserDetailView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-
-def logout_view(request):
-    if request.method == "POST":
-        logout(request)
-        return redirect("about")
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)

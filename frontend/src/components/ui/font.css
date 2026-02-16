@@ -1,10 +1,9 @@
 .fredokaBold {
-  font-family: "Fredoka", sans-serif;
+  font-family: 'Fredoka', sans-serif;
   font-optical-sizing: auto;
   font-weight: bold;
   font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+  font-variation-settings: 'wdth' 100;
 }
 /*
 <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -4,9 +4,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { IoMenu } from "react-icons/io5";
-import NavItems from "./NavItems";
+} from '@/components/ui/sheet';
+import { IoMenu } from 'react-icons/io5';
+import NavItems from './NavItems';
 
 const MobileNavBar = () => {
   return (
@@ -21,8 +21,7 @@ const MobileNavBar = () => {
           </SheetTitle>
         </SheetHeader>
 
-        <NavItems mobile/>
-
+        <NavItems mobile />
       </SheetContent>
     </Sheet>
   );
