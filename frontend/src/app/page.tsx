@@ -1,9 +1,9 @@
 'use client';
-import React from 'react'
-import Hero from '@/components/home/Hero'
-import Section from '@/components/home/Section'
-import BookSection from '@/components/home/BookSection'
-import GenrePage from '@/app/genres/[slug]/page'
+import React from 'react';
+import Hero from '@/components/home/Hero';
+import Section from '@/components/home/Section';
+import BookSection from '@/components/home/BookSection';
+import GenrePage from '@/app/genres/[slug]/page';
 
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';

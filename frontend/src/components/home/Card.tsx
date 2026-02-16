@@ -1,5 +1,5 @@
-import React from 'react'
-import { IoTrophySharp } from "react-icons/io5";
+import React from 'react';
+import { IoTrophySharp } from 'react-icons/io5';
 
 const CategoryCard = () => {
   return (
@@ -12,7 +12,7 @@ const CategoryCard = () => {
       {/* Category Name */}
       <p className="font-semibold mt-3 text-gray-800">Popularity</p>
     </div>
-  )
-}
+  );
+};
 
-export default CategoryCard
+export default CategoryCard;

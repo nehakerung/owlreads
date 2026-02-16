@@ -1,5 +1,5 @@
-import React from 'react'
-import BooksContainer from './BooksContainer'
+import React from 'react';
+import BooksContainer from './BooksContainer';
 
 const CurrentReads = () => {
   return (
@@ -10,7 +10,7 @@ const CurrentReads = () => {
 
       <BooksContainer />
     </div>
-  )
-}
+  );
+};
 
-export default CurrentReads
+export default CurrentReads;

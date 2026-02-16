@@ -1,5 +1,5 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
 const Bookshelf = () => {
   return (
@@ -17,9 +17,7 @@ const Bookshelf = () => {
         </Link>
       </div>
     </section>
+  );
+};
 
-
-  )
-}
-
-export default Bookshelf
+export default Bookshelf;

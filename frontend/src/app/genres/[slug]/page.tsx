@@ -1,5 +1,5 @@
-import GenrePage from '@/components/genre/GenrePage'
+import GenrePage from '@/components/genre/GenrePage';
 
 export default function Page() {
-  return <GenrePage />
+  return <GenrePage />;
 }

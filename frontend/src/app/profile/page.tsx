@@ -1,9 +1,8 @@
-
 'use client';
-import React from 'react'
-import CurrentReads from '@/components/bookshelf/CurrentReads'
-import PastReads from '@/components/bookshelf/PastReads'
-import ToRead from '@/components/bookshelf/ToRead'
+import React from 'react';
+import CurrentReads from '@/components/bookshelf/CurrentReads';
+import PastReads from '@/components/bookshelf/PastReads';
+import ToRead from '@/components/bookshelf/ToRead';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -47,11 +46,19 @@ export default function Profile() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-bold mb-4">Welcome back, {user.username}!</h2>
+          <h2 className="text-2xl font-bold mb-4">
+            Welcome back, {user.username}!
+          </h2>
           <div className="space-y-2">
-            <p><span className="font-semibold">Email:</span> {user.email}</p>
-            <p><span className="font-semibold">Username:</span> {user.username}</p>
-            <p><span className="font-semibold">User ID:</span> {user.id}</p>
+            <p>
+              <span className="font-semibold">Email:</span> {user.email}
+            </p>
+            <p>
+              <span className="font-semibold">Username:</span> {user.username}
+            </p>
+            <p>
+              <span className="font-semibold">User ID:</span> {user.id}
+            </p>
           </div>
           <div>
             <CurrentReads />

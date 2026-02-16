@@ -16,13 +16,20 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<void>;
-  register: (username: string, email: string, password: string, password2: string) => Promise<void>;
+  register: (
+    username: string,
+    email: string,
+    password: string,
+    password2: string
+  ) => Promise<void>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -53,9 +60,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         try {
           const refreshToken = Cookies.get('refresh_token');
-          const response = await axios.post('http://localhost:8000/api/auth/token/refresh/', {
-            refresh: refreshToken,
-          });
+          const response = await axios.post(
+            'http://localhost:8000/api/auth/token/refresh/',
+            {
+              refresh: refreshToken,
+            }
+          );
 
           const { access } = response.data;
           Cookies.set('access_token', access);
@@ -102,7 +112,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(userResponse.data);
   };
 
-  const register = async (username: string, email: string, password: string, password2: string) => {
+  const register = async (
+    username: string,
+    email: string,
+    password: string,
+    password2: string
+  ) => {
     await api.post('/register/', { username, email, password, password2 });
     await login(username, password);
   };

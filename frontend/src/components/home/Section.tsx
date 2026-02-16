@@ -1,5 +1,5 @@
-import React from 'react'
-import Card from './Card'
+import React from 'react';
+import Card from './Card';
 
 const Section = () => {
   return (
@@ -14,10 +14,9 @@ const Section = () => {
         <Card />
         <Card />
         <Card />
-
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Section
+export default Section;

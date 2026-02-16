@@ -1,5 +1,5 @@
-import React from 'react'
-import { FaLaughBeam } from 'react-icons/fa'
+import React from 'react';
+import { FaLaughBeam } from 'react-icons/fa';
 
 function GenreBtn() {
   return (
@@ -12,7 +12,7 @@ function GenreBtn() {
       {/* Category Name */}
       <p className="font-semibold text-[#473c38] text-[16px]">Comedy</p>
     </button>
-  )
+  );
 }
 
-export default GenreBtn
+export default GenreBtn;

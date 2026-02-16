@@ -1,6 +1,6 @@
-import React from 'react'
-import { FaLinkedin, FaFacebookF, FaYoutube } from "react-icons/fa";
-import { BsTwitterX } from "react-icons/bs";
+import React from 'react';
+import { FaLinkedin, FaFacebookF, FaYoutube } from 'react-icons/fa';
+import { BsTwitterX } from 'react-icons/bs';
 import Image from 'next/image';
 
 const Footer = () => {
@@ -9,9 +9,17 @@ const Footer = () => {
       <div className="flex justify-between items-center main-max-width mx-auto padding-x flex-wrap gap-6 max-md:justify-center">
         {/* Logo & Description */}
         <div className="flex flex-col gap-6 w-125">
-          <Image src="/logowTitle.png" alt="OwlReads Logo" width={180} height={38} priority/>
+          <Image
+            src="/logowTitle.png"
+            alt="OwlReads Logo"
+            width={180}
+            height={38}
+            priority
+          />
           <p className="text-[15px]leading-[1.6]">
-            Encourage reading for pleasure and personal growth. Discover a wide range of books, from timeless classics to contemporary bestsellers, all in one place.
+            Encourage reading for pleasure and personal growth. Discover a wide
+            range of books, from timeless classics to contemporary bestsellers,
+            all in one place.
           </p>
         </div>
 
@@ -19,15 +27,9 @@ const Footer = () => {
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Quick Links</h2>
           <ul className="space-y-3">
-
-
             <li className="hover:text-white transition">Home</li>
-            <li className="hover:text-white transition">
-              Browse Books
-            </li>
-            <li className="hover:text-white transition">
-              Browse Genres
-            </li>
+            <li className="hover:text-white transition">Browse Books</li>
+            <li className="hover:text-white transition">Browse Genres</li>
             <li className="hover:text-white transition">Most Popular</li>
           </ul>
         </div>
@@ -51,7 +53,6 @@ const Footer = () => {
         <BsTwitterX className="text-2xl hover:text-white transition cursor-pointer" />
         <FaYoutube className="text-2xl hover:text-white transition cursor-pointer" />
         {/* <ContactLinks /> */}
-
       </div>
 
       {/* Copyright */}
@@ -59,7 +60,7 @@ const Footer = () => {
         © {new Date().getFullYear()} Owlreads. All rights reserved.
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

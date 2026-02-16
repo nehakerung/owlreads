@@ -48,6 +48,7 @@ git clone https://github.com/nehakerung/owlreads
 ```
 
 2. Create virtual environment:
+
 ```
 # create virtual environment for project
 python -m venv .venv
@@ -55,16 +56,20 @@ python -m venv .venv
 # activate the environment
 source .venv/bin/activate
 ```
+
 3. Install dependencies:
+
 ```
 # install dependencies / no-root is added as sometimes poetyy will try to install it as a package anywats
 poetry install --no-root
 
 npm install
 ```
+
 ### Running the Application
 
 Start the development server:
+
 ```bash
 make runserver
 ```
