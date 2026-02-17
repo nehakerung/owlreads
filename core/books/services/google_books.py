@@ -8,10 +8,10 @@ class GoogleBooksService:
     def __init__(self):
         self.api_key = settings.GOOGLE_BOOKS_API_KEY
 
-    def search_books(self, query, max_results=40):
+    def search_books(self, query, max_results=15):
         params = {
             'q': query,
-            # googles api has a max limit of 40 results per request, so we set it to 40 by default
+            # googles api has a max limit of 40 results per request
             'maxResults': max_results,
             'key': self.api_key
         }
@@ -20,6 +20,8 @@ class GoogleBooksService:
             response = requests.get(self.BASE_URL, params=params)
             response.raise_for_status()
             return response.json()
+        except requests.exceptions.HTTPError as e:
+            return {'error': f'HTTP error: {e.response.status_code}'}
         except requests.exceptions.RequestException as e:
             return {'error': str(e)}
 
@@ -31,5 +33,9 @@ class GoogleBooksService:
             response = requests.get(url, params=params)
             response.raise_for_status()
             return response.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 404:
+                return {'error': f'Book with ID "{book_id}" not found'}
+            return {'error': f'HTTP error: {e.response.status_code}'}
         except requests.exceptions.RequestException as e:
             return {'error': str(e)}

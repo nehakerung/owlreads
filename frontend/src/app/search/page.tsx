@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { FormEvent } from 'react';
 import Pagination from '@/components/pagination/pagination';
+import Link from 'next/link';
 
 interface Books {
   id: number;
@@ -183,7 +184,9 @@ export default function SearchPage() {
               Found {bookItems.length} results for "{query}"
             </p>
             {currentItems.map((item: any) => (
-              <BookItem key={item.id} {...item} />
+              <Link key={item.id} href={`/book/${item.id}`}>
+                <BookItem {...item} />
+              </Link>
             ))}
             <Pagination
               currentPage={currentPage}

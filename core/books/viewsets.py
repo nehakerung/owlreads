@@ -64,11 +64,13 @@ class BookViewSet(viewsets.ViewSet):
             'description': volume_info.get('description', ''),
             'thumbnail': volume_info.get('imageLinks', {}).get('thumbnail', ''),
             'published_date': volume_info.get('publishedDate', ''),
-            'page_count': volume_info.get('pageCount', ''),
+            'publisher': volume_info.get('publisher', ''),
+            'page_count': volume_info.get('pageCount') or None,       # None instead of ''
             'categories': volume_info.get('categories', []),
-            'average_rating': volume_info.get('averageRating', ''),
-            'ratings_count': volume_info.get('ratingsCount', ''),
-            'preview_link': volume_info.get('previewLink', '')
+            'language': volume_info.get('language', ''),
+            'preview_link': volume_info.get('previewLink', ''),
+            'average_rating': volume_info.get('averageRating') or None,  # None instead of ''
+            'ratings_count': volume_info.get('ratingsCount') or None,    # None instead of ''
         }
 
         serializer = BookSerializer(book_data)
