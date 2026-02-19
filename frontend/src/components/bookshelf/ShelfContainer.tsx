@@ -7,6 +7,8 @@ const ShelfContainer = () => {
       <BookCard />
       <BookCard />
       <BookCard />
+      <BookCard />
+      <BookCard />
     </div>
   );
 };

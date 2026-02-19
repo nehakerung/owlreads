@@ -2,6 +2,7 @@ import React from 'react';
 import { FaLinkedin, FaFacebookF, FaYoutube } from 'react-icons/fa';
 import { BsTwitterX } from 'react-icons/bs';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -27,7 +28,9 @@ const Footer = () => {
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Quick Links</h2>
           <ul className="space-y-3">
-            <li className="hover:text-white transition">Home</li>
+            <li className="hover:text-white transition">
+              <Link href="/">Home</Link>
+            </li>
             <li className="hover:text-white transition">Browse Books</li>
             <li className="hover:text-white transition">Browse Genres</li>
             <li className="hover:text-white transition">Most Popular</li>
@@ -39,8 +42,15 @@ const Footer = () => {
           <h2 className="text-lg font-semibold">Categories</h2>
           <ul className="space-y-3">
             <li className="hover:text-white transition">FAQ</li>
-            <li className="hover:text-white transition">About Us</li>
-            <li className="hover:text-white transition">Contact Us</li>
+
+            <li className="hover:text-white transition">
+              <Link href="/aboutus">About Us</Link>
+            </li>
+
+            <li className="hover:text-white transition">
+              <Link href="/contactus">Contact Us</Link>
+            </li>
+
             <li className="hover:text-white transition">Privacy Policy</li>
           </ul>
         </div>
@@ -48,10 +58,18 @@ const Footer = () => {
 
       {/* Social Media */}
       <div className="flex justify-center items-center gap-6 mt-10">
-        <FaLinkedin className="text-2xl hover:text-white transition cursor-pointer" />
-        <FaFacebookF className="text-2xl hover:text-white transition cursor-pointer" />
-        <BsTwitterX className="text-2xl hover:text-white transition cursor-pointer" />
-        <FaYoutube className="text-2xl hover:text-white transition cursor-pointer" />
+        <Link href="https://www.linkedin.com/">
+          <FaLinkedin className="text-2xl hover:text-white transition cursor-pointer" />
+        </Link>
+        <Link href="https://www.facebook.com/">
+          <FaFacebookF className="text-2xl hover:text-white transition cursor-pointer" />
+        </Link>
+        <Link href="https://twitter.com/">
+          <BsTwitterX className="text-2xl hover:text-white transition cursor-pointer" />
+        </Link>
+        <Link href="https://www.youtube.com/">
+          <FaYoutube className="text-2xl hover:text-white transition cursor-pointer" />
+        </Link>
         {/* <ContactLinks /> */}
       </div>
 

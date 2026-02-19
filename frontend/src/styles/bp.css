@@ -1,29 +1,31 @@
 :root {
-  --page-bg: #f5f0e8;
-  --card-bg: #ffffff;
   --ink: #1c1410;
   --ink-2: #4a3f35;
-  --ink-3: #8a7a6a;
-  --accent: #c0392b;
-  --accent-2: #e8c5a0;
-  --border: #e0d5c5;
-  --spine: #2c1f14;
-  --chip-bg: #ede5d8;
-  --chip-ink: #6a4f3a;
+  --accent: #9dcd5a;
+  --accent-2: #9dcd5a;
+  --border: #9dcd5a;
+  --spine: #9dcd5a;
+  --chip-bg: #4a3f35;
+  --chip-ink: #9dcd5a;
   --radius: 10px;
   --shadow-sm: 0 2px 8px rgba(28, 20, 16, 0.08);
   --shadow-lg: 0 24px 64px rgba(28, 20, 16, 0.18);
 }
 
-/* ── Root ── */
-.bp-root {
-  font-family: 'Outfit', sans-serif;
-  background: var(--page-bg);
-  min-height: 100vh;
-  color: var(--ink);
+.dark {
+  --ink: #ffffff;
+  --ink-2: #f5f0e8;
+  --accent: #9dcd5a;
+  --accent-2: #9dcd5a;
+  --border: #9dcd5a;
+  --spine: #9dcd5a;
+  --chip-bg: #4a3f35;
+  --chip-ink: #9dcd5a;
+  --radius: 10px;
+  --shadow-sm: 0 2px 8px rgba(28, 20, 16, 0.08);
+  --shadow-lg: 0 24px 64px rgba(28, 20, 16, 0.18);
 }
 
-/* ── Nav ── */
 .bp-nav {
   position: sticky;
   top: 0;
@@ -40,7 +42,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-family: 'Outfit', sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -58,7 +59,6 @@
   text-decoration: none;
 }
 .bp-back:hover {
-  background: var(--card-bg);
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -122,7 +122,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  color: var(--ink-3);
+  color: var(--ink);
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -163,7 +163,7 @@
 }
 .bp-rating-count {
   font-size: 0.72rem;
-  color: var(--ink-3);
+  color: var(--ink);
 }
 
 /* ── Meta panel ── */
@@ -202,7 +202,6 @@
 }
 
 .bp-title {
-  font-family: 'Lora', serif;
   font-size: clamp(1.75rem, 3.5vw, 2.6rem);
   font-weight: 700;
   line-height: 1.15;
@@ -216,13 +215,12 @@
   gap: 0.45rem;
   font-size: 1rem;
   font-style: italic;
-  font-family: 'Lora', serif;
   color: var(--ink-2);
   margin-bottom: 1.25rem;
 }
 .bp-icon {
   flex-shrink: 0;
-  color: var(--ink-3);
+  color: var(--ink);
 }
 
 .bp-facts {
@@ -238,8 +236,7 @@
   gap: 0.3rem;
   font-size: 0.78rem;
   font-weight: 400;
-  color: var(--ink-3);
-  background: var(--card-bg);
+  color: var(--ink);
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 0.28rem 0.7rem;
@@ -286,7 +283,6 @@
 }
 
 .bp-desc-heading {
-  font-family: 'Lora', serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -298,7 +294,6 @@
 }
 
 .bp-desc-body {
-  font-family: 'Lora', serif;
   font-size: 1.05rem;
   line-height: 1.9;
   color: var(--ink-2);
@@ -308,46 +303,4 @@
 }
 .bp-desc-body p:last-child {
   margin-bottom: 0;
-}
-
-.bp-no-desc {
-  font-family: 'Lora', serif;
-  font-style: italic;
-  color: var(--ink-3);
-  font-size: 1rem;
-}
-
-/* ── States ── */
-.bp-state-screen {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  font-family: 'Outfit', sans-serif;
-  background: var(--page-bg);
-  color: var(--ink);
-  text-align: center;
-  padding: 2rem;
-}
-.bp-state-label {
-  font-family: 'Lora', serif;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-.bp-state-sub {
-  font-size: 0.9rem;
-  color: var(--ink-3);
-  max-width: 340px;
-}
-
-.bp-spinner {
-  width: 38px;
-  height: 38px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.75s linear infinite;
 }

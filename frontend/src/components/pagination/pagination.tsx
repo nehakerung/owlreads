@@ -26,7 +26,8 @@ const Pagination: React.FC<PaginationProps> = ({
         {currentPage > 1 && (
           <button
             onClick={() => handleClick(currentPage - 1)}
-            className="flex items-center gap-1 px-4 py-2 border rounded hover:bg-gray-100 transition"
+            className="btn-icon"
+            // className="flex items-center gap-1 px-4 py-2 border rounded hover:bg-gray-100 transition"
           >
             <HiOutlineArrowSmLeft />
             Previous
@@ -41,7 +42,7 @@ const Pagination: React.FC<PaginationProps> = ({
             disabled={currentPage === index + 1}
             className={`px-4 py-2 border rounded transition ${
               currentPage === index + 1
-                ? 'bg-[#473c38] text-white font-bold cursor-not-allowed'
+                ? 'bg-[#9dcd5a] text-white font-bold cursor-not-allowed'
                 : 'hover:bg-gray-100'
             }`}
           >
@@ -53,7 +54,8 @@ const Pagination: React.FC<PaginationProps> = ({
         {currentPage < totalPages && (
           <button
             onClick={() => handleClick(currentPage + 1)}
-            className="flex items-center gap-1 px-4 py-2 border rounded hover:bg-gray-100 transition"
+            // className="btnsecondary items-center"
+            className="btn-icon"
           >
             Next
             <HiOutlineArrowSmRight />

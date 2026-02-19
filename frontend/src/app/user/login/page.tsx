@@ -19,22 +19,24 @@ export default function Login() {
 
     try {
       await login(username, password);
-      router.push('/profile');
+      router.push('/user/profile');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Invalid credentials');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <Image
-          src="/OwlReadsLogo.png"
-          alt="OwlReads Logo"
-          width={500}
-          height={500}
-          className="mr-3"
-        />
+    <div className="p-10 min-h-screen flex items-center justify-center">
+      <div className="bg-card max-w-md w-full space-y-8 p-8 rounded-lg shadow">
+        <div className="flex items-center justify-center">
+          <Image
+            src="/OwlReadsLogo.png"
+            alt="OwlReads Logo"
+            width={500}
+            height={500}
+            className="mr-3"
+          />
+        </div>
         <h2 className="text-3xl font-bold text-center">Sign In</h2>
 
         {error && (
@@ -45,39 +47,38 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Username
-            </label>
+            <label className="block text-sm font-medium">Username</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="input-field"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="block text-sm font-medium">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"
+              className="input-field"
               required
             />
           </div>
 
-          <button type="submit" className="btnsecondary">
+          <button type="submit" className="btnsecondary w-full">
             Sign In
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm">
           Don't have an account?{' '}
-          <Link href="/register" className="text-#9dcd5a hover:underline">
+          <Link
+            href="/user/register"
+            className="text-[#9dcd5a] hover:underline"
+          >
             Sign up
           </Link>
         </p>

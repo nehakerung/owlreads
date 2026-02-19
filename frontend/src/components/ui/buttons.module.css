@@ -16,10 +16,14 @@
   opacity: 0.5;
 }
 
-.btn-secondary {
+.btnsecondary {
   background-color: var(--green);
   color: var(--white);
   border: 2px solid var(--green);
+}
+
+.btnsecondary:hover {
+  opacity: 0.5;
 }
 
 .btn-tertiary {

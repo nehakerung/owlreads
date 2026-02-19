@@ -1,0 +1,197 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --green: #9dcd5a;
+  --brown: #473c38;
+  --white: #ffffff;
+  --radius: 0.625rem;
+
+  /* Base */
+  --background: #eef6df;
+  --foreground: #2a2624;
+
+  /* Cards */
+  --card: #ffffff;
+  --card-foreground: #2a2624;
+
+  --card-2: #eef6df;
+  --card-2-foreground: #473c38;
+
+  /* Brand */
+  --primary: #473c38; /* Brown */
+  --primary-foreground: #ffffff;
+
+  --secondary: #9dcd5a; /* Green */
+  --secondary-foreground: #1f1f1f;
+
+  --accent: #eef6df; /* Soft green tint */
+  --accent-foreground: #473c38;
+
+  /* UI */
+  --muted: #f3f3f3;
+  --muted-foreground: #6b6b6b;
+
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #9dcd5a;
+
+  /* Sidebar */
+  --sidebar: #fafafa;
+  --sidebar-foreground: #2a2624;
+
+  /* text */
+  --text-primary: #2a2624;
+  --text-secondary: #6b6b6b;
+}
+
+.dark {
+  /* Base */
+  --background: #1c1816; /* Deep warm brown-black */
+  --foreground: #f5f5f5;
+
+  /* Cards */
+  --card: #473c38;
+  --card-foreground: #f5f5f5;
+
+  --card-2: #9dcd5a;
+  --card-2-foreground: #473c38;
+
+  /* Brand */
+  --primary: #9dcd5a; /* Green becomes main pop */
+  --primary-foreground: #1c1816;
+
+  --secondary: #473c38; /* Brown becomes secondary */
+  --secondary-foreground: #ffffff;
+
+  --accent: #2f2a27;
+  --accent-foreground: #9dcd5a;
+
+  /* UI */
+  --muted: #2a2624;
+  --muted-foreground: #b3b3b3;
+
+  --border: #3a3431;
+  --input: #3a3431;
+  --ring: #9dcd5a;
+
+  /* Sidebar */
+  --sidebar: #221e1b;
+  --sidebar-foreground: #f5f5f5;
+  /* text */
+  --text-primary: white;
+  --text-secondary: #d6d4d4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+@layer utilities {
+  .search-form {
+    @apply w-75 max-sm:w-62 max-sm:h-10 max-sm:text-[14px]
+           h-12 bg-background rounded-[80px] border border-[#5a4d47]
+           px-5 max-sm:px-3 flex flex-row items-center gap-5;
+  }
+
+  .nav-btn {
+    @apply px-4 py-2 bg-gray-900 text-white border border-gray-900
+           rounded-md hover:bg-gray-700 transition cursor-pointer;
+  }
+  .btnprimary {
+    @apply rounded text-white px-6 py-3 transition-all duration-150 ease-in-out;
+    background-color: var(--brown);
+  }
+
+  .btnprimary:hover {
+    @apply bg-[#5a4d47] transition;
+  }
+
+  .btnsecondary {
+    @apply rounded text-white px-6 py-3 transition-all duration-150 ease-in-out;
+    background-color: var(--green);
+  }
+  .btnsecondary:hover {
+    @apply bg-[#9dcd5a] transition;
+  }
+
+  .btn-tertiary {
+    background-color: transparent;
+    color: var(--green);
+    border: 2px solid var(--green);
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center mt-4;
+  }
+
+  .main-max-width {
+    @apply max-w-360;
+  }
+
+  .padding-x {
+    @apply px-24 max-sm:px-10;
+  }
+  .cat-btn {
+    @apply w-62 max-md:w-full h-12 rounded-lg bg-gradient-to-r from-card to-gray-200 shadow-md flex items-center gap-4 px-4 transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-100;
+  }
+  .book-item {
+    @apply border bg-card p-4 mb-4 rounded-lg shadow hover:shadow-lg transition;
+  }
+  .btn-icon {
+    @apply flex items-center gap-1 px-4 py-2 border rounded hover:bg-gray-100 transition;
+  }
+  .input-field {
+    @apply mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

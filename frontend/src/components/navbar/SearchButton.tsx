@@ -10,7 +10,7 @@ const SearchButton = ({ handleSearch, showSearchForm }: Props) => {
   return (
     <button
       onClick={handleSearch}
-      className="size-8 rounded-full bg-black flex justify-center items-center cursor-pointer text-white"
+      className="size-8 rounded-full flex justify-center items-center bg-[#473c38] text-white hover:bg-[#5a4d47] transition"
     >
       {showSearchForm ? (
         <X className="size-4" />

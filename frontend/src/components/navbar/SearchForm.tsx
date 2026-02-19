@@ -14,7 +14,7 @@ export default function HomePage() {
 
     if (query.trim()) {
       // Redirect to search results page with query parameter
-      router.push(`/search?query=${encodeURIComponent(query)}`);
+      router.push(`/book/search?query=${encodeURIComponent(query)}`);
     }
   };
 
@@ -23,13 +23,13 @@ export default function HomePage() {
       <input
         name="query"
         type="text"
-        className="flex-1 font-bold w-full outline-none"
+        className="flex-1 font-bold w-full justify-center outline-none"
         placeholder="Search for books..."
         autoFocus
       />
       <button
         type="submit"
-        className="size-7 rounded-full bg-[#473c38] flex justify-center items-center cursor-pointer text-white hover:bg-[#5a4d47] transition"
+        className="size-7 rounded-full bg-[#473c38] text-white flex justify-center items-center hover:bg-[#5a4d47] transition"
       >
         <Search className="size-4" />
       </button>

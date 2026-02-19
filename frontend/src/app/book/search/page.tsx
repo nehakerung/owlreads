@@ -55,10 +55,7 @@ const BookItem = ({
   published_date,
 }: any) => {
   return (
-    <div
-      data-id={id}
-      className="book-item border p-4 mb-4 rounded-lg shadow hover:shadow-lg transition"
-    >
+    <div data-id={id} className="book-item">
       <div className="flex gap-4">
         {thumbnail && (
           <img
@@ -73,13 +70,11 @@ const BookItem = ({
         <div className="flex-1">
           <h3 className="text-xl font-bold mb-2">{title}</h3>
           {authors && authors.length > 0 && (
-            <p className="text-gray-600 mb-1">By: {authors.join(', ')}</p>
+            <p className="mb-1">By: {authors.join(', ')}</p>
           )}
         </div>
       </div>
-      {description && (
-        <p className="mt-3 text-gray-700 line-clamp-3">{description}</p>
-      )}
+      {description && <p className="mt-3 line-clamp-3">{description}</p>}
     </div>
   );
 };
@@ -102,7 +97,7 @@ export default function SearchPage() {
     const newQuery = formData.get('query') as string;
 
     if (newQuery.trim()) {
-      router.push(`/search?query=${encodeURIComponent(newQuery)}`);
+      router.push(`/book/search?query=${encodeURIComponent(newQuery)}`);
     }
   };
 
@@ -144,10 +139,7 @@ export default function SearchPage() {
     <div className="container mx-auto p-4 max-w-4xl">
       {/* Header with back button and search */}
       <div className="mb-6">
-        <button
-          onClick={() => router.push('/')}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
-        >
+        <button onClick={() => router.push('/')} className="btn-icon">
           <ArrowLeft className="size-5" />
           Back to Home
         </button>
@@ -173,14 +165,12 @@ export default function SearchPage() {
         )}
 
         {!loading && !error && bookItems.length === 0 && query && (
-          <p className="text-center text-gray-600 py-8">
-            No books found for "{query}"
-          </p>
+          <p className="text-center py-8">No books found for "{query}"</p>
         )}
 
         {!loading && !error && bookItems.length > 0 && (
           <div>
-            <p className="text-gray-600 mb-4 font-semibold">
+            <p className="mb-4 font-semibold">
               Found {bookItems.length} results for "{query}"
             </p>
             {currentItems.map((item: any) => (

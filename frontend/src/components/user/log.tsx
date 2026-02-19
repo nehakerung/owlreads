@@ -15,7 +15,7 @@ export default function Log() {
 
   if (!user) {
     return (
-      <Link href="/login">
+      <Link href="/user/login">
         <button className="btnprimary">Login</button>
       </Link>
     );
@@ -24,14 +24,20 @@ export default function Log() {
   return (
     <div className="flex items-center gap-4">
       <Link
-        href="/profile"
-        className="text-lg font-medium text-gray-900 hover:text-gray-700 transition"
+        href="/user/profile"
+        className="text-lg font-medium hover:text-gray-700 transition"
       >
         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-brown shadow-md"></div>
       </Link>
-      <div className="relative flex items-center h-10 w-10 justify-center">
-        <FiBookOpen className="text-4xl" />
-      </div>
+      <Link
+        href="/user/bookshelf"
+        className="text-lg font-medium hover:text-gray-700 transition"
+      >
+        <div className="relative flex items-center h-10 w-10 justify-center">
+          <FiBookOpen className="text-4xl" />
+        </div>
+      </Link>
+
       <button className="btnprimary" onClick={logout}>
         Log Out
       </button>

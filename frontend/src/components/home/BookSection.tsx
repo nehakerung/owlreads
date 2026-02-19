@@ -5,7 +5,7 @@ import BookCard from './BookCard';
 const BookSection = () => {
   return (
     <section className="main-max-width padding-x mx-auto">
-      <h2 className="my-9 text-center text-xl font-bold text-gray-800">
+      <h2 className="my-9 text-center text-xl font-bold">
         Find featured books
       </h2>
 

@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { Ubuntu } from 'next/font/google';
-import './globals.css';
+import '@/styles/globals.css';
 import '@/components/ui/buttons.module.css';
 import Navbar from '@/components/navbar/NavBar';
 import Footer from '@/components/footer/footer';
 import { AuthProvider } from '@/context/AuthContext';
+import { ThemeProvider } from '@/context/ThemeContext';
 const ubuntu = Ubuntu({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
 export const metadata: Metadata = {
@@ -14,18 +15,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className={ubuntu.className}>
-      <AuthProvider>
-        <Navbar />
-        <body>
-          <main className="w-full">{children}</main>
-        </body>
-        <Footer />
-      </AuthProvider>
+      <body>
+        <ThemeProvider>
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </AuthProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

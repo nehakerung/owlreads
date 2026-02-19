@@ -3,15 +3,13 @@ import Image from 'next/image';
 
 const ProductCard = () => {
   return (
-    <div className="w-50 rounded-lg shadow-md bg-white flex flex-col items-center gap-4 px-5 py-6 transition-all duration-300 hover:shadow-xl hover:scale-105">
+    <div className="w-50 rounded-lg shadow-md bg-card flex flex-col items-center gap-4 px-5 py-6 transition-all duration-300 hover:shadow-xl hover:scale-105">
       <div className="w-40 h-60 rounded-md overflow-hidden relative">
         <Image src="/book.jpg" className="object-cover" fill alt="thumbnail" />
       </div>
 
       {/* Book Title */}
-      <p className="text-center text-lg font-semibold text-gray-800">
-        Book title
-      </p>
+      <p className="text-center text-lg font-semibold">Book title</p>
 
       {/* Book Rating */}
 

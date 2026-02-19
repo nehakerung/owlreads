@@ -1,8 +1,5 @@
 'use client';
 import React from 'react';
-import CurrentReads from '@/components/bookshelf/CurrentReads';
-import PastReads from '@/components/bookshelf/PastReads';
-import ToRead from '@/components/bookshelf/ToRead';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
@@ -14,7 +11,7 @@ export default function Profile() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/login');
+      router.push('/user/login');
     }
   }, [user, loading, router]);
 
@@ -35,9 +32,9 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card rounded-lg shadow p-6">
           <h2 className="text-2xl font-bold mb-4">
             Welcome back, {user.username}!
           </h2>
@@ -51,11 +48,6 @@ export default function Profile() {
             <p>
               <span className="font-semibold">User ID:</span> {user.id}
             </p>
-          </div>
-          <div>
-            <CurrentReads />
-            <ToRead />
-            <PastReads />
           </div>
         </div>
       </div>
