@@ -8,19 +8,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
 ENVAR_SETTINGS_PREFIX = 'CORESETTINGS_'
 
-LOACL_SETTINGS_PATH = os.getenv(f'{ENVAR_SETTINGS_PREFIX}LOCAL_SETTINGS_PATH')
+LOCAL_SETTINGS_PATH = os.getenv(f'{ENVAR_SETTINGS_PREFIX}LOCAL_SETTINGS_PATH')
 
-if not LOACL_SETTINGS_PATH:
-    LOACL_SETTINGS_PATH = 'local/settings.dev.py'
+if not LOCAL_SETTINGS_PATH:
+    LOCAL_SETTINGS_PATH = 'local/settings.dev.py'
 
-if not os.path.isabs(LOACL_SETTINGS_PATH):
-    LOACL_SETTINGS_PATH = str(BASE_DIR / LOACL_SETTINGS_PATH)
+if not os.path.isabs(LOCAL_SETTINGS_PATH):
+    LOCAL_SETTINGS_PATH = str(BASE_DIR / LOCAL_SETTINGS_PATH)
 
 include(
     'base.py',
     'logging.py',
     'custom.py',
-    optional(LOACL_SETTINGS_PATH),
+    optional(LOCAL_SETTINGS_PATH),
     'envars.py',
     'docker.py',
 )

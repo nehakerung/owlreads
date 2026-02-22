@@ -3,10 +3,9 @@ from datetime import timedelta
 
 from owlreads.settings import BASE_DIR
 
-SECRET_KEY = NotImplemented
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SECRET_KEY = NotImplemented
 
 ALLOWED_HOSTS = []
 
@@ -70,8 +69,14 @@ WSGI_APPLICATION = "owlreads.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "owlreads_db",
+        "USER": "owlreads_user",
+        "PASSWORD": "owlreads_password",
+        "HOST": "localhost",
+        "PORT": "5432",
+        "ATOMIC_REQUESTS": True,
+        "CONN_MAX_AGE": 600,
     }
 }
 
