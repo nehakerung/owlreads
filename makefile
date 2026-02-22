@@ -38,6 +38,7 @@ runnextserver:
 
 .PHONY: superuser
 superuser:
+	poetry run python core/manage.py createsuperuser
 
 .PHONY: update
 update: install migrate install-pre-commit ;

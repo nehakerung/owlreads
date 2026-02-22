@@ -3,10 +3,9 @@ from datetime import timedelta
 
 from owlreads.settings import BASE_DIR
 
-SECRET_KEY = NotImplemented
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SECRET_KEY = NotImplemented
 
 ALLOWED_HOSTS = []
 
