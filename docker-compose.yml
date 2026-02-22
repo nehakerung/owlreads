@@ -20,7 +20,7 @@ app:
   environment:
     OWLREAD_SETTING_DATABASE: '{"default":{"HOST":"db"}}'
     OWLREAD_SETTING_LOCAL_SETTINGS_PATH: 'local/settings.prod.py'
-  
+
   volumes:
     postgresql-data:
       driver: local
