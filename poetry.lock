@@ -163,6 +163,37 @@ files = [
 ]
 
 [[package]]
+name = "colorama"
+version = "0.4.6"
+description = "Cross-platform colored terminal text."
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+groups = ["dev"]
+markers = "sys_platform == \"win32\""
+files = [
+    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
+    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
+]
+
+[[package]]
+name = "colorlog"
+version = "6.10.1"
+description = "Add colours to the output of Python's logging module."
+optional = false
+python-versions = ">=3.6"
+groups = ["dev"]
+files = [
+    {file = "colorlog-6.10.1-py3-none-any.whl", hash = "sha256:2d7e8348291948af66122cff006c9f8da6255d224e7cf8e37d8de2df3bad8c9c"},
+    {file = "colorlog-6.10.1.tar.gz", hash = "sha256:eb4ae5cb65fe7fec7773c2306061a8e63e02efc2c72eba9d27b0fa23c94f1321"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "sys_platform == \"win32\""}
+
+[package.extras]
+development = ["black", "flake8", "mypy", "pytest", "types-colorama"]
+
+[[package]]
 name = "distlib"
 version = "0.4.0"
 description = "Distribution utilities"
@@ -967,4 +998,4 @@ test = ["zope.security (>=7.3)", "zope.testrunner (>=6.4)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "82a420e1f46155bda1e5ee507729ef5ed99ec2359a2b478957eec03b0e8c8a23"
+content-hash = "58571e1549591f4a475079d7af087e019ad35b0baa6938889248dcb4db3b6447"

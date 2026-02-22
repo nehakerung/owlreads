@@ -18,6 +18,7 @@ if not os.path.isabs(LOACL_SETTINGS_PATH):
 
 include(
     'base.py',
+    'logging.py',
     'custom.py',
     optional(LOACL_SETTINGS_PATH),
     'envars.py',
