@@ -11,14 +11,11 @@ BASE_URL = "https://www.googleapis.com/books/v1/volumes"
 MAX_BOOKS = 100
 
 QUERIES = [
-    "juvenile fiction",
-    "juvenile nonfiction",
-    "juvenile literature",
-    "children's fiction",
-    "children's stories",
-    "children",
-    "young adult fiction",
-    "picture books",
+    "subject:juvenile fiction",
+    "subject:juvenile nonfiction",
+    "subject:children fiction",
+    "subject:picture books",
+    "subject:young adult fiction",
 ]
 
 ALLOWED_CATEGORIES = {"juvenile fiction", "juvenile nonfiction"}
@@ -35,6 +32,24 @@ def is_valid_book(volume_info):
         return False
 
     return True
+
+
+def enrich_categories(volume_info):
+    categories = volume_info.get("categories", [])
+    desc = volume_info.get("description", "").lower()
+    title = volume_info.get("title", "").lower()
+    combined = desc + " " + title
+
+    if any(word in combined for word in ["adventure", "quest", "journey"]):
+        categories.append("Adventure")
+    if any(word in combined for word in ["animal", "dog", "cat", "horse"]):
+        categories.append("Animals")
+    if any(word in combined for word in ["magic", "wizard", "fairy"]):
+        categories.append("Fantasy")
+    if any(word in combined for word in ["school", "classroom", "teacher"]):
+        categories.append("School")
+
+    return list(set(categories))
 
 
 class Command(BaseCommand):
@@ -85,11 +100,11 @@ class Command(BaseCommand):
                         defaults={
                             "title": volume_info.get("title", "Unknown Title"),
                             "authors": authors if authors else ["Unknown"],
-                            # "authors": volume_info.get("authors", []),
                             "description": volume_info.get("description", ""),
                             "thumbnail": thumbnail.replace("http://", "https://", 1),
                             "page_count": volume_info.get("pageCount"),
-                            "categories": volume_info.get("categories", []),
+                            "categories": enrich_categories(volume_info),
+                            "subjects": volume_info.get("subject", []),
                             "average_rating": volume_info.get("averageRating"),
                             "ratings_count": volume_info.get("ratingsCount"),
                         }

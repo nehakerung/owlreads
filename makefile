@@ -41,3 +41,7 @@ superuser:
 	poetry run python core/manage.py createsuperuser
 .PHONY: update
 	update: install migrate install-pre-commit ;
+
+.PHONY: seed_books
+seed_books:
+	poetry run python core/manage.py seed_books
