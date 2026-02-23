@@ -10,7 +10,7 @@ import Link from 'next/link';
 interface Books {
   id: number;
   title: string;
-  author: string;
+  authors: string;
   thumbnail: string;
   description: string;
 }

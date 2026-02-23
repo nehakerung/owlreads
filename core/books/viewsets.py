@@ -23,7 +23,7 @@ class BookViewSet(viewsets.ViewSet):
             books = Book.objects.filter(
                 Q(title__icontains=query)
 
-                | Q(author__icontains=query)
+                | Q(authors__icontains=query)
 
                 | Q(description__icontains=query)
             )
@@ -57,11 +57,9 @@ def book_search_page(request):
 
     if query:
         books = Book.objects.filter(
-            Q(title__icontains=query)
-
-            | Q(author__icontains=query)
-
-            | Q(description__icontains=query)
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(authors__icontains=query)  # JSONField supports icontains
         )
     else:
         books = Book.objects.all()
