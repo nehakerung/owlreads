@@ -8,11 +8,17 @@ from django.core.management.base import BaseCommand
 GOOGLE_BOOKS_API_KEY = GOOGLE_BOOKS_API_KEY = config('GOOGLE_BOOKS_API_KEY', default='')
 
 BASE_URL = "https://www.googleapis.com/books/v1/volumes"
-MAX_BOOKS = 1000
+MAX_BOOKS = 100
 
 QUERIES = [
-    "subject:juvenile fiction",
-    "subject:juvenile nonfiction",
+    "juvenile fiction",
+    "juvenile nonfiction",
+    "juvenile literature",
+    "children's fiction",
+    "children's stories",
+    "children",
+    "young adult fiction",
+    "picture books",
 ]
 
 ALLOWED_CATEGORIES = {"juvenile fiction", "juvenile nonfiction"}
@@ -72,14 +78,16 @@ class Command(BaseCommand):
                         continue
 
                     authors = volume_info.get("authors", [])
+                    thumbnail = volume_info.get("imageLinks", {}).get("thumbnail", "")
 
                     _, created = Book.objects.get_or_create(
                         google_books_id=item["id"],
                         defaults={
                             "title": volume_info.get("title", "Unknown Title"),
-                            "author": ", ".join(authors) if authors else "Unknown",
+                            "authors": authors if authors else ["Unknown"],
+                            # "authors": volume_info.get("authors", []),
                             "description": volume_info.get("description", ""),
-                            "thumbnail_url": volume_info.get("imageLinks", {}).get("thumbnail", ""),
+                            "thumbnail": thumbnail.replace("http://", "https://", 1),
                             "page_count": volume_info.get("pageCount"),
                             "categories": volume_info.get("categories", []),
                             "average_rating": volume_info.get("averageRating"),
