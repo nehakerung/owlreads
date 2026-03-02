@@ -12,7 +12,8 @@ echo 'Running database migrations...'
 cd /opt/core
 python manage.py migrate --no-input
 
-exec poetry run daphne -b 0.0.0.0 -p 8000 core.owlreads.asgi:application
+cd /opt/core
+exec poetry run daphne -b 0.0.0.0 -p 8000 owlreads.asgi:application
 
 echo "PWD:"
 pwd
