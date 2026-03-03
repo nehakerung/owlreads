@@ -9,6 +9,8 @@ import Image from 'next/image';
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [error, setError] = useState('');
@@ -60,6 +62,26 @@ export default function RegisterPage() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">First name</label>
+            <input
+              type="fist_name"
+              value={first_name}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Last name</label>
+            <input
+              type="last_name"
+              value={last_name}
+              onChange={(e) => setLastName(e.target.value)}
               className="input-field"
               required
             />

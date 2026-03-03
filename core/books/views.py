@@ -125,7 +125,6 @@ def book_detail_page(request, book_id):
                 'genres': volume_info.get('genres', []),
                 'subjects': volume_info.get('subjects', []),
                 'categories': volume_info.get('categories', []),
-                
                 'average_rating': volume_info.get('averageRating', ''),
                 'ratings_count': volume_info.get('ratingsCount', ''),
                 'preview_link': volume_info.get('previewLink', '')
