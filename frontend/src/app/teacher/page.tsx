@@ -19,16 +19,13 @@ export default function TeacherDashboard() {
           className="w-full border p-2 rounded"
         />
 
-        <Link
-          href="/teacher/create-student"
-          className="bg-green-600 text-white px-4 py-2 rounded inline-block"
-        >
+        <Link href="/teacher/create-student" className="btnprimary">
           Create Student Account
         </Link>
 
         <Link
           href={`/teacher/reset-password/${studentId}`}
-          className="bg-blue-600 text-white px-4 py-2 rounded inline-block"
+          className="btnsecondary"
         >
           Reset Student Password
         </Link>

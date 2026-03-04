@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     "owlreads",
     "users",
     "books",
+    "shelves",
     "rest_framework",
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
