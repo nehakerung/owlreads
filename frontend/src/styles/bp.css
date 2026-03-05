@@ -304,3 +304,117 @@
 .bp-desc-body p:last-child {
   margin-bottom: 0;
 }
+
+/* Shelf button wrapper */
+.bp-shelf-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Shared button base */
+.bp-shelf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    box-shadow 0.15s;
+  white-space: nowrap;
+}
+.bp-shelf-btn--default {
+  background: #4f46e5;
+  color: #fff;
+  border-color: #4338ca;
+}
+.bp-shelf-btn--default:hover {
+  opacity: 0.9;
+}
+.bp-shelf-btn--active {
+  border-width: 1px;
+  border-style: solid;
+}
+.bp-shelf-btn--ghost {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: default;
+}
+.bp-shelf-chevron {
+  transition: transform 0.2s;
+  margin-left: 2px;
+}
+
+/* Dropdown */
+.bp-shelf-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  overflow: hidden;
+  padding: 4px;
+}
+.bp-shelf-dropdown-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  padding: 6px 10px 4px;
+}
+.bp-shelf-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #374151;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+.bp-shelf-dropdown-item:hover {
+  background: #f9fafb;
+}
+.bp-shelf-dropdown-item--active {
+  color: #4f46e5;
+  font-weight: 600;
+}
+.bp-shelf-dropdown-item--remove {
+  color: #ef4444;
+}
+.bp-shelf-dropdown-item--remove:hover {
+  background: #fef2f2;
+}
+.bp-shelf-dropdown-check {
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+.bp-shelf-dropdown-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 4px 0;
+}
+
+/* Actions row — sits shelf button + preview link side by side */
+.bp-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}

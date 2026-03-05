@@ -13,4 +13,6 @@ urlpatterns = [
 
     # Books API + frontend
     path('', include('books.urls')),
+
+    path("api/", include("shelves.urls")),
 ]

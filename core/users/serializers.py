@@ -1,12 +1,16 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
+User = get_user_model()
+
 
 class UserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'role']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -48,7 +52,36 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data.get('email'),
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', '')
+            last_name=validated_data.get('last_name', ''),
+            role='teacher'
         )
 
+        teacher_group, created = Group.objects.get_or_create(name="Teacher")
+        user.groups.add(teacher_group)
+
         return user
+
+
+class StudentCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'password', 'first_name', 'last_name')
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+
+        student_group = Group.objects.get(name="Student")
+        user.groups.add(student_group)
+
+        return user
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    new_password = serializers.CharField(
+        write_only=True,
+        required=True,
+        validators=[validate_password],
+        style={'input_type': 'password'}
+    )
