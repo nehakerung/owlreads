@@ -1,12 +1,12 @@
 # SECURITY WARNING: keep the secret key used in production secret!
-import os
 from datetime import timedelta
 
-from owlreads.settings.__init__ import BASE_DIR
+from owlreads.settings import BASE_DIR
+
+SECRET_KEY = NotImplemented
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SECRET_KEY = NotImplemented
 
 ALLOWED_HOSTS = []
 
@@ -14,7 +14,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -69,17 +68,10 @@ WSGI_APPLICATION = "owlreads.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "owlreads_db"),
-        "USER": os.environ.get("DB_USER", "owlreads_user"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "owlreads_password"),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
-        "ATOMIC_REQUESTS": True,
-        "CONN_MAX_AGE": 600,
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -119,7 +111,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -151,5 +142,3 @@ SITE_NAME = "OwlReads"
 
 DOMAIN = ["localhost:3000}",
           "127.0.0.1:3000"]
-
-ASGI_APPLICATION = "owlreads.asgi.application"
