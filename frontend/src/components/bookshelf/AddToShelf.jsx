@@ -48,7 +48,11 @@ export default function AddToShelfButton({ bookId, currentStatus = null }) {
               key={opt.value}
               onClick={() => handleSelect(opt.value)}
               className={`w-full text-left px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors
-                ${status === opt.value ? 'font-semibold text-indigo-600' : 'text-gray-700'}`}
+                ${
+                  status === opt.value
+                    ? 'font-semibold text-indigo-600'
+                    : 'text-gray-700'
+                }`}
             >
               {opt.label}
             </button>
