@@ -18,6 +18,23 @@ const Pagination: React.FC<PaginationProps> = ({
       onPageChange(page);
     }
   };
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const delta = 1; // how many pages around current page
+
+    const left = currentPage - delta;
+    const right = currentPage + delta;
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= left && i <= right)) {
+        pages.push(i);
+      } else if (pages[pages.length - 1] !== '...') {
+        pages.push('...');
+      }
+    }
+
+    return pages;
+  };
 
   return (
     <div className="flex-center flex-wrap my-6 gap-4">
@@ -35,20 +52,28 @@ const Pagination: React.FC<PaginationProps> = ({
         )}
 
         {/* Page numbers */}
-        {Array.from({ length: totalPages }, (_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => handleClick(index + 1)}
-            disabled={currentPage === index + 1}
-            className={`px-4 py-2 border rounded transition ${
-              currentPage === index + 1
-                ? 'bg-[#9dcd5a] text-white font-bold cursor-not-allowed'
-                : 'hover:bg-gray-100'
-            }`}
-          >
-            {index + 1}
-          </button>
-        ))}
+        <div className="flex justify-center gap-2 px-6 py-4">
+          {getPageNumbers().map((page, index) =>
+            page === '...' ? (
+              <span key={index} className="px-3 py-2 text-gray-400">
+                ...
+              </span>
+            ) : (
+              <button
+                key={page}
+                onClick={() => handleClick(page as number)}
+                disabled={currentPage === page}
+                className={`px-4 py-2 border rounded transition ${
+                  currentPage === page
+                    ? 'bg-[#9dcd5a] text-white font-bold cursor-not-allowed'
+                    : 'hover:bg-gray-100'
+                }`}
+              >
+                {page}
+              </button>
+            )
+          )}
+        </div>
 
         {/* Next button - only show if not on last page */}
         {currentPage < totalPages && (
