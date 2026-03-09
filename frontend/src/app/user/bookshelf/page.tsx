@@ -1,28 +1,15 @@
-import React from 'react';
+import RequireAuth from '@/components/user/RequireAuth';
+import BookShelfPage from '@/components/bookshelf/BookShelfPage';
 import Link from 'next/link';
-import PastReads from '@/components/bookshelf/PastReads';
-import CurrentReads from '@/components/bookshelf/CurrentReads';
-import ToRead from '@/components/bookshelf/ToRead';
-
-const Bookshelf = () => {
+export default function ShelfPage() {
   return (
-    <section className="px-6 py-16 text-center main-max-width mx-auto padding-x">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <h1 className="text-4xl font-bold leading-tight md:text-5xl">
-          You haven't added any Books to your Bookshelf.
-        </h1>
-        <div>
-          <CurrentReads />
-          <ToRead />
-          <PastReads />
-        </div>
-
+    <RequireAuth>
+      <BookShelfPage />
+      <div className="flex-center px-6 py-16 main-max-width mx-auto padding-x">
         <Link href="/" className="btnsecondary inline-block mt-6">
           Go back home
         </Link>
       </div>
-    </section>
+    </RequireAuth>
   );
-};
-
-export default Bookshelf;
+}
