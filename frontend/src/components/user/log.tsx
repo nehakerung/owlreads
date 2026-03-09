@@ -22,9 +22,14 @@ export default function Log() {
   }
   return (
     <div className="flex items-center gap-4">
-      <Link href="/teacher">
-        <button className="btnprimary">Teacher Dashboard</button>
-      </Link>
+      <div className="p-8 text-center">
+        {isTeacher ? (
+          <Link href="/teacher">
+            <button className="btnprimary">Teacher Dashboard</button>
+          </Link>
+        ) : null}
+      </div>
+
       <Link
         href="/user/profile"
         className="text-lg font-medium hover:text-gray-700 transition"
