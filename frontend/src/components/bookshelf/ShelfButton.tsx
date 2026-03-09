@@ -1,42 +1,22 @@
+// components/ShelfButton.tsx
 'use client';
-import '@/styles/bp.css';
 
 import { useEffect, useState } from 'react';
 import {
-  BookOpen,
   BookMarked,
+  BookOpen,
   BookCheck,
   Bookmark,
   ChevronDown,
   Loader2,
 } from 'lucide-react';
-import { addToShelf, removeFromShelf, fetchShelf } from '@/lib/api/shelf';
+import {
+  addToShelf,
+  removeFromShelf,
+  fetchShelf,
+  ShelfStatus,
+} from '@/lib/api/shelf';
 import { useAuth } from '@/context/AuthContext';
-
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
-
-// --- Types ---
-interface BookDetail {
-  id: string;
-  title: string;
-  authors: string[];
-  description: string;
-  thumbnail: string;
-  published_date: string;
-  publisher?: string;
-  page_count?: number;
-  categories?: string[];
-  preview_link?: string;
-  average_rating?: number;
-  ratings_count?: number;
-}
-
-type ShelfStatus = 'to_read' | 'reading' | 'read';
-
-interface ShelfEntry {
-  id: number;
-  status: ShelfStatus;
-}
 
 const SHELF_OPTIONS: {
   value: ShelfStatus;
@@ -54,29 +34,18 @@ const STATUS_STYLES: Record<ShelfStatus, string> = {
   read: 'bg-green-50 text-green-700 border-green-200',
 };
 
-// --- Helpers ---
-async function fetchBook(id: string): Promise<BookDetail> {
-  const res = await fetch(`${API_BASE_URL}/books/${id}/`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`Failed to fetch book (status ${res.status})`);
-  return res.json();
+interface ShelfEntry {
+  id: number;
+  status: ShelfStatus;
 }
 
-// --- ShelfButton ---
-interface ShelfButtonProps {
-  bookId: number;
-}
-
-function ShelfButton({ bookId }: ShelfButtonProps) {
+export function ShelfButton({ bookId }: { bookId: number }) {
   const { user } = useAuth();
   const [entry, setEntry] = useState<ShelfEntry | null>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  // On mount, check if this book is already on the user's shelf
   useEffect(() => {
     if (!user) {
       setLoading(false);
@@ -93,7 +62,6 @@ function ShelfButton({ bookId }: ShelfButtonProps) {
       .finally(() => setLoading(false));
   }, [bookId, user]);
 
-  // Close dropdown on outside click
   useEffect(() => {
     if (!open) return;
     const close = () => setOpen(false);
@@ -130,7 +98,6 @@ function ShelfButton({ bookId }: ShelfButtonProps) {
     return (
       <div className="bp-shelf-btn bp-shelf-btn--ghost">
         <Loader2 size={14} className="animate-spin" />
-        <span>Loading…</span>
       </div>
     );
   }
@@ -139,7 +106,6 @@ function ShelfButton({ bookId }: ShelfButtonProps) {
 
   return (
     <div className="bp-shelf-wrapper" onClick={(e) => e.stopPropagation()}>
-      {/* Main button */}
       <button
         className={`bp-shelf-btn ${
           entry
@@ -165,7 +131,6 @@ function ShelfButton({ bookId }: ShelfButtonProps) {
         />
       </button>
 
-      {/* Dropdown */}
       {open && (
         <div className="bp-shelf-dropdown">
           <p className="bp-shelf-dropdown-label">Move to shelf</p>
@@ -186,7 +151,6 @@ function ShelfButton({ bookId }: ShelfButtonProps) {
               )}
             </button>
           ))}
-
           {entry && (
             <>
               <div className="bp-shelf-dropdown-divider" />

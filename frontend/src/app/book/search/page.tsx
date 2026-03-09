@@ -7,13 +7,6 @@ import { FormEvent } from 'react';
 import Pagination from '@/components/pagination/pagination';
 import Link from 'next/link';
 
-interface Books {
-  id: number;
-  title: string;
-  authors: string;
-  thumbnail: string;
-  description: string;
-}
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 async function searchBooks(query: string, maxResults = 30) {
@@ -46,14 +39,21 @@ async function searchBooks(query: string, maxResults = 30) {
   }
 }
 
+import { ShelfButton } from '@/components/bookshelf/ShelfButton'; // adjust path as needed
+
 const BookItem = ({
   id,
   title,
   authors,
   description,
   thumbnail,
-  published_date,
-}: any) => {
+}: {
+  id: number;
+  title: string;
+  authors: string[];
+  description: string;
+  thumbnail: string;
+}) => {
   return (
     <div data-id={id} className="book-item">
       <div className="flex gap-4">
@@ -62,8 +62,8 @@ const BookItem = ({
             src={thumbnail.replace('http:', 'https:')}
             alt={title}
             className="w-24 h-32 object-cover rounded"
-            onError={(e: any) => {
-              e.target.style.display = 'none';
+            onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+              e.currentTarget.style.display = 'none';
             }}
           />
         )}
@@ -73,12 +73,16 @@ const BookItem = ({
             <p className="mb-1">By: {authors.join(', ')}</p>
           )}
         </div>
+
+        {/* ✅ Only needs the book's id */}
+        <div className="flex-shrink-0">
+          <ShelfButton bookId={id} />
+        </div>
       </div>
       {description && <p className="mt-3 line-clamp-3">{description}</p>}
     </div>
   );
 };
-
 export default function SearchPage() {
   const [bookItems, setBookItems] = useState([]);
   const [loading, setLoading] = useState(false);
