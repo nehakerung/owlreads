@@ -4,10 +4,11 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+// interface ensure endpoint returns it
 interface User {
   id: number;
   username: string;
-  email: string;
+  email: string | null;
   first_name: string;
   last_name: string;
   role: string;
@@ -20,7 +21,7 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<void>;
   register: (
     username: string,
-    email: string,
+    email: string | null,
     password: string,
     password2: string
   ) => Promise<void>;
@@ -114,7 +115,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const register = async (
     username: string,
-    email: string,
+    email: string | null,
     password: string,
     password2: string
   ) => {

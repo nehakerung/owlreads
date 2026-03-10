@@ -10,6 +10,7 @@ export default function TeacherDashboard() {
   const router = useRouter();
   const { isTeacher } = useAuth();
   const [studentId, setStudentId] = useState('');
+  // May need to include this in parent page and have it inherit such
   if (!isTeacher) {
     return (
       <RequireAuth>

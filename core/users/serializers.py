@@ -7,6 +7,7 @@ User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """Endpoint serializer must match with inteface found in frontend, if missing, value will be undefined"""
 
     class Meta:
         model = User

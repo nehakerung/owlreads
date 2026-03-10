@@ -2,3 +2,8 @@
 password1234.K
 user123
 usertest
+
+# Auth management
+JWT token + context/store in the frontend
+
+role (or is_teacher) is included in your JWT payload/user context.

@@ -49,6 +49,7 @@ export default function CreateStudentPage() {
       setLoading(false);
     }
   };
+  // May need to include this in parent page and have it inherit such
   if (!isTeacher) {
     return (
       <div className="p-8 text-center">
@@ -110,11 +111,7 @@ export default function CreateStudentPage() {
           className="w-full border p-2 rounded"
           required
         />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 rounded"
-        >
+        <button type="submit" disabled={loading} className="btnprimary">
           {loading ? 'Creating...' : 'Create Student'}
         </button>
       </form>
