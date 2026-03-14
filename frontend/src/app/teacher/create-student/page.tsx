@@ -2,128 +2,132 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import { createStudent } from '@/lib/api';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 export default function CreateStudentPage() {
+  const [username, setUsername] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
   const router = useRouter();
-  const { isTeacher } = useAuth();
-
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    first_name: '',
-    last_name: '',
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setMessage('');
+    setError('');
+    setSuccess('');
 
     try {
-      await createStudent(formData);
-      setMessage('Student created successfully!');
-      setFormData({
-        username: '',
-        email: '',
-        password: '',
-        first_name: '',
-        last_name: '',
-      });
-    } catch (error: any) {
-      setMessage('Error creating student.');
-      console.error(error);
-    } finally {
-      setLoading(false);
+      const token = Cookies.get('access_token');
+
+      await axios.post(
+        'http://localhost:8000/api/auth/students/',
+        {
+          username,
+          first_name,
+          last_name,
+          password,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setSuccess('Student account created successfully');
+
+      setUsername('');
+      setFirstName('');
+      setLastName('');
+      setPassword('');
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.username?.[0] || 'Failed to create student');
     }
   };
-  // May need to include this in parent page and have it inherit such
-  if (!isTeacher) {
-    return (
-      <div className="p-8 text-center">
-        <p className="text-red-500">
-          You are not authorized to view this page.
-        </p>
-        <button
-          onClick={() => router.back()}
-          className="mt-4 text-sm text-gray-500 underline"
-        >
-          Go Back
-        </button>
-      </div>
-    );
-  }
 
   return (
-    <div className="p-8 max-w-md mx-auto">
-      <h1 className="text-xl font-bold mb-6">Create Student Account</h1>
+    <div className="p-10 min-h-screen flex items-center justify-center">
+      <div className="bg-card max-w-md w-full space-y-8 p-8 rounded-lg shadow">
+        <h2 className="text-3xl font-bold text-center">
+          Create Student Account
+        </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
-        <input
-          name="first_name"
-          placeholder="First Name"
-          value={formData.first_name}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          name="last_name"
-          placeholder="Last Name"
-          value={formData.last_name}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Temporary Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-          required
-        />
-        <button type="submit" disabled={loading} className="btnprimary">
-          {loading ? 'Creating...' : 'Create Student'}
-        </button>
-      </form>
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {error}
+          </div>
+        )}
 
-      {message && <p className="mt-4 text-center">{message}</p>}
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            {success}
+          </div>
+        )}
 
-      <button
-        onClick={() => router.back()}
-        className="mt-4 text-sm text-gray-500 underline"
-      >
-        Go Back
-      </button>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">First Name</label>
+            <input
+              type="text"
+              value={first_name}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">Last Name</label>
+            <input
+              type="text"
+              value={last_name}
+              onChange={(e) => setLastName(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">
+              Temporary Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+
+          <button type="submit" className="btnsecondary w-full">
+            Create Student
+          </button>
+        </form>
+
+        <p className="text-center text-sm">
+          <Link href="/teacher" className="text-[#9dcd5a] hover:underline">
+            Back to Dashboard
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

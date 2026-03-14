@@ -47,18 +47,21 @@ class TeacherResetStudentPasswordView(APIView):
 
 
 class CreateStudentView(APIView):
-    permission_classes = [IsAuthenticated, IsTeacher]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = StudentCreateSerializer(data=request.data)
+        if request.user.role != "teacher":
+            return Response({"error": "Only teachers can create students"}, status=403)
 
-        if serializer.is_valid():
+        serializer = StudentCreateSerializer(data=request.data)  # Create instance with data
+
+        if serializer.is_valid():                                 # Call on instance
             student = serializer.save()
 
             # Force role to student
             student.role = "student"
             student.save()
 
-            return Response(serializer.data)
+            return Response(serializer.data)                     # Use instance
 
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=400)           # Use instance

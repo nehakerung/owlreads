@@ -73,8 +73,11 @@ class StudentCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
 
-        student_group = Group.objects.get(name="Student")
+        student_group, created = Group.objects.get_or_create(name="Student")
         user.groups.add(student_group)
+
+        user.role = "student"
+        user.save()
 
         return user
 
