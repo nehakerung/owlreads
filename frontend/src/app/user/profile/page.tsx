@@ -56,6 +56,13 @@ export default function Profile() {
               <span className="font-semibold">User ID:</span> {user.id}
             </p>
             <p>
+              <span className="font-semibold">First Name:</span>{' '}
+              {user.first_name}
+            </p>
+            <p>
+              <span className="font-semibold">Last Name:</span> {user.last_name}
+            </p>
+            <p>
               <span className="font-semibold">Class Name:</span>{' '}
               {user.classname}
             </p>

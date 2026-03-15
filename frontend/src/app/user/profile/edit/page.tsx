@@ -49,7 +49,7 @@ export default function EditProfile() {
     try {
       const token = Cookies.get('access_token');
       const response = await axios.patch(
-        'http://localhost:8000/api/auth/user/',
+        'http://localhost:8000/api/auth/user/update/',
         formData,
         {
           headers: {
