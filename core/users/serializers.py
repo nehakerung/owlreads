@@ -36,6 +36,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             'password2',
             'first_name',
             'last_name',
+            'classname',
         )
 
     def validate(self, attrs):
@@ -54,6 +55,8 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', ''),
+            classname=validated_data.get('classname', ''),
+            teachername=validated_data.get('teachername', ''),
             role='teacher'
         )
 
@@ -68,7 +71,7 @@ class StudentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'first_name', 'last_name')
+        fields = ('username', 'password', 'first_name', 'last_name', 'classname', 'teachername')
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)

@@ -9,6 +9,8 @@ interface User {
   id: number;
   username: string;
   email: string | null;
+  classname: string | null;
+  teachername: string | null;
   first_name: string;
   last_name: string;
   role: string;
@@ -22,6 +24,8 @@ interface AuthContextType {
   register: (
     username: string,
     email: string | null,
+    classname: string | null,
+    teachername: string | null,
     password: string,
     password2: string
   ) => Promise<void>;
@@ -116,10 +120,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const register = async (
     username: string,
     email: string | null,
+    classname: string | null,
+    teachername: string | null,
     password: string,
     password2: string
   ) => {
-    await api.post('/register/', { username, email, password, password2 });
+    await api.post('/register/', {
+      username,
+      email,
+      classname,
+      teachername,
+      password,
+      password2,
+    });
     await login(username, password);
   };
 

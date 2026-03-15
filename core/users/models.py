@@ -8,6 +8,9 @@ class User(AbstractUser):
         ('student', 'Student'),
     )
 
+    classname = models.CharField(max_length=150, null=True, blank=True)
+    teachername = models.CharField(max_length=150, null=True, blank=True)
+
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     @property
