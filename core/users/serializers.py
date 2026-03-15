@@ -86,6 +86,12 @@ class StudentCreateSerializer(serializers.ModelSerializer):
         return user
 
 
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'classname', 'teachername']
+
+
 class ResetPasswordSerializer(serializers.Serializer):
     new_password = serializers.CharField(
         write_only=True,

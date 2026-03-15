@@ -31,6 +31,7 @@ interface AuthContextType {
     password: string,
     password2: string
   ) => Promise<void>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   logout: () => void;
 }
 
@@ -150,7 +151,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, isTeacher, login, register, logout }}
+      value={{ user, loading, isTeacher, login, register, logout, setUser }}
     >
       {children}
     </AuthContext.Provider>

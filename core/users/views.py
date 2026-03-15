@@ -1,12 +1,15 @@
 
 from django.contrib.auth import get_user_model
 from rest_framework import generics
+from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .permissions import IsTeacher
-from .serializers import RegisterSerializer, ResetPasswordSerializer, StudentCreateSerializer, UserSerializer
+from .serializers import (
+    RegisterSerializer, ResetPasswordSerializer, StudentCreateSerializer, UpdateUserSerializer, UserSerializer
+)
 
 User = get_user_model()
 
@@ -65,3 +68,11 @@ class CreateStudentView(APIView):
             return Response(serializer.data)                     # Use instance
 
         return Response(serializer.errors, status=400)           # Use instance
+
+
+class UpdateUserView(RetrieveUpdateAPIView):
+    serializer_class = UpdateUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user  # always edits the logged-in user
