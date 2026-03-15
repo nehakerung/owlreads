@@ -32,11 +32,14 @@ export default function RegisterPage() {
       await register(
         username,
         email,
-        teachername,
+        first_name,
+        last_name,
         classname,
+        teachername,
         password,
         password2
       );
+
       router.push('/');
     } catch (err: any) {
       console.log('Fetching:', err);
@@ -78,7 +81,7 @@ export default function RegisterPage() {
           <div>
             <label className="block text-sm font-medium">First name</label>
             <input
-              type="fist_name"
+              type="text"
               value={first_name}
               onChange={(e) => setFirstName(e.target.value)}
               className="input-field"
@@ -88,7 +91,7 @@ export default function RegisterPage() {
           <div>
             <label className="block text-sm font-medium">Last name</label>
             <input
-              type="last_name"
+              type="text"
               value={last_name}
               onChange={(e) => setLastName(e.target.value)}
               className="input-field"
