@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from owlreads.settings import BASE_DIR
 
-SECRET_KEY = NotImplemented
+SECRET_KEY = 'fKSMxd18HSUhOEkXNEyS9GNVwEhpK_BTPwoiiG05J6Iu1EHecsh6CUuxUCxU4PIUOJs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -127,7 +127,7 @@ REST_FRAMEWORK = {
 }
 
 
-SECRET_KEY = "django-insecure-dev-key"
+# SECRET_KEY = "django-insecure-dev-key"
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
