@@ -10,4 +10,4 @@ $RUN_MANAGE_PY collectstatic --no-input
 echo 'Running database migrations...'
 $RUN_MANAGE_PY migrate --no-input
 
-exec poetry run daphne owlreads.owlreads.asgi:application -p 8000 -b 0.0.0.0
+exec poetry run daphne owlreads.asgi:application -p 8000 -b 0.0.0.0
