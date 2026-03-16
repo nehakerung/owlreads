@@ -21,7 +21,7 @@ RUN poetry install --no-root
 
 # Copy project files
 COPY ["README.md", "makefile", "./"]
-COPY owlreads owlreads
+COPY . .
 COPY local local
 
 
