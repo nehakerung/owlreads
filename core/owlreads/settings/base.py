@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from owlreads.settings import BASE_DIR
 
-SECRET_KEY = "django-insecure-change-me"
+SECRET_KEY = 'fKSMxd18HSUhOEkXNEyS9GNVwEhpK_BTPwoiiG05J6Iu1EHecsh6CUuxUCxU4PIUOJs'
 DEBUG = False
 
 ALLOWED_HOSTS = []
@@ -123,9 +123,6 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
-
-
-# SECRET_KEY = "django-insecure-dev-key"
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
