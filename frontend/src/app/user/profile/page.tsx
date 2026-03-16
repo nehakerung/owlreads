@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -35,9 +34,17 @@ export default function Profile() {
     <div className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-card rounded-lg shadow p-6">
-          <h2 className="text-2xl font-bold mb-4">
-            Welcome back, {user.username}!
-          </h2>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold">
+              Welcome back, {user.username}!
+            </h2>
+            <button
+              onClick={() => router.push('/user/profile/edit')}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition"
+            >
+              Edit Profile
+            </button>
+          </div>
           <div className="space-y-2">
             <p>
               <span className="font-semibold">Email:</span> {user.email}
@@ -47,6 +54,21 @@ export default function Profile() {
             </p>
             <p>
               <span className="font-semibold">User ID:</span> {user.id}
+            </p>
+            <p>
+              <span className="font-semibold">First Name:</span>{' '}
+              {user.first_name}
+            </p>
+            <p>
+              <span className="font-semibold">Last Name:</span> {user.last_name}
+            </p>
+            <p>
+              <span className="font-semibold">Class Name:</span>{' '}
+              {user.classname}
+            </p>
+            <p>
+              <span className="font-semibold">Teacher Name:</span>{' '}
+              {user.teachername}
             </p>
           </div>
         </div>

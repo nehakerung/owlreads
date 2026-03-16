@@ -163,37 +163,6 @@ files = [
 ]
 
 [[package]]
-name = "colorama"
-version = "0.4.6"
-description = "Cross-platform colored terminal text."
-optional = false
-python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
-groups = ["dev"]
-markers = "sys_platform == \"win32\""
-files = [
-    {file = "colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"},
-    {file = "colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44"},
-]
-
-[[package]]
-name = "colorlog"
-version = "6.10.1"
-description = "Add colours to the output of Python's logging module."
-optional = false
-python-versions = ">=3.6"
-groups = ["dev"]
-files = [
-    {file = "colorlog-6.10.1-py3-none-any.whl", hash = "sha256:2d7e8348291948af66122cff006c9f8da6255d224e7cf8e37d8de2df3bad8c9c"},
-    {file = "colorlog-6.10.1.tar.gz", hash = "sha256:eb4ae5cb65fe7fec7773c2306061a8e63e02efc2c72eba9d27b0fa23c94f1321"},
-]
-
-[package.dependencies]
-colorama = {version = "*", markers = "sys_platform == \"win32\""}
-
-[package.extras]
-development = ["black", "flake8", "mypy", "pytest", "types-colorama"]
-
-[[package]]
 name = "distlib"
 version = "0.4.0"
 description = "Distribution utilities"
@@ -488,27 +457,21 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
-name = "psycopg"
-version = "3.3.3"
-description = "PostgreSQL database adapter for Python"
+name = "psycopg2"
+version = "2.9.11"
+description = "psycopg2 - Python-PostgreSQL Database Adapter"
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "psycopg-3.3.3-py3-none-any.whl", hash = "sha256:f96525a72bcfade6584ab17e89de415ff360748c766f0106959144dcbb38c698"},
-    {file = "psycopg-3.3.3.tar.gz", hash = "sha256:5e9a47458b3c1583326513b2556a2a9473a1001a56c9efe9e587245b43148dd9"},
+    {file = "psycopg2-2.9.11-cp310-cp310-win_amd64.whl", hash = "sha256:103e857f46bb76908768ead4e2d0ba1d1a130e7b8ed77d3ae91e8b33481813e8"},
+    {file = "psycopg2-2.9.11-cp311-cp311-win_amd64.whl", hash = "sha256:210daed32e18f35e3140a1ebe059ac29209dd96468f2f7559aa59f75ee82a5cb"},
+    {file = "psycopg2-2.9.11-cp312-cp312-win_amd64.whl", hash = "sha256:e03e4a6dbe87ff81540b434f2e5dc2bddad10296db5eea7bdc995bf5f4162938"},
+    {file = "psycopg2-2.9.11-cp313-cp313-win_amd64.whl", hash = "sha256:8dc379166b5b7d5ea66dcebf433011dfc51a7bb8a5fc12367fa05668e5fc53c8"},
+    {file = "psycopg2-2.9.11-cp314-cp314-win_amd64.whl", hash = "sha256:f10a48acba5fe6e312b891f290b4d2ca595fc9a06850fe53320beac353575578"},
+    {file = "psycopg2-2.9.11-cp39-cp39-win_amd64.whl", hash = "sha256:6ecddcf573777536bddfefaea8079ce959287798c8f5804bee6933635d538924"},
+    {file = "psycopg2-2.9.11.tar.gz", hash = "sha256:964d31caf728e217c697ff77ea69c2ba0865fa41ec20bb00f0977e62fdcc52e3"},
 ]
-
-[package.dependencies]
-tzdata = {version = "*", markers = "sys_platform == \"win32\""}
-
-[package.extras]
-binary = ["psycopg-binary (==3.3.3) ; implementation_name != \"pypy\""]
-c = ["psycopg-c (==3.3.3) ; implementation_name != \"pypy\""]
-dev = ["ast-comments (>=1.1.2)", "black (>=26.1.0)", "codespell (>=2.2)", "cython-lint (>=0.16)", "dnspython (>=2.1)", "flake8 (>=4.0)", "isort-psycopg", "isort[colors] (>=6.0)", "mypy (>=1.19.0)", "pre-commit (>=4.0.1)", "types-setuptools (>=57.4)", "types-shapely (>=2.0)", "wheel (>=0.37)"]
-docs = ["Sphinx (>=5.0)", "furo (==2022.6.21)", "sphinx-autobuild (>=2021.3.14)", "sphinx-autodoc-typehints (>=1.12)"]
-pool = ["psycopg-pool"]
-test = ["anyio (>=4.0)", "mypy (>=1.19.0) ; implementation_name != \"pypy\"", "pproxy (>=2.7)", "pytest (>=6.2.5)", "pytest-cov (>=3.0)", "pytest-randomly (>=3.5)"]
 
 [[package]]
 name = "pycodestyle"
@@ -1003,4 +966,4 @@ test = ["zope.security (>=7.3)", "zope.testrunner (>=6.4)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.13"
-content-hash = "66e586a6358a42db7f35f494a12e6de725bc31fcbcb523085df1dc074d113313"
+content-hash = "82a420e1f46155bda1e5ee507729ef5ed99ec2359a2b478957eec03b0e8c8a23"

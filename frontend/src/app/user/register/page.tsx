@@ -9,8 +9,12 @@ import Image from 'next/image';
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [first_name, setFirstName] = useState('');
+  const [last_name, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
+  const [classname, setClassName] = useState('');
+  const [teachername, setTeacherName] = useState('');
   const [error, setError] = useState('');
   const { register } = useAuth();
   const router = useRouter();
@@ -25,7 +29,17 @@ export default function RegisterPage() {
     }
 
     try {
-      await register(username, email, password, password2);
+      await register(
+        username,
+        email,
+        first_name,
+        last_name,
+        classname,
+        teachername,
+        password,
+        password2
+      );
+
       router.push('/');
     } catch (err: any) {
       console.log('Fetching:', err);
@@ -62,6 +76,44 @@ export default function RegisterPage() {
               onChange={(e) => setUsername(e.target.value)}
               className="input-field"
               required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">First name</label>
+            <input
+              type="text"
+              value={first_name}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Last name</label>
+            <input
+              type="text"
+              value={last_name}
+              onChange={(e) => setLastName(e.target.value)}
+              className="input-field"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Class Name</label>
+            <input
+              type="classname"
+              value={classname}
+              onChange={(e) => setClassName(e.target.value)}
+              className="input-field"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Teacher Name</label>
+            <input
+              type="classname"
+              value={teachername}
+              onChange={(e) => setTeacherName(e.target.value)}
+              className="input-field"
             />
           </div>
 

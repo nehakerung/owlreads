@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 
 export default function Log() {
-  const { user, logout, loading } = useAuth();
+  const { user, logout, isTeacher, loading } = useAuth();
 
   // Show nothing or a placeholder while loading
   if (loading) {
@@ -20,9 +20,16 @@ export default function Log() {
       </Link>
     );
   }
-
   return (
     <div className="flex items-center gap-4">
+      <div className="p-8 text-center">
+        {isTeacher ? (
+          <Link href="/teacher">
+            <button className="btnprimary">Teacher Dashboard</button>
+          </Link>
+        ) : null}
+      </div>
+
       <Link
         href="/user/profile"
         className="text-lg font-medium hover:text-gray-700 transition"

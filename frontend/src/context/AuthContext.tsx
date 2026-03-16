@@ -4,24 +4,34 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+// interface ensure endpoint returns it
 interface User {
   id: number;
   username: string;
-  email: string;
+  email: string | null;
+  classname: string | null;
+  teachername: string | null;
   first_name: string;
   last_name: string;
+  role: string;
 }
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isTeacher: boolean;
   login: (username: string, password: string) => Promise<void>;
   register: (
     username: string,
-    email: string,
+    email: string | null,
+    first_name: string,
+    last_name: string,
+    classname: string | null,
+    teachername: string | null,
     password: string,
     password2: string
   ) => Promise<void>;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
   logout: () => void;
 }
 
@@ -33,6 +43,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const isTeacher = user?.role === 'teacher';
+
   const api = axios.create({
     baseURL: 'http://localhost:8000/api/auth',
     headers: {
@@ -40,7 +52,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     },
   });
 
-  // Add token to requests
   api.interceptors.request.use((config) => {
     const token = Cookies.get('access_token');
     if (token) {
@@ -49,7 +60,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return config;
   });
 
-  // Handle token refresh
   api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -62,9 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           const refreshToken = Cookies.get('refresh_token');
           const response = await axios.post(
             'http://localhost:8000/api/auth/token/refresh/',
-            {
-              refresh: refreshToken,
-            }
+            { refresh: refreshToken }
           );
 
           const { access } = response.data;
@@ -88,7 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (token) {
         try {
           const response = await api.get('/user/');
-          setUser(response.data);
+          setUser(response.data); // role comes from here
         } catch (error) {
           console.error('Failed to load user', error);
           Cookies.remove('access_token');
@@ -109,16 +117,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     Cookies.set('refresh_token', refresh);
 
     const userResponse = await api.get('/user/');
-    setUser(userResponse.data);
+    setUser(userResponse.data); // role comes from here too
   };
 
   const register = async (
     username: string,
-    email: string,
+    email: string | null,
+    first_name: string,
+    last_name: string,
+    classname: string | null,
+    teachername: string | null,
     password: string,
     password2: string
   ) => {
-    await api.post('/register/', { username, email, password, password2 });
+    await api.post('/register/', {
+      username,
+      email,
+      first_name,
+      last_name,
+      classname,
+      teachername,
+      password,
+      password2,
+    });
     await login(username, password);
   };
 
@@ -129,7 +150,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, isTeacher, login, register, logout, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

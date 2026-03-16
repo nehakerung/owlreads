@@ -3,9 +3,10 @@ from datetime import timedelta
 
 from owlreads.settings import BASE_DIR
 
+SECRET_KEY = 'fKSMxd18HSUhOEkXNEyS9GNVwEhpK_BTPwoiiG05J6Iu1EHecsh6CUuxUCxU4PIUOJs'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-SECRET_KEY = NotImplemented
 
 ALLOWED_HOSTS = []
 
@@ -22,6 +23,7 @@ INSTALLED_APPS = [
     "owlreads",
     "users",
     "books",
+    "shelves",
     "rest_framework",
     "corsheaders",
     "rest_framework_simplejwt.token_blacklist",
@@ -69,18 +71,12 @@ WSGI_APPLICATION = "owlreads.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "owlreads_db",
-        "USER": "owlreads_user",
-        "PASSWORD": "owlreads_password",
-        "HOST": "localhost",
-        "PORT": "5432",
-        "ATOMIC_REQUESTS": True,
-        "CONN_MAX_AGE": 600,
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
-
+AUTH_USER_MODEL = "users.User"
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -131,7 +127,7 @@ REST_FRAMEWORK = {
 }
 
 
-SECRET_KEY = "django-insecure-dev-key"
+# SECRET_KEY = "django-insecure-dev-key"
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),

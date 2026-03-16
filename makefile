@@ -39,11 +39,9 @@ runnextserver:
 .PHONY: superuser
 superuser:
 	poetry run python core/manage.py createsuperuser
-
 .PHONY: update
-update: install migrate install-pre-commit ;
+	update: install migrate install-pre-commit ;
 
-.PHONY: up-dependencies-only
-up-dependencies-only:
-	test -f .env || touch .env
-	docker-compose -f docker-compose.dev.yml up --force-recreate db
+.PHONY: seed_books
+seed_books:
+	poetry run python core/manage.py seed_books

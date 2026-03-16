@@ -1,16 +1,8 @@
-# import logging
-
 from django.contrib import admin
 from django.urls import include, path
 
 from owlreads.views import aboutpage, homepage
 
-# logger = logging.getLogger(__name__)
-
-# logger.info("Info message")
-# logger.warning("Warning message")
-# logger.debug("Debug message")
-# logger.error("Error message")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage, name='home'),
@@ -21,4 +13,6 @@ urlpatterns = [
 
     # Books API + frontend
     path('', include('books.urls')),
+
+    path("api/", include("shelves.urls")),
 ]

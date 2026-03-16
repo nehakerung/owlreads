@@ -3,16 +3,11 @@ import '@/styles/bp.css';
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import {
-  ArrowLeft,
-  BookOpen,
-  Calendar,
-  User,
-  ExternalLink,
-} from 'lucide-react';
-
+import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
+import ShelfButton from '@/components/bookshelf/ShelfButton';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
+// --- Types ---
 interface BookDetail {
   id: string;
   title: string;
@@ -27,19 +22,17 @@ interface BookDetail {
   average_rating?: number;
   ratings_count?: number;
 }
-
+// --- Helpers ---
 async function fetchBook(id: string): Promise<BookDetail> {
   const res = await fetch(`${API_BASE_URL}/books/${id}/`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch book (status ${res.status})`);
-  }
-
+  if (!res.ok) throw new Error(`Failed to fetch book (status ${res.status})`);
   return res.json();
 }
+
+// --- StarRow ---
 function StarRow({ rating }: { rating: number }) {
   return (
     <div className="bp-stars">
@@ -61,6 +54,7 @@ function StarRow({ rating }: { rating: number }) {
   );
 }
 
+// --- BookPage ---
 export default function BookPage() {
   const router = useRouter();
   const params = useParams();
@@ -75,7 +69,6 @@ export default function BookPage() {
     if (!id) return;
     setLoading(true);
     setError(null);
-
     fetchBook(id)
       .then((data) => setBook(data))
       .catch((err) => setError(err.message))
@@ -87,7 +80,6 @@ export default function BookPage() {
     return <p className="error">Error loading book details: {error}</p>;
 
   const year = book.published_date ? book.published_date.slice(0, 4) : null;
-
   const hasCover = book.thumbnail && !imgFailed;
   const coverSrc = book.thumbnail?.replace('http:', 'https:');
 
@@ -100,7 +92,6 @@ export default function BookPage() {
             Back to results
           </button>
 
-          {/* ── Split hero ── */}
           <div className="bp-hero">
             {/* Left: cover panel */}
             <div className="bp-cover-panel">
@@ -118,11 +109,9 @@ export default function BookPage() {
                     <span>No cover</span>
                   </div>
                 )}
-                {/* spine accent */}
                 <div className="bp-spine" />
               </div>
 
-              {/* Rating badge if available */}
               {book.average_rating && (
                 <div className="bp-rating-badge">
                   <StarRow rating={book.average_rating} />
@@ -179,21 +168,14 @@ export default function BookPage() {
                 )}
               </div>
 
-              {book.preview_link && (
-                <a
-                  href={book.preview_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bp-preview-btn"
-                >
-                  <ExternalLink size={14} strokeWidth={2.5} />
-                  Preview on Google Books
-                </a>
-              )}
+              {/* ── Shelf + Preview buttons ── */}
+              <div className="bp-actions">
+                <ShelfButton bookId={Number(book.id)} />
+              </div>
             </div>
           </div>
 
-          {book.description && (
+          {book.description ? (
             <section className="bp-desc-section">
               <h2 className="bp-desc-heading">About this book</h2>
               <div
@@ -201,9 +183,7 @@ export default function BookPage() {
                 dangerouslySetInnerHTML={{ __html: book.description }}
               />
             </section>
-          )}
-
-          {!book.description && (
+          ) : (
             <section className="bp-desc-section">
               <p className="bp-no-desc">
                 No description available for this title.
