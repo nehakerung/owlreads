@@ -45,8 +45,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const isTeacher = user?.role === 'teacher';
 
+  const API_BASE =
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+
   const api = axios.create({
-    baseURL: 'http://localhost:8000/api/auth',
+    baseURL: `${API_BASE}/api/auth`,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -71,7 +74,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         try {
           const refreshToken = Cookies.get('refresh_token');
           const response = await axios.post(
-            'http://localhost:8000/api/auth/token/refresh/',
+            `${API_BASE}/api/auth/token/refresh/`,
             { refresh: refreshToken }
           );
 

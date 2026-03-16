@@ -1,12 +1,9 @@
-# SECURITY WARNING: keep the secret key used in production secret!
 from datetime import timedelta
 
 from owlreads.settings import BASE_DIR
 
-SECRET_KEY = 'fKSMxd18HSUhOEkXNEyS9GNVwEhpK_BTPwoiiG05J6Iu1EHecsh6CUuxUCxU4PIUOJs'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = "django-insecure-change-me"
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -112,6 +109,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

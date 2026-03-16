@@ -16,6 +16,9 @@ export default function CreateStudentPage() {
 
   const router = useRouter();
 
+  const API_BASE =
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -25,7 +28,7 @@ export default function CreateStudentPage() {
       const token = Cookies.get('access_token');
 
       await axios.post(
-        'http://localhost:8000/api/auth/students/',
+        `${API_BASE}/api/auth/students/`,
         {
           username,
           first_name,

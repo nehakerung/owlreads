@@ -10,6 +10,9 @@ export default function EditProfile() {
   const { user, loading, setUser } = useAuth();
   const router = useRouter();
 
+  const API_BASE =
+    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -49,7 +52,7 @@ export default function EditProfile() {
     try {
       const token = Cookies.get('access_token');
       const response = await axios.patch(
-        'http://localhost:8000/api/auth/user/update/',
+        `${API_BASE}/api/auth/user/update/`,
         formData,
         {
           headers: {
