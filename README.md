@@ -107,6 +107,7 @@ cp .env.example .env
 ```
 
 Edit `.env` and set at least:
+
 - `POSTGRES_PASSWORD`
 - `CORESETTINGS_SECRET_KEY`
 - `CORESETTINGS_ALLOWED_HOSTS` (your domain or EC2 public IP)
