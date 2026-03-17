@@ -47,12 +47,12 @@ export default function TeacherDashboard() {
             Create Student Account
           </Link>
 
-          <Link
+          {/* <Link
             href={`/teacher/reset-password/${studentId}`}
             className="btnsecondary"
           >
             Reset Student Password
-          </Link>
+          </Link> */}
         </div>
       </div>
     </RequireAuth>

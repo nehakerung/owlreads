@@ -45,8 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const isTeacher = user?.role === 'teacher';
 
-  const API_BASE =
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
 
   const api = axios.create({
     baseURL: `${API_BASE}/api/auth`,

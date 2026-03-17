@@ -16,8 +16,7 @@ export default function CreateStudentPage() {
 
   const router = useRouter();
 
-  const API_BASE =
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
