@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { resetStudentPassword } from '@/lib/api';
 
 export default function ResetPasswordPage() {
   const params = useParams();
