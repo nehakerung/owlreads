@@ -73,6 +73,14 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'db-owlreads',
+        # 'USER': 'owl',
+        # 'PASSWORD': 'mypassword',
+        # 'HOST': 'localhost',
+        # 'PORT': '5432',
+        # 'ATOMIC_REQUESTS': True,
+        # 'CONN_MAX_AGE': 600,
     }
 }
 
@@ -111,7 +119,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+MEDIA_URL = '/media/'
+STATIC_URL = '/django_static/'
+STATIC_ROOT = BASE_DIR / 'django_static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -142,4 +152,4 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 SITE_NAME = "OwlReads"
 
 DOMAIN = ["localhost:3000}",
-          "127.0.0.1:3000"]
+          "127.0.0.1:3000", "owlreads"]

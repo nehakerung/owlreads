@@ -1,0 +1,27 @@
+services:
+    frontend: 
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./docker/frontend/Dockerfile
+        ports:
+            - 80:80
+        volumes:
+            - static_volume:/app/backend/server/django_static
+            - ./docker/frontend/development:/etc/frontend/conf.d
+        depends_on: 
+            - backend
+    backend:
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: ./docker/backend/Dockerfile
+        entrypoint: /app/docker/backend/wsgi-entrypoint.sh
+        volumes:
+            - static_volume:/app/backend/server/django_static
+        expose:
+            - 8000        
+
+
+volumes:
+    static_volume: {}
