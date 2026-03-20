@@ -67,23 +67,30 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
-class StudentCreateSerializer(serializers.ModelSerializer):
+class CreateStudentSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'first_name', 'last_name', 'classname', 'teachername')
+        fields = ['username', 'first_name', 'last_name', 'password']
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        teacher = self.context['request'].user
 
-        student_group, created = Group.objects.get_or_create(name="Student")
-        user.groups.add(student_group)
+        student_count = User.objects.filter(teacher=teacher).count()
+        student_id = f"{teacher.id}-{student_count + 1:03d}"
 
-        user.role = "student"
-        user.save()
-
-        return user
+        return User.objects.create_user(
+            username=validated_data['username'],
+            password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', ''),
+            classname=teacher.classname,
+            teachername=teacher.get_full_name() or teacher.username,
+            teacher=teacher,
+            student_id=student_id,
+            role='student'
+        )
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):

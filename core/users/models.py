@@ -10,8 +10,15 @@ class User(AbstractUser):
 
     classname = models.CharField(max_length=150, null=True, blank=True)
     teachername = models.CharField(max_length=150, null=True, blank=True)
-
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    teacher = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='students'
+    )
+    student_id = models.CharField(max_length=20, null=True, blank=True, unique=True)
 
     @property
     def is_teacher(self):
