@@ -83,7 +83,16 @@ export default function BookShelfPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">My Bookshelf</h1>
+      <h1 className="text-2xl font-bold mb-6">My Bookshelf</h1>
+      <div className="bg-card rounded-lg shadow p-6 mb-6">
+        <p>
+          {' '}
+          Last updated:{' '}
+          {entries.length > 0
+            ? new Date(entries[0].updated_at).toLocaleDateString()
+            : 'Never'}
+        </p>
+      </div>
 
       <div className="flex gap-2 mb-6">
         {allFilters.map((opt) => (

@@ -1,6 +1,7 @@
 
 from django.contrib.auth import get_user_model
 from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -8,7 +9,7 @@ from rest_framework.views import APIView
 
 from .permissions import IsTeacher
 from .serializers import (
-    RegisterSerializer, ResetPasswordSerializer, StudentCreateSerializer, UpdateUserSerializer, UserSerializer
+    CreateStudentSerializer, RegisterSerializer, ResetPasswordSerializer, UpdateUserSerializer, UserSerializer
 )
 
 User = get_user_model()
@@ -49,30 +50,30 @@ class TeacherResetStudentPasswordView(APIView):
         return Response(serializer.errors, status=400)
 
 
-class CreateStudentView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        if request.user.role != "teacher":
-            return Response({"error": "Only teachers can create students"}, status=403)
-
-        serializer = StudentCreateSerializer(data=request.data)  # Create instance with data
-
-        if serializer.is_valid():                                 # Call on instance
-            student = serializer.save()
-
-            # Force role to student
-            student.role = "student"
-            student.save()
-
-            return Response(serializer.data)                     # Use instance
-
-        return Response(serializer.errors, status=400)           # Use instance
-
-
 class UpdateUserView(RetrieveUpdateAPIView):
     serializer_class = UpdateUserSerializer
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
         return self.request.user  # always edits the logged-in user
+
+
+class CreateStudentView(generics.CreateAPIView):
+    serializer_class = CreateStudentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        if not self.request.user.is_teacher:
+            raise PermissionDenied("Only teachers can create student accounts")
+        serializer.save()
+
+
+class StudentListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if not request.user.is_teacher:
+            raise PermissionDenied("Only teachers can view students")
+        students = User.objects.filter(teacher=request.user)
+        serializer = UserSerializer(students, many=True)
+        return Response(serializer.data)

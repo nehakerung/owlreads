@@ -2,46 +2,48 @@
 import { FiBookOpen } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
+import { HiUserGroup } from 'react-icons/hi';
+import { FaUser } from 'react-icons/fa6';
 
 export default function Log() {
   const { user, logout, isTeacher, loading } = useAuth();
 
-  // Show nothing or a placeholder while loading
+  // Prevent layout shift
   if (loading) {
-    return (
-      <div className="w-20 h-10"></div> // placeholder to prevent layout shift
-    );
+    return <div className="h-10 w-20" />;
   }
 
+  // Logged out
   if (!user) {
     return (
-      <Link href="/user/login">
-        <button className="btnprimary">Login</button>
-      </Link>
+      <div className="flex items-center h-10">
+        <Link href="/user/login">
+          <button className="btnprimary">Login</button>
+        </Link>
+      </div>
     );
   }
-  return (
-    <div className="flex items-center gap-4">
-      <div className="p-8 text-center">
-        {isTeacher ? (
-          <Link href="/teacher">
-            <button className="btnprimary">Teacher Dashboard</button>
-          </Link>
-        ) : null}
-      </div>
 
-      <Link
-        href="/user/profile"
-        className="text-lg font-medium hover:text-gray-700 transition"
-      >
-        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-brown shadow-md"></div>
+  // Logged in
+  return (
+    <div className="flex items-center gap-3 h-10">
+      {isTeacher && (
+        <Link href="/teacher">
+          <div className="flex items-center justify-center w-10 h-10">
+            <HiUserGroup className="text-2xl" />
+          </div>
+        </Link>
+      )}
+
+      <Link href="/user/profile">
+        <div className="flex items-center justify-center w-10 h-10">
+          <FaUser className="text-2xl" />
+        </div>
       </Link>
-      <Link
-        href="/user/bookshelf"
-        className="text-lg font-medium hover:text-gray-700 transition"
-      >
-        <div className="relative flex items-center h-10 w-10 justify-center">
-          <FiBookOpen className="text-4xl" />
+
+      <Link href="/user/bookshelf">
+        <div className="flex items-center justify-center w-10 h-10">
+          <FiBookOpen className="text-2xl" />
         </div>
       </Link>
 

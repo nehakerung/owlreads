@@ -14,6 +14,10 @@ interface User {
   first_name: string;
   last_name: string;
   role: string;
+  last_shelf_update?: string;
+  books_read_count?: number;
+  books_to_read_count?: number;
+  books_reading_count?: number;
 }
 
 interface AuthContextType {

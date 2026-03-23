@@ -1,5 +1,5 @@
 services:
-    frontend: 
+    frontend:
         restart: unless-stopped
         build:
             context: .
@@ -9,7 +9,7 @@ services:
         volumes:
             - static_volume:/app/backend/server/django_static
             - ./docker/frontend/development:/etc/frontend/conf.d
-        depends_on: 
+        depends_on:
             - backend
     backend:
         restart: unless-stopped
@@ -20,7 +20,7 @@ services:
         volumes:
             - static_volume:/app/backend/server/django_static
         expose:
-            - 8000        
+            - 8000
 
 
 volumes:

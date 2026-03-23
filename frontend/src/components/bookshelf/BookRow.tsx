@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 interface Book {
   id: number;
   google_books_id: string;
@@ -67,7 +68,10 @@ function BookRow({ entry, onStatusChange, onRemove }: BookRowProps) {
       />
 
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-gray-900 truncate">{book.title}</p>
+        <Link href={`/book/${book.id}`}>
+          <p className="font-semibold text-gray-900 truncate">{book.title}</p>
+        </Link>
+        
         <p className="text-sm text-gray-500 truncate">
           {book.authors?.join(', ')}
         </p>
