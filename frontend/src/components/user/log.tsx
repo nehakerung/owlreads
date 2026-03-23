@@ -1,5 +1,5 @@
 'use client';
-import { FiBookOpen } from 'react-icons/fi';
+import { FiBookOpen, FiAward } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { HiUserGroup } from 'react-icons/hi';
@@ -34,16 +34,20 @@ export default function Log() {
           </div>
         </Link>
       )}
+      <Link href="/user/collection">
+        <div className="flex items-center justify-center w-10 h-10">
+          <FiAward className="text-2xl" />
+        </div>
+      </Link>
+      <Link href="/user/bookshelf">
+        <div className="flex items-center justify-center w-10 h-10">
+          <FiBookOpen className="text-2xl" />
+        </div>
+      </Link>
 
       <Link href="/user/profile">
         <div className="flex items-center justify-center w-10 h-10">
           <FaUser className="text-2xl" />
-        </div>
-      </Link>
-
-      <Link href="/user/bookshelf">
-        <div className="flex items-center justify-center w-10 h-10">
-          <FiBookOpen className="text-2xl" />
         </div>
       </Link>
 
