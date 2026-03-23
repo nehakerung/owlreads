@@ -1,4 +1,5 @@
 from books.models import Book
+from collection.signals import check_and_grant_awards  # ← add this
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -41,6 +42,10 @@ class ShelfAddView(APIView):
             defaults={"status": status_value},
         )
 
+        # ← check awards whenever a book is marked as read
+        if status_value == 'read':
+            check_and_grant_awards(request.user)
+
         serializer = BookShelfEntrySerializer(entry)
         return Response(
             serializer.data,
@@ -61,6 +66,11 @@ class ShelfUpdateView(APIView):
 
         entry.status = new_status
         entry.save()
+
+        # ← check awards whenever a book is marked as read
+        if new_status == 'read':
+            check_and_grant_awards(request.user)
+
         return Response(BookShelfEntrySerializer(entry).data)
 
 
