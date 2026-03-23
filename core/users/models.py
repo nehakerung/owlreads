@@ -34,3 +34,8 @@ class User(AbstractUser):
         """Get the most recent BookShelfEntry update for this user"""
         latest = self.shelf_entries.first()
         return latest.updated_at if latest else None
+
+    @property
+    def books_read_count(self):
+        """Count books marked as read in the user's shelf"""
+        return self.shelf_entries.filter(status='read').count()

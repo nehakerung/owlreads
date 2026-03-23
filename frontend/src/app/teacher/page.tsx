@@ -17,6 +17,7 @@ interface Student {
   student_id: string;
   classname: string | null;
   last_shelf_update?: string;
+  books_read_count?: number;
 }
 
 export default function TeacherDashboard() {
@@ -154,6 +155,9 @@ export default function TeacherDashboard() {
                     <th className="px-4 py-3 text-sm font-semibold">
                       Last Updated
                     </th>
+                    <th className="px-4 py-3 text-sm font-semibold">
+                      Books Read
+                    </th>
                     <th className="px-4 py-3 text-sm font-semibold">Actions</th>
                   </tr>
                 </thead>
@@ -174,6 +178,9 @@ export default function TeacherDashboard() {
                               student.last_shelf_update
                             ).toLocaleDateString()
                           : 'Never'}
+                      </td>
+                      <td className="px-4 py-3 text-sm font-semibold text-green-600">
+                        {student.books_read_count || 0}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <button
