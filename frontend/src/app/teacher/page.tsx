@@ -27,6 +27,23 @@ export default function TeacherDashboard() {
   const [loadingStudents, setLoadingStudents] = useState(true);
   const [error, setError] = useState('');
 
+  const getActiveStudents = () => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    return students.filter((student) => {
+      if (!student.last_shelf_update) return false;
+      const updateDate = new Date(student.last_shelf_update);
+      updateDate.setHours(0, 0, 0, 0);
+      return updateDate >= yesterday;
+    });
+  };
+
+  const activeCount = getActiveStudents().length;
+
   useEffect(() => {
     if (!isTeacher) return;
 
@@ -70,6 +87,16 @@ export default function TeacherDashboard() {
     <RequireAuth>
       <div className="p-8 max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-6">Teacher Dashboard</h1>
+
+        <div className="update-card rounded-lg p-4 mb-6">
+          <p className="font-semibold">
+            Activity Summary:{' '}
+            <span className="text-blue-600">
+              {activeCount} of {students.length}
+            </span>{' '}
+            students were active today or yesterday
+          </p>
+        </div>
 
         <div className="flex gap-4 mb-8">
           <Link href="/teacher/create-student" className="btnprimary">

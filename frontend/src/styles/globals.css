@@ -135,6 +135,12 @@
            px-5 max-sm:px-3 flex flex-row items-center gap-5;
   }
 
+  .update-card {
+    @apply rounded px-6 py-3 transition-all duration-150 ease-in-out;
+    background-color: var(--card);
+    text: var(--accent-foreground);
+  }
+
   .nav-btn {
     @apply px-4 py-2 bg-gray-900 text-white border border-gray-900
            rounded-md hover:bg-gray-700 transition cursor-pointer;
