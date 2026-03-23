@@ -39,3 +39,13 @@ class User(AbstractUser):
     def books_read_count(self):
         """Count books marked as read in the user's shelf"""
         return self.shelf_entries.filter(status='read').count()
+
+    @property
+    def books_to_read_count(self):
+        """Count books marked as to_read in the user's shelf"""
+        return self.shelf_entries.filter(status='to_read').count()
+
+    @property
+    def books_reading_count(self):
+        """Count books marked as reading in the user's shelf"""
+        return self.shelf_entries.filter(status='reading').count()
