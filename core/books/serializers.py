@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from .models import Book
+
 
 class BookSerializer(serializers.Serializer):
     id = serializers.CharField()
@@ -15,3 +17,7 @@ class BookSerializer(serializers.Serializer):
     preview_link = serializers.CharField(required=False, allow_blank=True)
     average_rating = serializers.FloatField(required=False, allow_null=True)
     ratings_count = serializers.IntegerField(required=False, allow_null=True)
+
+    class Meta:
+        model = Book
+        fields = "__all__"
