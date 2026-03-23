@@ -1,9 +1,8 @@
 import random
 
-from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-
 from books.models import Book
+from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 from shelves.models import BookShelfEntry  # adjust import path if needed
 
 User = get_user_model()
@@ -26,7 +25,7 @@ STUDENT_BOOK_COUNT_MAX = 20
 STATUS_WEIGHTS = {
     "to_read": 30,
     "reading": 10,   # realistically only a few books at once
-    "read":    60,
+    "read": 60,
 }
 
 
