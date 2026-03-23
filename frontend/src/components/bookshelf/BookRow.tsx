@@ -71,7 +71,7 @@ function BookRow({ entry, onStatusChange, onRemove }: BookRowProps) {
         <Link href={`/book/${book.id}`}>
           <p className="font-semibold text-gray-900 truncate">{book.title}</p>
         </Link>
-        
+
         <p className="text-sm text-gray-500 truncate">
           {book.authors?.join(', ')}
         </p>

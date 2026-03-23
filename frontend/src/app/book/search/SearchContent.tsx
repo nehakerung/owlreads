@@ -2,11 +2,13 @@
 
 import { useEffect, useState, FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Search } from 'lucide-react';
 import Link from 'next/link';
 
 import Pagination from '@/components/pagination/pagination';
 import { ShelfButton } from '@/components/bookshelf/ShelfButton';
+
+import styles from './SearchContent.module.css';
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
@@ -36,33 +38,29 @@ async function searchBooks(query: string, maxResults = 30): Promise<Book[]> {
 
 function BookItem({ book }: { book: Book }) {
   return (
-    <div className="flex gap-4 p-4 rounded-xl border hover:shadow-md transition bg-white">
+    <div className={styles.resultCard}>
       {book.thumbnail && (
         <img
           src={book.thumbnail.replace('http:', 'https:')}
           alt={book.title}
           width={96}
           height={128}
-          className="rounded object-cover"
+          className={styles.thumbnail}
         />
       )}
 
       <div className="flex-1">
-        <Link href={`/book/${book.id}`}>
-          <h3 className="text-lg font-semibold hover:underline">
-            {book.title}
-          </h3>
+        <Link href={`/book/${book.id}`} className={styles.titleLink}>
+          <h3 className={styles.resultTitle}>{book.title}</h3>
         </Link>
 
         {book.authors?.length > 0 && (
-          <p className="text-sm text-gray-600">{book.authors.join(', ')}</p>
+          <p className={styles.resultAuthors}>{book.authors.join(', ')}</p>
         )}
         <ShelfButton bookId={book.id} />
 
         {book.description && (
-          <p className="mt-2 text-sm text-gray-700 line-clamp-3">
-            {book.description}
-          </p>
+          <p className={styles.resultDescription}>{book.description}</p>
         )}
       </div>
     </div>
@@ -77,11 +75,16 @@ export default function SearchPage() {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState(query);
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(books.length / itemsPerPage);
+
+  useEffect(() => {
+    setSearchQuery(query);
+  }, [query]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -94,8 +97,10 @@ export default function SearchPage() {
       try {
         const data = await searchBooks(query);
         setBooks(data);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : 'Failed to load books';
+        setError(message);
         setBooks([]);
       } finally {
         setLoading(false);
@@ -111,56 +116,91 @@ export default function SearchPage() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const newQuery = formData.get('query') as string;
-
-    if (newQuery.trim()) {
-      router.push(`/book/search?query=${encodeURIComponent(newQuery)}`);
-    }
+    const nextQuery = searchQuery.trim();
+    if (!nextQuery) return;
+    router.push(`/book/search?query=${encodeURIComponent(nextQuery)}`);
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6">
+    <div className={`page-container ${styles.container}`}>
       {/* Header */}
-      <div className="mb-8">
-        <button
-          onClick={() => router.push('/')}
-          className="flex items-center gap-2 text-sm text-gray-600 hover:text-black mb-4"
-        >
+      <div className={styles.header}>
+        <button onClick={() => router.push('/')} className={styles.backButton}>
           <ArrowLeft size={18} />
           Back
         </button>
 
-        <h1 className="text-3xl font-bold">Search results</h1>
+        <h1 className={styles.title}>Search results</h1>
 
-        {query && (
-          <p className="text-gray-600 mt-1">
-            Results for <span className="font-medium">"{query}"</span>
+        {query ? (
+          <p className={styles.queryLine}>
+            Results for <span>&quot;{query}&quot;</span>
           </p>
-        )}
+        ) : null}
+
+        <form onSubmit={handleSubmit} className={styles.searchBar}>
+          <input
+            name="query"
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className={styles.searchInput}
+            placeholder="Search for books..."
+            autoComplete="off"
+            aria-label="Search books"
+          />
+          <button
+            type="submit"
+            className={styles.searchButton}
+            aria-label="Search"
+          >
+            <Search size={16} />
+          </button>
+        </form>
       </div>
 
       {/* States */}
 
       {loading && (
-        <p className="text-center py-10 text-gray-600">Searching books...</p>
-      )}
-
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 p-4 rounded">
-          {error}
-        </div>
-      )}
-
-      {!loading && !error && books.length === 0 && query && (
-        <p className="text-center py-10 text-gray-600">No books found.</p>
-      )}
-
-      {!loading && !error && books.length > 0 && (
         <>
-          <p className="mb-6 text-sm text-gray-500">{books.length} results</p>
+          <div className={styles.stateLoading}>Searching books...</div>
+          {[0, 1, 2].map((i) => (
+            <div key={i} className={styles.skeletonCard} aria-hidden="true">
+              <div className={styles.skeletonGlow} />
+              <div
+                className={styles.skeletonBlock}
+                style={{ width: 96, height: 128 }}
+              />
+              <div style={{ flex: 1 }}>
+                <div
+                  className={styles.skeletonBlock}
+                  style={{ width: '60%', height: 16, marginBottom: 10 }}
+                />
+                <div
+                  className={styles.skeletonBlock}
+                  style={{ width: '80%', height: 12, marginBottom: 10 }}
+                />
+                <div
+                  className={styles.skeletonBlock}
+                  style={{ width: '70%', height: 12 }}
+                />
+              </div>
+            </div>
+          ))}
+        </>
+      )}
 
-          <div className="space-y-4">
+      {error ? <div className={styles.stateError}>{error}</div> : null}
+
+      {!loading && !error && books.length === 0 && query ? (
+        <div className={styles.stateEmpty}>No books found.</div>
+      ) : null}
+
+      {!loading && !error && books.length > 0 ? (
+        <>
+          <div className={styles.resultsMeta}>{books.length} results</div>
+
+          <div className={styles.resultsList}>
             {currentItems.map((book) => (
               <BookItem key={book.id} book={book} />
             ))}
@@ -174,7 +214,7 @@ export default function SearchPage() {
             />
           </div>
         </>
-      )}
+      ) : null}
     </div>
   );
 }

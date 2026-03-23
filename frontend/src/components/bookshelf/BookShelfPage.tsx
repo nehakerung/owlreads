@@ -82,7 +82,7 @@ export default function BookShelfPage() {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="page-container">
       <h1 className="text-2xl font-bold mb-6">My Bookshelf</h1>
       <div className="bg-card rounded-lg shadow p-6 mb-6">
         <p>
@@ -102,7 +102,7 @@ export default function BookShelfPage() {
             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors
               ${
                 activeFilter === opt.value
-                  ? 'bg-[#9dcd5a] text-white'
+                  ? 'secondary-active'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
           >

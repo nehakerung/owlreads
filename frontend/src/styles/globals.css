@@ -23,9 +23,11 @@
   /* Brand */
   --primary: #473c38; /* Brown */
   --primary-foreground: #ffffff;
+  --primary-hover: #5a4d47;
 
   --secondary: #9dcd5a; /* Green */
-  --secondary-foreground: #1f1f1f;
+  --secondary-foreground: #ffffff;
+  --secondary-hover: #9dcd5a;
 
   --accent: #eef6df; /* Soft green tint */
   --accent-foreground: #473c38;
@@ -62,9 +64,11 @@
   /* Brand */
   --primary: #9dcd5a; /* Green becomes main pop */
   --primary-foreground: #1c1816;
+  --primary-hover: #8db851;
 
   --secondary: #473c38; /* Brown becomes secondary */
   --secondary-foreground: #ffffff;
+  --secondary-hover: #5a4d47;
 
   --accent: #2f2a27;
   --accent-foreground: #9dcd5a;
@@ -131,14 +135,15 @@
 @layer utilities {
   .search-form {
     @apply w-75 max-sm:w-62 max-sm:h-10 max-sm:text-[14px]
-           h-12 bg-background rounded-[80px] border border-[#5a4d47]
+           h-12 bg-background rounded-[80px]
            px-5 max-sm:px-3 flex flex-row items-center gap-5;
+    border: 1px solid var(--primary-hover);
   }
 
   .update-card {
     @apply rounded px-6 py-3 transition-all duration-150 ease-in-out;
     background-color: var(--card);
-    text: var(--accent-foreground);
+    color: var(--accent-foreground);
   }
 
   .nav-btn {
@@ -146,26 +151,65 @@
            rounded-md hover:bg-gray-700 transition cursor-pointer;
   }
   .btnprimary {
-    @apply rounded text-white px-6 py-3 transition-all duration-150 ease-in-out;
-    background-color: var(--brown);
+    @apply rounded px-6 py-3 transition-all duration-150 ease-in-out;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
 
   .btnprimary:hover {
-    @apply bg-[#5a4d47] transition;
+    background-color: var(--primary-hover);
+    transition: background-color 150ms ease-in-out;
   }
 
   .btnsecondary {
-    @apply rounded text-white px-6 py-3 transition-all duration-150 ease-in-out;
-    background-color: var(--green);
+    @apply rounded px-6 py-3 transition-all duration-150 ease-in-out;
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
   }
   .btnsecondary:hover {
-    @apply bg-[#9dcd5a] transition;
+    background-color: var(--secondary-hover);
+    transition: background-color 150ms ease-in-out;
   }
 
   .btn-tertiary {
     background-color: transparent;
-    color: var(--green);
-    border: 2px solid var(--green);
+    color: var(--secondary);
+    border: 2px solid var(--secondary);
+  }
+
+  /* Theme helpers for consistent brand colors */
+  .primary-bg {
+    background-color: var(--primary);
+  }
+  .primary-text {
+    color: var(--primary);
+  }
+  .primary-fg {
+    color: var(--primary-foreground);
+  }
+
+  .secondary-bg {
+    background-color: var(--secondary);
+  }
+  .secondary-text {
+    color: var(--secondary-foreground);
+  }
+  .secondary-active {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+  .secondary-link {
+    color: var(--secondary);
+  }
+
+  /* Consistent icon button styling */
+  .primary-icon-btn {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    transition: background-color 150ms ease-in-out;
+  }
+  .primary-icon-btn:hover {
+    background-color: var(--primary-hover);
   }
 
   .flex-center {
@@ -190,6 +234,11 @@
   }
   .input-field {
     @apply mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md;
+  }
+
+  /* Shared page width for consistent left/right alignment */
+  .page-container {
+    @apply max-w-4xl w-full mx-auto px-4 py-8;
   }
 }
 

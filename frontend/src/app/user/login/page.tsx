@@ -77,7 +77,7 @@ export default function Login() {
           Don't have an account?{' '}
           <Link
             href="/user/register"
-            className="text-[#9dcd5a] hover:underline"
+            className="secondary-link hover:underline"
           >
             Sign up
           </Link>

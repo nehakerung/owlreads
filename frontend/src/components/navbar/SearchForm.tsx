@@ -29,7 +29,7 @@ export default function HomePage() {
       />
       <button
         type="submit"
-        className="size-7 rounded-full bg-[#473c38] text-white flex justify-center items-center hover:bg-[#5a4d47] transition"
+        className="size-7 rounded-full primary-icon-btn flex justify-center items-center"
       >
         <Search className="size-4" />
       </button>

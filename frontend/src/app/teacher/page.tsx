@@ -86,7 +86,7 @@ export default function TeacherDashboard() {
 
   return (
     <RequireAuth>
-      <div className="p-8 max-w-4xl mx-auto">
+      <div className="page-container">
         <h1 className="text-2xl font-bold mb-6">Teacher Dashboard</h1>
 
         <div className="update-card rounded-lg p-4 mb-6">

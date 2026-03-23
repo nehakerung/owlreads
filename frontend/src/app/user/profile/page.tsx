@@ -32,7 +32,7 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="page-container">
         <div className="bg-card rounded-lg shadow p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">
@@ -97,7 +97,9 @@ export default function Profile() {
             </div>
             <div className="text-center p-4 bg-gray-50 rounded-lg">
               <div className="text-2xl font-bold text-gray-600">
-                {(user.books_read_count || 0) + (user.books_reading_count || 0) + (user.books_to_read_count || 0)}
+                {(user.books_read_count || 0) +
+                  (user.books_reading_count || 0) +
+                  (user.books_to_read_count || 0)}
               </div>
               <div className="text-sm text-gray-700">Total Books</div>
             </div>

@@ -123,7 +123,7 @@ export default function CreateStudentPage() {
         </form>
 
         <p className="text-center text-sm">
-          <Link href="/teacher" className="text-[#9dcd5a] hover:underline">
+          <Link href="/teacher" className="secondary-link hover:underline">
             Back to Dashboard
           </Link>
         </p>

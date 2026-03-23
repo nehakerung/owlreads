@@ -16,7 +16,7 @@ const NavBar = () => {
   };
   return (
     <>
-      <nav className="sticky top-0 left-0 w-full z-20 py-4 bg-[#9dcd5a]">
+      <nav className="sticky top-0 left-0 w-full z-20 py-4 secondary-bg primary-text">
         <div className="flex justify-between items-center main-max-width mx-auto padding-x border-white">
           <Link href="/">
             <Image

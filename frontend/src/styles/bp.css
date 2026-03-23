@@ -328,9 +328,9 @@
   white-space: nowrap;
 }
 .bp-shelf-btn--default {
-  background: #4f46e5;
+  background: var(--accent);
   color: #fff;
-  border-color: #4338ca;
+  border-color: var(--chip-bg);
 }
 .bp-shelf-btn--default:hover {
   opacity: 0.9;

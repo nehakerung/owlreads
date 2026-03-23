@@ -1,7 +1,7 @@
 // components/ShelfButton.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import {
   BookMarked,
   BookOpen,
@@ -17,21 +17,22 @@ import {
   ShelfStatus,
 } from '@/lib/api/shelf';
 import { useAuth } from '@/context/AuthContext';
+import styles from './ShelfButton.module.css';
 
 const SHELF_OPTIONS: {
   value: ShelfStatus;
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
 }[] = [
   { value: 'to_read', label: 'To Read', icon: <Bookmark size={14} /> },
   { value: 'reading', label: 'Reading', icon: <BookOpen size={14} /> },
   { value: 'read', label: 'Read', icon: <BookCheck size={14} /> },
 ];
 
-const STATUS_STYLES: Record<ShelfStatus, string> = {
-  to_read: 'bg-blue-50 text-blue-700 border-blue-200',
-  reading: 'bg-amber-50 text-amber-700 border-amber-200',
-  read: 'bg-green-50 text-green-700 border-green-200',
+const STATUS_CLASSES: Record<ShelfStatus, string> = {
+  to_read: styles.statusToRead,
+  reading: styles.statusReading,
+  read: styles.statusRead,
 };
 
 interface ShelfEntry {
@@ -96,7 +97,7 @@ export function ShelfButton({ bookId }: { bookId: number }) {
 
   if (loading) {
     return (
-      <div className="bp-shelf-btn bp-shelf-btn--ghost">
+      <div className={`${styles.button} ${styles.buttonGhost}`}>
         <Loader2 size={14} className="animate-spin" />
       </div>
     );
@@ -105,15 +106,18 @@ export function ShelfButton({ bookId }: { bookId: number }) {
   const currentOption = SHELF_OPTIONS.find((o) => o.value === entry?.status);
 
   return (
-    <div className="bp-shelf-wrapper" onClick={(e) => e.stopPropagation()}>
+    <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
       <button
-        className={`bp-shelf-btn ${
+        className={[
+          styles.button,
           entry
-            ? `bp-shelf-btn--active ${STATUS_STYLES[entry.status]}`
-            : 'bp-shelf-btn--default'
-        } ${saving ? 'opacity-60 pointer-events-none' : ''}`}
+            ? `${styles.buttonActive} ${STATUS_CLASSES[entry.status]}`
+            : styles.buttonDefault,
+        ].join(' ')}
         onClick={() => setOpen((o) => !o)}
         disabled={saving}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         {saving ? (
           <Loader2 size={14} className="animate-spin" />
@@ -127,36 +131,37 @@ export function ShelfButton({ bookId }: { bookId: number }) {
         </span>
         <ChevronDown
           size={13}
-          className={`bp-shelf-chevron ${open ? 'rotate-180' : ''}`}
+          className={[styles.chevron, open ? styles.chevronOpen : ''].join(' ')}
         />
       </button>
 
       {open && (
-        <div className="bp-shelf-dropdown">
-          <p className="bp-shelf-dropdown-label">Move to shelf</p>
+        <div className={styles.dropdown} role="menu" aria-label="Move to shelf">
+          <p className={styles.dropdownLabel}>Move to shelf</p>
           {SHELF_OPTIONS.map((opt) => (
             <button
               key={opt.value}
-              className={`bp-shelf-dropdown-item ${
-                entry?.status === opt.value
-                  ? 'bp-shelf-dropdown-item--active'
-                  : ''
-              }`}
+              className={[
+                styles.dropdownItem,
+                entry?.status === opt.value ? styles.dropdownItemActive : '',
+              ].join(' ')}
               onClick={() => handleSelect(opt.value)}
+              role="menuitem"
             >
               {opt.icon}
               {opt.label}
               {entry?.status === opt.value && (
-                <span className="bp-shelf-dropdown-check">✓</span>
+                <span className={styles.dropdownCheck}>✓</span>
               )}
             </button>
           ))}
           {entry && (
             <>
-              <div className="bp-shelf-dropdown-divider" />
+              <div className={styles.dropdownDivider} />
               <button
-                className="bp-shelf-dropdown-item bp-shelf-dropdown-item--remove"
+                className={`${styles.dropdownItem} ${styles.dropdownItemRemove}`}
                 onClick={handleRemove}
+                role="menuitem"
               >
                 Remove from shelf
               </button>

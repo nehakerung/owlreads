@@ -65,7 +65,7 @@ const Pagination: React.FC<PaginationProps> = ({
                 disabled={currentPage === page}
                 className={`px-4 py-2 border rounded transition ${
                   currentPage === page
-                    ? 'bg-[#9dcd5a] text-white font-bold cursor-not-allowed'
+                    ? 'secondary-active font-bold cursor-not-allowed'
                     : 'hover:bg-gray-100'
                 }`}
               >

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Ubuntu } from 'next/font/google';
 import '@/styles/globals.css';
-import '@/components/ui/buttons.module.css';
 import Navbar from '@/components/navbar/NavBar';
 import Footer from '@/components/footer/footer';
 import { AuthProvider } from '@/context/AuthContext';

@@ -1,0 +1,148 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    opacity 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  white-space: nowrap;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.buttonDefault {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--border);
+}
+
+.buttonDefault:hover {
+  opacity: 0.9;
+}
+
+.buttonActive {
+  border-width: 1px;
+  border-style: solid;
+}
+
+.buttonGhost {
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: default;
+}
+
+.chevron {
+  transition: transform 0.2s ease-in-out;
+  margin-left: 2px;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.statusToRead {
+  background: var(--accent);
+  color: var(--primary);
+  border-color: var(--secondary);
+}
+
+.statusReading {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary-hover);
+}
+
+.statusRead {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+  border-color: var(--secondary-hover);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 180px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.dropdownLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  padding: 6px 10px 4px;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #374151;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s ease-in-out;
+}
+
+.dropdownItem:hover {
+  background: #f9fafb;
+}
+
+.dropdownItemActive {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.dropdownItemRemove {
+  color: #ef4444;
+}
+
+.dropdownItemRemove:hover {
+  background: #fef2f2;
+}
+
+.dropdownCheck {
+  margin-left: auto;
+  font-size: 0.75rem;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 4px 0;
+}
+
+.button:focus-visible,
+.dropdownItem:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
