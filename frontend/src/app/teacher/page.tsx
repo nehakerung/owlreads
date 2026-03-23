@@ -16,6 +16,7 @@ interface Student {
   email: string | null;
   student_id: string;
   classname: string | null;
+  last_shelf_update?: string;
 }
 
 export default function TeacherDashboard() {
@@ -123,6 +124,9 @@ export default function TeacherDashboard() {
                     <th className="px-4 py-3 text-sm font-semibold">
                       Username
                     </th>
+                    <th className="px-4 py-3 text-sm font-semibold">
+                      Last Updated
+                    </th>
                     <th className="px-4 py-3 text-sm font-semibold">Actions</th>
                   </tr>
                 </thead>
@@ -137,6 +141,13 @@ export default function TeacherDashboard() {
                         {student.first_name} {student.last_name}
                       </td>
                       <td className="px-4 py-3 text-sm">{student.username}</td>
+                      <td className="px-4 py-3 text-sm">
+                        {student.last_shelf_update
+                          ? new Date(
+                              student.last_shelf_update
+                            ).toLocaleDateString()
+                          : 'Never'}
+                      </td>
                       <td className="px-4 py-3 text-sm">
                         <button
                           onClick={() =>

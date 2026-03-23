@@ -19,6 +19,7 @@ class User(AbstractUser):
         related_name='students'
     )
     student_id = models.CharField(max_length=20, null=True, blank=True, unique=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @property
     def is_teacher(self):
@@ -27,3 +28,9 @@ class User(AbstractUser):
     @property
     def is_student(self):
         return self.role == "student"
+
+    @property
+    def last_shelf_update(self):
+        """Get the most recent BookShelfEntry update for this user"""
+        latest = self.shelf_entries.first()
+        return latest.updated_at if latest else None
