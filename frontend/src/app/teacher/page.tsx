@@ -132,9 +132,7 @@ export default function TeacherDashboard() {
                       key={student.id}
                       className="border-b border-input hover:bg-muted transition"
                     >
-                      <td className="px-4 py-3 text-sm">
-                        {student.student_id}
-                      </td>
+                      <td className="px-4 py-3 text-sm">{student.id}</td>
                       <td className="px-4 py-3 text-sm">
                         {student.first_name} {student.last_name}
                       </td>
