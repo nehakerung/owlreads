@@ -57,7 +57,9 @@ function BookItem({ book }: { book: Book }) {
         {book.authors?.length > 0 && (
           <p className={styles.resultAuthors}>{book.authors.join(', ')}</p>
         )}
-        <ShelfButton bookId={book.id} />
+        <div className="bp-actions flex gap-3 flex-wrap">
+          <ShelfButton bookId={Number(book.id)} />
+        </div>
 
         {book.description && (
           <p className={styles.resultDescription}>{book.description}</p>
