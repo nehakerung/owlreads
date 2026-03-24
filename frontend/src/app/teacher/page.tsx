@@ -83,7 +83,6 @@ export default function TeacherDashboard() {
       </RequireAuth>
     );
   }
-
   return (
     <RequireAuth>
       <div className="page-container">

@@ -1,5 +1,5 @@
-from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
 
 User = get_user_model()
 
@@ -15,31 +15,31 @@ TEACHER = {
 }
 
 STUDENTS = [
-    {"first_name": "Alice",   "last_name": "Adams"},
-    {"first_name": "Bob",     "last_name": "Baker"},
+    {"first_name": "Alice", "last_name": "Adams"},
+    {"first_name": "Bob", "last_name": "Baker"},
     {"first_name": "Charlie", "last_name": "Clark"},
-    {"first_name": "Diana",   "last_name": "Davis"},
-    {"first_name": "Ethan",   "last_name": "Evans"},
-    {"first_name": "Fiona",   "last_name": "Fisher"},
-    {"first_name": "George",  "last_name": "Green"},
-    {"first_name": "Hannah",  "last_name": "Hill"},
-    {"first_name": "Ivan",    "last_name": "Ingram"},
-    {"first_name": "Julia",   "last_name": "Jones"},
-    {"first_name": "Kevin",   "last_name": "King"},
-    {"first_name": "Laura",   "last_name": "Lewis"},
-    {"first_name": "Marcus",  "last_name": "Moore"},
-    {"first_name": "Nina",    "last_name": "Nash"},
-    {"first_name": "Oliver",  "last_name": "Owen"},
-    {"first_name": "Petra",   "last_name": "Price"},
-    {"first_name": "Quinn",   "last_name": "Quinn"},
-    {"first_name": "Rachel",  "last_name": "Reed"},
-    {"first_name": "Samuel",  "last_name": "Scott"},
-    {"first_name": "Tina",    "last_name": "Taylor"},
-    {"first_name": "Uma",     "last_name": "Underwood"},
-    {"first_name": "Victor",  "last_name": "Vance"},
-    {"first_name": "Wendy",   "last_name": "Walsh"},
-    {"first_name": "Xander",  "last_name": "Cross"},
-    {"first_name": "Yasmin",  "last_name": "Young"},
+    {"first_name": "Diana", "last_name": "Davis"},
+    {"first_name": "Ethan", "last_name": "Evans"},
+    {"first_name": "Fiona", "last_name": "Fisher"},
+    {"first_name": "George", "last_name": "Green"},
+    {"first_name": "Hannah", "last_name": "Hill"},
+    {"first_name": "Ivan", "last_name": "Ingram"},
+    {"first_name": "Julia", "last_name": "Jones"},
+    {"first_name": "Kevin", "last_name": "King"},
+    {"first_name": "Laura", "last_name": "Lewis"},
+    {"first_name": "Marcus", "last_name": "Moore"},
+    {"first_name": "Nina", "last_name": "Nash"},
+    {"first_name": "Oliver", "last_name": "Owen"},
+    {"first_name": "Petra", "last_name": "Price"},
+    {"first_name": "Quinn", "last_name": "Quinn"},
+    {"first_name": "Rachel", "last_name": "Reed"},
+    {"first_name": "Samuel", "last_name": "Scott"},
+    {"first_name": "Tina", "last_name": "Taylor"},
+    {"first_name": "Uma", "last_name": "Underwood"},
+    {"first_name": "Victor", "last_name": "Vance"},
+    {"first_name": "Wendy", "last_name": "Walsh"},
+    {"first_name": "Xander", "last_name": "Cross"},
+    {"first_name": "Yasmin", "last_name": "Young"},
 ]
 
 

@@ -21,6 +21,7 @@ interface ShelfEntry {
   status: ShelfStatus;
   added_at: string;
   updated_at: string;
+  allocated_at?: string | null;
 }
 
 type ShelfStatus = 'to_read' | 'reading' | 'read';
