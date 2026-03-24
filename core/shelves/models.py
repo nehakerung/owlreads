@@ -26,6 +26,7 @@ class BookShelfEntry(models.Model):
         on_delete=models.SET_NULL,
         related_name="allocations_made",
     )
+    allocated_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         unique_together = ("user", "book")

@@ -2,6 +2,7 @@ from books.models import Book
 from collection.signals import check_and_grant_awards
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -120,104 +121,110 @@ class TeacherStudentListView(generics.ListAPIView):
 
 
 class AllocateBookView(APIView):
-    """POST /api/allocate/ — teacher allocates a book to one of their students"""
     permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != "teacher":
+            return Response({"error": "Forbidden"}, status=403)
+
+        book_id = request.query_params.get("book_id")
+        if not book_id:
+            return Response({"error": "book_id is required"}, status=400)
+
+        allocated_entries = BookShelfEntry.objects.filter(
+            book_id=book_id,
+            user__teacher=request.user,
+            user__role="student",
+            allocated_by=request.user,
+        ).select_related("user")
+
+        data = [
+            {
+                "entry_id": entry.id,
+                "student_id": entry.user_id,
+                "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
+                or entry.user.username,
+                "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,
+            }
+            for entry in allocated_entries
+        ]
+
+        return Response(
+            {
+                "book_id": int(book_id),
+                "allocated": data,
+                "student_ids": [item["student_id"] for item in data],
+            },
+            status=200,
+        )
 
     def post(self, request):
         if request.user.role != "teacher":
-            return Response({"error": "Forbidden."}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"error": "Forbidden"}, status=403)
 
-        student_id = request.data.get("student_id")
         book_id = request.data.get("book_id")
+        student_ids = request.data.get("student_ids", [])
 
-        if not student_id or not book_id:
+        if not book_id or not student_ids:
             return Response(
-                {"error": "student_id and book_id are required."},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"error": "book_id and student_ids required"},
+                status=400
             )
-
-        # Ensure the student actually belongs to this teacher
-        student = get_object_or_404(
-            User,
-            id=student_id,
-            teacher=request.user,
-            role="student",
-        )
 
         book = get_object_or_404(Book, id=book_id)
 
-        entry, created = BookShelfEntry.objects.get_or_create(
-            user=student,
-            book=book,
-            defaults={
-                "status": "to_read",
-                "allocated_by": request.user,
-            },
-        )
+        allocated_entries = []
 
-        # Book was already on the student's shelf — just stamp allocated_by
-        if not created and entry.allocated_by is None:
+        for student_id in student_ids:
+            student = get_object_or_404(
+                User,
+                id=student_id,
+                teacher=request.user,
+                role="student"
+            )
+
+            entry, created = BookShelfEntry.objects.get_or_create(
+                user=student,
+                book=book,
+                defaults={
+                    "status": "to_read",
+                },
+            )
+
+            # Always update allocation info
             entry.allocated_by = request.user
-            entry.save(update_fields=["allocated_by", "updated_at"])
 
-        serializer = BookShelfEntrySerializer(entry)
+            # OPTIONAL (recommended)
+            if hasattr(entry, "allocated_at"):
+                entry.allocated_at = timezone.now()
+
+            entry.save()
+
+            allocated_entries.append({
+                "entry_id": entry.id,
+                "student_id": student.id,
+            })
+
+        allocated_timestamp = timezone.now()
         return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
+            {
+                "allocated": allocated_entries,
+                "allocated_at": allocated_timestamp.isoformat(),
+            },
+            status=200,
         )
-
-
-class DeallocateBookView(APIView):
-    """DELETE /api/allocate/<entry_id>/ — teacher removes their allocation from a shelf entry"""
-    permission_classes = [IsAuthenticated]
 
     def delete(self, request, entry_id):
         if request.user.role != "teacher":
-            return Response({"error": "Forbidden."}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"error": "Forbidden"}, status=403)
 
         entry = get_object_or_404(
             BookShelfEntry,
             id=entry_id,
-            allocated_by=request.user,
+            allocated_by=request.user
         )
 
         entry.allocated_by = None
         entry.save(update_fields=["allocated_by", "updated_at"])
 
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class TeacherAllocationsView(APIView):
-    """GET /api/allocations/ — all allocations this teacher has made, grouped by student"""
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        if request.user.role != "teacher":
-            return Response({"error": "Forbidden."}, status=status.HTTP_403_FORBIDDEN)
-
-        entries = (
-            BookShelfEntry.objects
-            .filter(allocated_by=request.user)
-            .select_related("user", "book")
-            .order_by("user__first_name", "-updated_at")
-        )
-
-        grouped: dict = {}
-        for entry in entries:
-            key = str(entry.user.id)
-            if key not in grouped:
-                grouped[key] = {
-                    "student_id": entry.user.id,
-                    "student_name": entry.user.get_full_name(),
-                    "username": entry.user.username,
-                    "books": [],
-                }
-            grouped[key]["books"].append({
-                "entry_id": entry.id,
-                "book_id": entry.book.id,
-                "title": entry.book.title,
-                "status": entry.status,
-                "allocated_at": entry.allocated_at,
-            })
-
-        return Response(list(grouped.values()))
+        return Response(status=204)
