@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
 import ShelfButton from '@/components/bookshelf/ShelfButton';
+import AllocateButton from '@/components/bookshelf/AllocateBook';
+import { useAuth } from '@/context/AuthContext';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 // --- Types ---
@@ -56,6 +58,7 @@ function StarRow({ rating }: { rating: number }) {
 
 // --- BookPage ---
 export default function BookPage() {
+  const { isTeacher } = useAuth();
   const router = useRouter();
   const params = useParams();
   const id = params?.slug as string;
@@ -169,8 +172,9 @@ export default function BookPage() {
               </div>
 
               {/* ── Shelf + Preview buttons ── */}
-              <div className="bp-actions">
+              <div className="bp-actions flex gap-3 flex-wrap">
                 <ShelfButton bookId={Number(book.id)} />
+                {isTeacher && <AllocateButton bookId={Number(book.id)} />}
               </div>
             </div>
           </div>

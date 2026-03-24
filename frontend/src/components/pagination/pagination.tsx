@@ -55,12 +55,15 @@ const Pagination: React.FC<PaginationProps> = ({
         <div className="flex justify-center gap-2 px-6 py-4">
           {getPageNumbers().map((page, index) =>
             page === '...' ? (
-              <span key={index} className="px-3 py-2 text-gray-400">
+              <span
+                key={`ellipsis-${index}`}
+                className="px-3 py-2 text-gray-400"
+              >
                 ...
               </span>
             ) : (
               <button
-                key={page}
+                key={`page-${page}-${index}`}
                 onClick={() => handleClick(page as number)}
                 disabled={currentPage === page}
                 className={`px-4 py-2 border rounded transition ${

@@ -19,6 +19,7 @@ interface ShelfEntry {
   status: ShelfStatus;
   added_at: string;
   updated_at: string;
+  allocated_at?: string | null;
 }
 
 type ShelfStatus = 'to_read' | 'reading' | 'read';
@@ -78,6 +79,11 @@ function BookRow({ entry, onStatusChange, onRemove }: BookRowProps) {
         {book.average_rating && (
           <p className="text-xs text-amber-500 mt-0.5">
             ★ {book.average_rating}
+          </p>
+        )}
+        {entry.allocated_at && (
+          <p className="text-xs mt-0.5 inline-block rounded-full bg-purple-100 text-purple-700 px-2 py-0.5">
+            Allocated date: {new Date(entry.allocated_at).toLocaleDateString()}
           </p>
         )}
       </div>
