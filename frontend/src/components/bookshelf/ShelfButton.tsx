@@ -15,7 +15,7 @@ import {
   removeFromShelf,
   fetchShelf,
   ShelfStatus,
-} from '@/lib/api/shelf';
+} from '@/services/api/shelf';
 import { useAuth } from '@/context/AuthContext';
 import styles from './ShelfButton.module.css';
 
