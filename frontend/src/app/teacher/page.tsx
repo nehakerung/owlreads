@@ -102,6 +102,9 @@ export default function TeacherDashboard() {
           <Link href="/teacher/create-student" className="btnprimary">
             Create Student Account
           </Link>
+          <Link href="/teacher/allocations" className="btnsecondary">
+            Manage Allocations
+          </Link>
         </div>
 
         {/* Reset password by student ID */}
