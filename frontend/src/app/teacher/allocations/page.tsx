@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import RequireAuth from '@/components/user/RequireAuth';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { Pencil, Trash2, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 type Student = {
   id: number;
@@ -25,6 +25,45 @@ type Allocation = {
   status: string;
   updated_at?: string | null;
 };
+
+type AllocationGroup = {
+  book_id: number;
+  book_title: string;
+  allocations: Allocation[];
+  sortTimeMs: number;
+};
+
+type StatusKey = 'not_started' | 'reading' | 'read';
+
+const STATUS_META: Record<
+  StatusKey,
+  { label: string; pill: string; dot: string; sortRank: number }
+> = {
+  not_started: {
+    label: 'Not Started',
+    pill: 'bg-slate-100 text-slate-700 border-slate-200',
+    dot: 'bg-slate-400',
+    sortRank: 0,
+  },
+  reading: {
+    label: 'Reading',
+    pill: 'bg-amber-50 text-amber-800 border-amber-200',
+    dot: 'bg-amber-500',
+    sortRank: 1,
+  },
+  read: {
+    label: 'Read',
+    pill: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+    dot: 'bg-emerald-500',
+    sortRank: 2,
+  },
+};
+
+function statusKeyFromShelfStatus(status: string): StatusKey {
+  if (status === 'read') return 'read';
+  if (status === 'reading') return 'reading';
+  return 'not_started';
+}
 
 function toDateTimeLocal(iso: string) {
   const d = new Date(iso);
@@ -73,12 +112,6 @@ export default function TeacherAllocationsPage() {
         params: { q: query.trim() || undefined },
       });
       const list: Allocation[] = res.data?.allocations ?? [];
-      // Client-side sort; server already uses newest-first.
-      list.sort((a, b) => {
-        const aTime = a.allocated_at ? new Date(a.allocated_at).getTime() : 0;
-        const bTime = b.allocated_at ? new Date(b.allocated_at).getTime() : 0;
-        return sort === 'newest' ? bTime - aTime : aTime - bTime;
-      });
       setAllocations(list);
     } catch (e: any) {
       setError(e?.response?.data?.error || 'Failed to load allocations');
@@ -110,6 +143,75 @@ export default function TeacherAllocationsPage() {
         : toDateTimeLocal(new Date().toISOString())
     );
   }, [editing]);
+
+  const allocationGroups = useMemo<AllocationGroup[]>(() => {
+    const map = new Map<number, AllocationGroup>();
+
+    for (const a of allocations) {
+      const timeMs = a.allocated_at ? new Date(a.allocated_at).getTime() : 0;
+      const existing = map.get(a.book_id);
+      if (!existing) {
+        map.set(a.book_id, {
+          book_id: a.book_id,
+          book_title: a.book_title,
+          allocations: [a],
+          sortTimeMs: timeMs,
+        });
+      } else {
+        existing.allocations.push(a);
+        if (timeMs > existing.sortTimeMs) existing.sortTimeMs = timeMs;
+      }
+    }
+
+    const groups = Array.from(map.values());
+
+    for (const g of groups) {
+      g.allocations.sort((a, b) => {
+        const aStatus = STATUS_META[statusKeyFromShelfStatus(a.status)].sortRank;
+        const bStatus = STATUS_META[statusKeyFromShelfStatus(b.status)].sortRank;
+        if (aStatus !== bStatus) return aStatus - bStatus; // Not Started first
+        const aTime = a.allocated_at ? new Date(a.allocated_at).getTime() : 0;
+        const bTime = b.allocated_at ? new Date(b.allocated_at).getTime() : 0;
+        return bTime - aTime; // newest first within same status
+      });
+    }
+
+    groups.sort((a, b) => {
+      return sort === 'newest'
+        ? b.sortTimeMs - a.sortTimeMs
+        : a.sortTimeMs - b.sortTimeMs;
+    });
+
+    return groups;
+  }, [allocations, sort]);
+
+  const overallStats = useMemo(() => {
+    const total = allocations.length;
+    let notStarted = 0;
+    let reading = 0;
+    let read = 0;
+
+    for (const a of allocations) {
+      const key = statusKeyFromShelfStatus(a.status);
+      if (key === 'not_started') notStarted += 1;
+      else if (key === 'reading') reading += 1;
+      else read += 1;
+    }
+
+    const engaged = reading + read;
+    const engagedPct = total > 0 ? Math.round((engaged / total) * 100) : 0;
+    const readPct = total > 0 ? Math.round((read / total) * 100) : 0;
+
+    return {
+      total,
+      notStarted,
+      reading,
+      read,
+      engaged,
+      engagedPct,
+      readPct,
+    };
+  }, [allocations]);
 
   const submitEdit = async () => {
     if (!editing) return;
@@ -186,8 +288,71 @@ export default function TeacherAllocationsPage() {
             </div>
             <div className="text-sm text-muted-foreground">
               Showing{' '}
-              <span className="font-semibold">{allocations.length}</span>{' '}
-              allocations
+              <span className="font-semibold">{allocationGroups.length}</span>{' '}
+              books
+            </div>
+          </div>
+        </div>
+
+        {/* Summary stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Engaged
+            </div>
+            <div className="mt-1 text-2xl font-bold">
+              {overallStats.engaged}/{overallStats.total}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {overallStats.engagedPct}% engaged (Reading or Read)
+            </div>
+            <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${overallStats.engagedPct}%` }}
+              />
+            </div>
+          </div>
+
+          <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Not Started
+            </div>
+            <div className="mt-1 text-2xl font-bold">
+              {overallStats.notStarted}/{overallStats.total}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Students who haven’t moved it yet
+            </div>
+          </div>
+
+          <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Reading
+            </div>
+            <div className="mt-1 text-2xl font-bold">
+              {overallStats.reading}/{overallStats.total}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {overallStats.reading} out of {overallStats.total} moved to Reading
+            </div>
+          </div>
+
+          <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Read
+            </div>
+            <div className="mt-1 text-2xl font-bold">
+              {overallStats.read}/{overallStats.total}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              {overallStats.readPct}% completed
+            </div>
+            <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-emerald-500 rounded-full"
+                style={{ width: `${overallStats.readPct}%` }}
+              />
             </div>
           </div>
         </div>
@@ -200,62 +365,141 @@ export default function TeacherAllocationsPage() {
 
         {loading ? (
           <p className="text-gray-500">Loading allocations...</p>
-        ) : allocations.length === 0 ? (
+        ) : allocationGroups.length === 0 ? (
           <p className="text-gray-500">No allocations found.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse bg-card rounded-lg shadow">
-              <thead>
-                <tr className="border-b border-input text-left">
-                  <th className="px-4 py-3 text-sm font-semibold">Book</th>
-                  <th className="px-4 py-3 text-sm font-semibold">Student</th>
-                  <th className="px-4 py-3 text-sm font-semibold">
-                    Allocated At
-                  </th>
-                  <th className="px-4 py-3 text-sm font-semibold">Status</th>
-                  <th className="px-4 py-3 text-sm font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {allocations.map((a) => (
-                  <tr
-                    key={a.entry_id}
-                    className="border-b border-input hover:bg-muted transition"
-                  >
-                    <td className="px-4 py-3 text-sm font-medium">
-                      {a.book_title}
-                    </td>
-                    <td className="px-4 py-3 text-sm">{a.student_name}</td>
-                    <td className="px-4 py-3 text-sm">
-                      {a.allocated_at
-                        ? new Date(a.allocated_at).toLocaleString()
-                        : '—'}
-                    </td>
-                    <td className="px-4 py-3 text-sm">
-                      <span className="text-muted-foreground">{a.status}</span>
-                    </td>
-                    <td className="px-4 py-3 text-sm">
-                      <div className="flex gap-3 items-center">
-                        <button
-                          onClick={() => setEditing(a)}
-                          className="text-blue-500 hover:underline inline-flex items-center gap-1"
-                        >
-                          <Pencil size={16} />
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => submitDeallocate(a.entry_id)}
-                          className="text-red-500 hover:underline inline-flex items-center gap-1"
-                        >
-                          <Trash2 size={16} />
-                          Remove
-                        </button>
+          <div className="space-y-4">
+            {allocationGroups.map((g) => {
+              const total = g.allocations.length;
+              const notStarted = g.allocations.filter(
+                (a) => statusKeyFromShelfStatus(a.status) === 'not_started'
+              ).length;
+              const reading = g.allocations.filter(
+                (a) => statusKeyFromShelfStatus(a.status) === 'reading'
+              ).length;
+              const read = g.allocations.filter(
+                (a) => statusKeyFromShelfStatus(a.status) === 'read'
+              ).length;
+              const engaged = reading + read;
+              const engagedPct = total > 0 ? Math.round((engaged / total) * 100) : 0;
+
+              return (
+                <div
+                  key={g.book_id}
+                  className="bg-white border border-input rounded-2xl shadow-sm overflow-hidden"
+                >
+                  <div className="p-5 bg-gradient-to-r from-slate-50 to-white border-b border-input">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-xs uppercase tracking-wide text-muted-foreground">
+                          Book allocation
+                        </div>
+                        <div className="text-lg font-semibold truncate">
+                          {g.book_title}
+                        </div>
+                        <div className="mt-2 text-sm text-muted-foreground flex flex-wrap gap-x-3 gap-y-1">
+                          <span>
+                            <span className="font-semibold text-slate-900">
+                              {engaged}/{total}
+                            </span>{' '}
+                            engaged
+                          </span>
+                          <span>
+                            <span className="font-semibold text-slate-900">
+                              {read}/{total}
+                            </span>{' '}
+                            completed
+                          </span>
+                          <span>
+                            <span className="font-semibold text-slate-900">
+                              {notStarted}/{total}
+                            </span>{' '}
+                            not started
+                          </span>
+                        </div>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+                      <div className="w-full md:w-64">
+                        <div className="text-xs text-muted-foreground mb-1">
+                          Progress
+                        </div>
+                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-blue-500 rounded-full"
+                            style={{ width: `${engagedPct}%` }}
+                          />
+                        </div>
+                        <div className="mt-1 text-xs text-muted-foreground">
+                          {engagedPct}% engaged
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-slate-50 text-slate-700 border-slate-200">
+                        <span className="w-2 h-2 rounded-full bg-slate-400" />
+                        Not Started: {notStarted}
+                      </span>
+                      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-amber-50 text-amber-800 border-amber-200">
+                        <span className="w-2 h-2 rounded-full bg-amber-500" />
+                        Reading: {reading}
+                      </span>
+                      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-emerald-50 text-emerald-800 border-emerald-200">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                        Read: {read}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="divide-y divide-input">
+                    {g.allocations.map((a, idx) => {
+                      const key = statusKeyFromShelfStatus(a.status);
+                      const meta = STATUS_META[key];
+                      const rowBg = idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/60';
+
+                      return (
+                        <button
+                          key={a.entry_id}
+                          type="button"
+                          onClick={() => setEditing(a)}
+                          className={`w-full text-left px-5 py-3 ${rowBg} hover:bg-blue-50/40 transition`}
+                          title="Click to manage this allocation"
+                        >
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                            <div className="min-w-0">
+                              <div className="font-medium truncate text-slate-900">
+                                {a.student_name}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {a.allocated_at
+                                  ? `Allocated: ${new Date(
+                                      a.allocated_at
+                                    ).toLocaleString()}`
+                                  : 'Allocated: —'}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <span
+                                className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-semibold ${meta.pill}`}
+                              >
+                                <span
+                                  className={`w-2 h-2 rounded-full ${meta.dot}`}
+                                />
+                                {meta.label}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                Click to manage
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
 
@@ -284,6 +528,27 @@ export default function TeacherAllocationsPage() {
                 <div className="bg-muted p-3 rounded-lg">
                   <div className="text-sm text-muted-foreground">Book</div>
                   <div className="font-medium">{editing.book_title}</div>
+                </div>
+
+                <div className="flex items-center justify-between rounded-lg border border-input bg-white p-3">
+                  <div>
+                    <div className="text-sm font-medium">Student status</div>
+                    <div className="text-xs text-muted-foreground">
+                      This is based on the student’s shelf status for the book.
+                    </div>
+                  </div>
+                  {(() => {
+                    const meta =
+                      STATUS_META[statusKeyFromShelfStatus(editing.status)];
+                    return (
+                      <span
+                        className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-semibold ${meta.pill}`}
+                      >
+                        <span className={`w-2 h-2 rounded-full ${meta.dot}`} />
+                        {meta.label}
+                      </span>
+                    );
+                  })()}
                 </div>
 
                 <div>
@@ -316,6 +581,13 @@ export default function TeacherAllocationsPage() {
                 </div>
 
                 <div className="flex gap-2 justify-end pt-2">
+                  <button
+                    type="button"
+                    className="btnsecondary text-red-600 border-red-200 hover:bg-red-50"
+                    onClick={() => submitDeallocate(editing.entry_id)}
+                  >
+                    Remove allocation
+                  </button>
                   <button
                     type="button"
                     className="btnsecondary"
