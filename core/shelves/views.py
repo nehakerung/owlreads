@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import BookShelfEntry
-from .serializers import BookShelfEntrySerializer
+from .serializers import BookShelfEntrySerializer, SocialUpdateSerializer
 
 User = get_user_model()
 
@@ -233,6 +233,24 @@ class AllocateBookView(APIView):
         entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
 
         return Response(status=204)
+
+
+class SocialFeedView(generics.ListAPIView):
+    """GET /api/social/ — to_read shelf updates for users in same class"""
+    serializer_class = SocialUpdateSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user.classname:
+            return BookShelfEntry.objects.none()
+
+        return (
+            BookShelfEntry.objects
+            .filter(user__classname=user.classname, status="to_read")
+            .select_related("user", "book")
+            .order_by("-updated_at")
+        )
 
 
 class TeacherAllocationsListView(APIView):

@@ -58,20 +58,20 @@
 
 .statusToRead {
   background: var(--accent);
-  color: var(--primary);
-  border-color: var(--secondary);
+  color: var(--primary, #473c38);
+  border-color: var(--secondary, #9dcd5a);
 }
 
 .statusReading {
-  background: var(--primary);
-  color: var(--primary-foreground);
-  border-color: var(--primary-hover);
+  background: var(--primary, #473c38);
+  color: var(--primary-foreground, #ffffff);
+  border-color: var(--primary-hover, #5a4d47);
 }
 
 .statusRead {
-  background: var(--secondary);
-  color: var(--secondary-foreground);
-  border-color: var(--secondary-hover);
+  background: var(--secondary, #9dcd5a);
+  color: var(--secondary-foreground, #ffffff);
+  border-color: var(--secondary-hover, #8db851);
 }
 
 .dropdown {
@@ -118,7 +118,7 @@
 }
 
 .dropdownItemActive {
-  color: var(--secondary);
+  color: var(--secondary, #9dcd5a);
   font-weight: 600;
 }
 

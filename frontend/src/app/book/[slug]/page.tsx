@@ -4,7 +4,7 @@ import '@/styles/bp.css';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
-import ShelfButton from '@/components/bookshelf/ShelfButton';
+import { ShelfButton } from '@/components/bookshelf/ShelfButton';
 import AllocateButton from '@/components/bookshelf/AllocateBook';
 import { useAuth } from '@/context/AuthContext';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
