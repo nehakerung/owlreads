@@ -1,8 +1,12 @@
+from datetime import datetime as dt_datetime
+
 from books.models import Book
 from collection.signals import check_and_grant_awards
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.dateparse import parse_date, parse_datetime
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -225,7 +229,8 @@ class AllocateBookView(APIView):
         )
 
         entry.allocated_by = None
-        entry.save(update_fields=["allocated_by", "updated_at"])
+        entry.allocated_at = None
+        entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
 
         return Response(status=204)
 
@@ -246,3 +251,185 @@ class SocialFeedView(generics.ListAPIView):
             .select_related("user", "book")
             .order_by("-updated_at")
         )
+
+
+class TeacherAllocationsListView(APIView):
+    """GET /api/allocations/ — list allocations made by the logged-in teacher"""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != "teacher":
+            return Response({"error": "Forbidden"}, status=403)
+
+        q = (request.query_params.get("q") or "").strip()
+        qs = (
+            BookShelfEntry.objects.filter(
+                allocated_by=request.user,
+                user__role="student",
+                user__teacher=request.user,
+            )
+            .select_related("book", "user")
+            .order_by("-allocated_at", "-updated_at")
+        )
+
+        # Optional search (book title + student name/username).
+        if q:
+            qs = qs.filter(
+                models.Q(book__title__icontains=q)
+                | models.Q(user__username__icontains=q)
+                | models.Q(user__first_name__icontains=q)
+                | models.Q(user__last_name__icontains=q)
+            )
+
+        data = [
+            {
+                "entry_id": entry.id,
+                "book_id": entry.book_id,
+                "book_title": entry.book.title,
+                "student_id": entry.user_id,
+                "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
+                or entry.user.username,
+                "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,
+                "status": entry.status,
+                "updated_at": entry.updated_at.isoformat() if entry.updated_at else None,
+            }
+            for entry in qs
+        ]
+
+        return Response({"allocations": data, "count": len(data)}, status=200)
+
+
+class TeacherAllocationDetailView(APIView):
+    """
+    PATCH /api/allocations/<entry_id>/ — update allocation metadata.
+    DELETE /api/allocations/<entry_id>/ — remove allocation.
+    """
+
+    permission_classes = [IsAuthenticated]
+
+    def _parse_allocated_at(self, value):
+        if value is None:
+            return None
+
+        # Accept ISO datetime strings (including those produced by JS toISOString()).
+        dt = parse_datetime(value)
+        if dt is not None:
+            if timezone.is_naive(dt):
+                dt = timezone.make_aware(dt, timezone.get_current_timezone())
+            return dt
+
+        # Accept YYYY-MM-DD if a date-only string is provided.
+        d = parse_date(value)
+        if d is not None:
+            return timezone.make_aware(
+                dt_datetime.combine(d, dt_datetime.min.time()),
+                timezone.get_current_timezone(),
+            )
+
+        return None
+
+    def patch(self, request, entry_id: int):
+        if request.user.role != "teacher":
+            return Response({"error": "Forbidden"}, status=403)
+
+        entry = get_object_or_404(
+            BookShelfEntry,
+            id=entry_id,
+            allocated_by=request.user,
+        )
+
+        allocated_at_raw = request.data.get("allocated_at", None)
+        student_id = request.data.get("student_id", None)
+
+        allocated_at = self._parse_allocated_at(allocated_at_raw) if allocated_at_raw is not None else None
+
+        if allocated_at_raw is not None and allocated_at is None:
+            return Response(
+                {"error": "Invalid allocated_at value (expected ISO datetime or YYYY-MM-DD)"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # If student_id is provided, do a "move" by creating/getting the target entry.
+        if student_id is not None:
+            target_student = get_object_or_404(
+                User,
+                id=student_id,
+                teacher=request.user,
+                role="student",
+            )
+
+            if target_student.id != entry.user_id:
+                target_entry, _ = BookShelfEntry.objects.get_or_create(
+                    user=target_student,
+                    book=entry.book,
+                    defaults={"status": entry.status},
+                )
+
+                target_entry.allocated_by = request.user
+                target_entry.allocated_at = (
+                    allocated_at if allocated_at is not None else entry.allocated_at
+                )
+                target_entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
+
+                # Clear the old allocation.
+                entry.allocated_by = None
+                entry.allocated_at = None
+                entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
+
+                return Response(
+                    {
+                        "detail": "Allocation reassigned successfully",
+                        "new_entry_id": target_entry.id,
+                        "allocation": {
+                            "entry_id": target_entry.id,
+                            "book_id": target_entry.book_id,
+                            "book_title": target_entry.book.title,
+                            "student_id": target_entry.user_id,
+                            "student_name": f"{target_entry.user.first_name} {target_entry.user.last_name}".strip()
+                            or target_entry.user.username,
+                            "allocated_at": target_entry.allocated_at.isoformat()
+                            if target_entry.allocated_at
+                            else None,
+                            "status": target_entry.status,
+                        },
+                    },
+                    status=200,
+                )
+
+        # Otherwise, update allocated_at only (or leave unchanged if omitted).
+        if allocated_at is not None:
+            entry.allocated_at = allocated_at
+            entry.save(update_fields=["allocated_at", "updated_at"])
+
+        return Response(
+            {
+                "detail": "Allocation updated successfully",
+                "allocation": {
+                    "entry_id": entry.id,
+                    "book_id": entry.book_id,
+                    "book_title": entry.book.title,
+                    "student_id": entry.user_id,
+                    "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
+                    or entry.user.username,
+                    "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,
+                    "status": entry.status,
+                },
+            },
+            status=200,
+        )
+
+    def delete(self, request, entry_id: int):
+        if request.user.role != "teacher":
+            return Response({"error": "Forbidden"}, status=403)
+
+        entry = get_object_or_404(
+            BookShelfEntry,
+            id=entry_id,
+            allocated_by=request.user,
+        )
+
+        entry.allocated_by = None
+        entry.allocated_at = None
+        entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
+        return Response(status=204)

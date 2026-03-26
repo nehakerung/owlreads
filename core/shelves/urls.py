@@ -10,4 +10,6 @@ urlpatterns = [
     path("social/", views.SocialFeedView.as_view(), name="social-feed"),
     path("allocate/", views.AllocateBookView.as_view(), name="allocate-book"),
     path("allocate/<int:entry_id>/", views.AllocateBookView.as_view(), name="deallocate-book"),
+    path("allocations/", views.TeacherAllocationsListView.as_view(), name="teacher-allocations-list"),
+    path("allocations/<int:entry_id>/", views.TeacherAllocationDetailView.as_view(), name="teacher-allocation-detail"),
 ]
