@@ -49,7 +49,18 @@ export default function SocialPage() {
           <div className="space-y-3">
             {updates.map((update) => (
               <div key={update.id} className="bg-card rounded-lg shadow p-4">
-                <p className="font-medium">{update.message}</p>
+                <p className="font-medium">
+                  <Link
+                    href={`/profile/${update.username}`}
+                    className="underline underline-offset-2 hover:opacity-80"
+                  >
+                    {update.username}
+                  </Link>{' '}
+                  {update.message
+                    .replace(update.username, '')
+                    .trimStart()
+                    .replace(/^\s+/, '')}
+                </p>
                 <p className="text-sm text-gray-500 mt-1">
                   {new Date(update.updated_at).toLocaleString()}
                 </p>
