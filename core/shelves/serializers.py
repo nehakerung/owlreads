@@ -30,3 +30,15 @@ class BookShelfEntrySerializer(serializers.ModelSerializer):
             "allocated_by",
         ]
         read_only_fields = ["id", "added_at", "updated_at", "allocated_at", "allocated_by"]
+
+
+class SocialUpdateSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user.username", read_only=True)
+    message = serializers.SerializerMethodField()
+
+    class Meta:
+        model = BookShelfEntry
+        fields = ["id", "username", "message", "updated_at"]
+
+    def get_message(self, obj):
+        return f"{obj.user.username} has added {obj.book.title} to their to read shelf"

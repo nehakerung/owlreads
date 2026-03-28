@@ -1,7 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fetchShelf, updateShelfEntry, removeFromShelf } from '@/lib/api/shelf';
+import {
+  fetchShelf,
+  updateShelfEntry,
+  removeFromShelf,
+} from '@/services/api/shelf';
 import BookRow from '@/components/bookshelf/BookRow';
 
 interface Book {

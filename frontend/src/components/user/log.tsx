@@ -2,9 +2,8 @@
 import { FiBookOpen, FiAward } from 'react-icons/fi';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import { HiUserGroup } from 'react-icons/hi';
 import { FaUser } from 'react-icons/fa6';
-
+import { FaUserFriends, FaList } from 'react-icons/fa';
 export default function Log() {
   const { user, logout, isTeacher, loading } = useAuth();
 
@@ -30,7 +29,7 @@ export default function Log() {
       {isTeacher && (
         <Link href="/teacher">
           <div className="flex items-center justify-center w-10 h-10">
-            <HiUserGroup className="text-2xl" />
+            <FaList className="text-2xl" />
           </div>
         </Link>
       )}
@@ -42,6 +41,11 @@ export default function Log() {
       <Link href="/user/bookshelf">
         <div className="flex items-center justify-center w-10 h-10">
           <FiBookOpen className="text-2xl" />
+        </div>
+      </Link>
+      <Link href="/social">
+        <div className="flex items-center justify-center w-10 h-10">
+          <FaUserFriends className="text-2xl" />
         </div>
       </Link>
 
