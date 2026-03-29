@@ -33,7 +33,6 @@ const Footer = () => {
             </li>
             <li className="hover:text-white transition">Browse Books</li>
             <li className="hover:text-white transition">Browse Genres</li>
-            <li className="hover:text-white transition">Most Popular</li>
           </ul>
         </div>
 

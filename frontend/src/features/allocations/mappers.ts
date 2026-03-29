@@ -27,11 +27,9 @@ export function toDateTimeLocal(iso: string) {
   const dateObject = new Date(iso);
   const pad = (value: number) => String(value).padStart(2, '0');
 
-  return `${dateObject.getFullYear()}-${pad(
-    dateObject.getMonth() + 1
-  )}-${pad(dateObject.getDate())}T${pad(dateObject.getHours())}:${pad(
-    dateObject.getMinutes()
-  )}`;
+  return `${dateObject.getFullYear()}-${pad(dateObject.getMonth() + 1)}-${pad(
+    dateObject.getDate()
+  )}T${pad(dateObject.getHours())}:${pad(dateObject.getMinutes())}`;
 }
 
 export function dateTimeLocalToIso(dateTimeLocalValue: string): string {
