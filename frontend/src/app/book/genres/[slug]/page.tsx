@@ -1,5 +1,7 @@
-import GenrePage from '@/components/genre/GenrePage';
+import GenreBrowseContent from './GenreBrowseContent';
+
+export const dynamic = 'force-dynamic';
 
 export default function Page() {
-  return <GenrePage />;
+  return <GenreBrowseContent />;
 }
