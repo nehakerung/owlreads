@@ -1,7 +1,6 @@
 'use client';
 import React from 'react';
 import Hero from '@/components/home/Hero';
-import Section from '@/components/home/Section';
 import BookSection from '@/components/home/BookSection';
 
 import { useAuth } from '@/context/AuthContext';
@@ -23,7 +22,6 @@ export default function Home() {
       <div>
         <Hero />
         <BookSection />
-        <Section />
       </div>
     </div>
   );
