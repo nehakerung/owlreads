@@ -12,7 +12,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'first_name', 'last_name',
-                  'classname', 'teachername', 'role', 'last_shelf_update',
+                  'classname', 'teachername', 'role', 'student_id',
+                  'last_shelf_update',
                   'books_read_count', 'books_to_read_count', 'books_reading_count']
 
 
@@ -106,5 +107,5 @@ class ResetPasswordSerializer(serializers.Serializer):
         write_only=True,
         required=True,
         validators=[validate_password],
-        style={'input_type': 'password'}
+        style={'input_type': 'password'},
     )

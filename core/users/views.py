@@ -32,22 +32,34 @@ class UserDetailView(APIView):
 class TeacherResetStudentPasswordView(APIView):
     permission_classes = [IsAuthenticated, IsTeacher]
 
-    def post(self, request, user_id):
+    def post(self, request, student_id):
         try:
-            student = User.objects.get(id=user_id)
+            student = User.objects.get(
+                student_id=student_id,
+                teacher=request.user,
+            )
         except User.DoesNotExist:
-            return Response({"error": "User not found"}, status=404)
+            return Response(
+                {"error": "Student not found or not in your class."},
+                status=404,
+            )
 
-        if not student.is_student:  # cleaner if you add property
-            return Response({"error": "You can only reset student passwords"}, status=403)
+        if not student.is_student:
+            return Response(
+                {"error": "You can only reset student passwords."},
+                status=403,
+            )
 
-        serializer = ResetPasswordSerializer(data=request.data)
-        if serializer.is_valid():
-            student.set_password(serializer.validated_data['new_password'])
+        new_password = request.data.get("new_password")
+        if new_password:
+            serializer = ResetPasswordSerializer(data={"new_password": new_password})
+            serializer.is_valid(raise_exception=True)
+            student.set_password(serializer.validated_data["new_password"])
             student.save()
-            return Response({"message": "Password reset successful"})
+        else:
+            student.reset_password()
 
-        return Response(serializer.errors, status=400)
+        return Response({"message": "Password reset successful"})
 
 
 class UpdateUserView(RetrieveUpdateAPIView):
