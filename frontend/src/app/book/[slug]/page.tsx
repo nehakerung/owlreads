@@ -6,6 +6,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
 import { ShelfButton } from '@/components/bookshelf/ShelfButton';
 import AllocateButton from '@/components/bookshelf/AllocateBook';
+import BookSuggestion from '@/components/suggestions/BookSuggestion';
 import { useAuth } from '@/context/AuthContext';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
@@ -194,6 +195,11 @@ export default function BookPage() {
               </p>
             </section>
           )}
+
+          <BookSuggestion
+            currentBookId={Number(book.id)}
+            categories={book.categories}
+          />
         </div>
       </div>
     </>
