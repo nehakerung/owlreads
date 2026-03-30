@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .models import Book
 from .serializers import BookSerializer
 from .services.google_books import GoogleBooksService
 
@@ -137,12 +138,6 @@ def book_detail_page(request, book_id):
     }
 
     return render(request, 'books/book_detail.html', context)
-from rest_framework.response import Response
-# views.py
-from rest_framework.views import APIView
-
-from .models import Book
-from .serializers import BookSerializer
 
 
 class BookListView(APIView):
