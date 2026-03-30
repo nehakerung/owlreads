@@ -26,7 +26,9 @@ export default function TeacherResetStudentPasswordPage() {
     try {
       const token = Cookies.get('access_token');
       await axios.post(
-        `http://localhost:8000/api/auth/students/${encodeURIComponent(studentId)}/reset-password/`,
+        `http://localhost:8000/api/auth/students/${encodeURIComponent(
+          studentId
+        )}/reset-password/`,
         {},
         {
           headers: {
