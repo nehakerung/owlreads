@@ -49,3 +49,8 @@ class User(AbstractUser):
     def books_reading_count(self):
         """Count books marked as reading in the user's shelf"""
         return self.shelf_entries.filter(status='reading').count()
+
+    def reset_password(self):
+        """Reset the user's password to the default used for teacher-initiated resets."""
+        self.set_password("password")
+        self.save()
