@@ -20,7 +20,7 @@ type Book = {
   authors: string[];
   description: string;
   thumbnail: string;
-  categories?: string[];
+  genres?: string[];
 };
 
 async function fetchBooks(): Promise<Book[]> {
@@ -97,7 +97,7 @@ export default function GenreBrowseContent() {
     return Array.from(
       new Set(
         allBooks.flatMap((book) =>
-          Array.isArray(book.categories) ? book.categories : []
+          Array.isArray(book.genres) ? book.genres : []
         )
       )
     )
@@ -112,7 +112,7 @@ export default function GenreBrowseContent() {
 
   const books = useMemo(() => {
     if (!genreName) return [];
-    return allBooks.filter((book) => book.categories?.includes(genreName));
+    return allBooks.filter((book) => book.genres?.includes(genreName));
   }, [allBooks, genreName]);
 
   const totalPages = Math.ceil(books.length / itemsPerPage);

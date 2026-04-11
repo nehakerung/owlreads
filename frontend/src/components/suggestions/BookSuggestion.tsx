@@ -9,29 +9,29 @@ type Book = {
   id: number;
   title: string;
   thumbnail: string;
-  categories?: string[];
+  genres?: string[];
   average_rating?: number;
   ratings_count?: number;
 };
 
 type BookSuggestionProps = {
   currentBookId: number;
-  categories?: string[];
+  genres?: string[];
   limit?: number;
 };
 
 export default function BookSuggestion({
   currentBookId,
-  categories = [],
+  genres = [],
   limit = 10,
 }: BookSuggestionProps) {
   const [allBooks, setAllBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const normalizedCategories = useMemo(
-    () => categories.map((genre) => genre.trim().toLowerCase()).filter(Boolean),
-    [categories]
+  const normalizedGenres = useMemo(
+    () => genres.map((g) => g.trim().toLowerCase()).filter(Boolean),
+    [genres]
   );
 
   useEffect(() => {
@@ -60,24 +60,22 @@ export default function BookSuggestion({
   }, []);
 
   const suggestedBooks = useMemo(() => {
-    if (normalizedCategories.length === 0) return [];
+    if (normalizedGenres.length === 0) return [];
 
     return allBooks
       .filter((book) => {
         if (book.id === currentBookId) return false;
 
-        const bookCategories = (book.categories ?? [])
-          .map((genre) => genre.trim().toLowerCase())
+        const bookGenres = (book.genres ?? [])
+          .map((g) => g.trim().toLowerCase())
           .filter(Boolean);
 
-        return bookCategories.some((genre) =>
-          normalizedCategories.includes(genre)
-        );
+        return bookGenres.some((g) => normalizedGenres.includes(g));
       })
       .slice(0, limit);
-  }, [allBooks, currentBookId, limit, normalizedCategories]);
+  }, [allBooks, currentBookId, limit, normalizedGenres]);
 
-  if (normalizedCategories.length === 0) return null;
+  if (normalizedGenres.length === 0) return null;
 
   return (
     <section className="main-max-width padding-x mx-auto pb-8 mt-10 border-t border-border pt-8">

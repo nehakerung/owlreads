@@ -8,7 +8,7 @@ interface Book {
   thumbnail: string;
   average_rating: number;
   ratings_count: number;
-  categories?: string[];
+  genres?: string[];
 }
 
 const BookSection = () => {
@@ -23,9 +23,7 @@ const BookSection = () => {
 
   const genres = Array.from(
     new Set(
-      books.flatMap((book) =>
-        Array.isArray(book.categories) ? book.categories : []
-      )
+      books.flatMap((book) => (Array.isArray(book.genres) ? book.genres : []))
     )
   )
     .filter(Boolean)

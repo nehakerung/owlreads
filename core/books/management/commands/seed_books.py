@@ -16,8 +16,6 @@ QUERIES = [
     "subject:juvenile fiction",
     "subject:juvenile nonfiction",
     "subject:picture books",
-    "subject:young adult fiction",
-    "subject:children's stories",
     "Harry Potter children",
     "Diary of a Wimpy Kid",
     "Magic Tree House",
@@ -34,7 +32,6 @@ QUERIES = [
     "Horrible Histories children",
     "children bestseller fiction",
     "children bestseller adventure",
-    "children picture book award",
     "children classic fiction",
 ]
 
@@ -103,8 +100,8 @@ def is_valid_book(volume_info):
     return False
 
 
-def enrich_categories(volume_info):
-    categories = volume_info.get("categories", [])
+def enrich_genres(volume_info):
+    genres = volume_info.get("genres", [])
     desc = volume_info.get("description", "").lower()
     title = volume_info.get("title", "").lower()
     combined = desc + " " + title
@@ -124,9 +121,9 @@ def enrich_categories(volume_info):
 
     for tag, keywords in enrichments.items():
         if any(word in combined for word in keywords):
-            categories.append(tag)
+            genres.append(tag)
 
-    return list(set(categories))
+    return list(set(genres))
 
 
 class Command(BaseCommand):
@@ -204,7 +201,7 @@ class Command(BaseCommand):
                             "description": volume_info.get("description", ""),
                             "thumbnail": thumbnail.replace("http://", "https://", 1) if thumbnail else "",
                             "page_count": volume_info.get("pageCount"),
-                            "categories": enrich_categories(volume_info),
+                            "genres": enrich_genres(volume_info),
                             "average_rating": volume_info.get("averageRating"),
                             "ratings_count": volume_info.get("ratingsCount"),
                         }
