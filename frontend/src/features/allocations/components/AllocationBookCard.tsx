@@ -11,7 +11,7 @@ export function AllocationBookCard(props: {
 
   return (
     <div className="bg-white border border-input rounded-2xl shadow-sm overflow-hidden">
-      <div className="p-5 bg-gradient-to-r from-slate-50 to-white border-b border-input">
+      <div className="p-5 from-slate-50 to-white border-b border-input">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
           <div className="min-w-0">
             <div className="text-xs uppercase tracking-wide text-muted-foreground">

@@ -224,7 +224,7 @@
     @apply px-24 max-sm:px-10;
   }
   .cat-btn {
-    @apply w-62 max-md:w-full h-12 rounded-lg bg-gradient-to-r from-card to-gray-200 shadow-md flex items-center gap-4 px-4 transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-100;
+    @apply w-62 max-md:w-full h-12 rounded-lg from-card to-gray-200 shadow-md flex items-center gap-4 px-4 transition-all duration-300 hover:shadow-lg hover:scale-105 active:scale-100;
   }
   .book-item {
     @apply border bg-card p-4 mb-4 rounded-lg shadow hover:shadow-lg transition;
