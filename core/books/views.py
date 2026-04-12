@@ -140,13 +140,6 @@ def book_detail_page(request, book_id):
     return render(request, 'books/book_detail.html', context)
 
 
-class BookListView(APIView):
-    def get(self, request):
-        books = Book.objects.all()[:10]  # limit for homepage
-        serializer = BookSerializer(books, many=True)
-        return Response(serializer.data)
-
-
 class SuggestedBooksView(APIView):
     """
     Suggest books from the local DB that share genres with the current book.

@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import BookListView, SuggestedBooksView
+from .views import SuggestedBooksView
 from .viewsets import BookViewSet, book_detail_page, book_search_page
 
 router = DefaultRouter()
@@ -20,5 +20,4 @@ urlpatterns = [
     # Frontend routes
     path("books/search/", book_search_page, name="book-search-page"),
     path("books/<str:book_id>/", book_detail_page, name="book-detail-page"),
-    path("api/books/", BookListView.as_view(), name="book-list"),
 ]
