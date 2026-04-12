@@ -33,8 +33,6 @@ class BookSerializer(serializers.Serializer):
     def get_genres(self, obj):
         if isinstance(obj, dict):
             return genres_as_list(obj.get("genres"))
+        if isinstance(obj, Book):
+            return obj.genre_list
         return genres_as_list(getattr(obj, "genres", None))
-
-    class Meta:
-        model = Book
-        fields = "__all__"

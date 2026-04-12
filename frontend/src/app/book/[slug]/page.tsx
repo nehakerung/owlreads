@@ -195,11 +195,12 @@ export default function BookPage() {
               </p>
             </section>
           )}
-
-          <BookSuggestion
-            currentBookId={Number(book.id)}
-            genres={book.genres}
-          />
+          <div className="p-10 min-h-screen flex items-center justify-center --background">
+            <BookSuggestion
+              currentBookId={Number(book.id)}
+              genres={book.genres}
+            />
+          </div>
         </div>
       </div>
     </>

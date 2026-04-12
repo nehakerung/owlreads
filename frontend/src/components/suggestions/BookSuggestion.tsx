@@ -25,55 +25,58 @@ export default function BookSuggestion({
   genres = [],
   limit = 10,
 }: BookSuggestionProps) {
-  const [allBooks, setAllBooks] = useState<Book[]>([]);
+  const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Still useful for consistency
   const normalizedGenres = useMemo(
     () => genres.map((g) => g.trim().toLowerCase()).filter(Boolean),
     [genres]
   );
 
   useEffect(() => {
+    if (normalizedGenres.length === 0) {
+      setSuggestedBooks([]);
+      setLoading(false);
+      return;
+    }
+
     let active = true;
-    const loadBooks = async () => {
+
+    const loadSuggestions = async () => {
       setLoading(true);
       setError(null);
+
       try {
-        const res = await fetch(`${API_BASE_URL}/books/`);
+        const genreParam = normalizedGenres.join(',');
+
+        const res = await fetch(
+          `${API_BASE_URL}/books/suggestions/?genres=${genreParam}&exclude=${currentBookId}&limit=${limit}`
+        );
+
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const data = (await res.json()) as Book[];
-        if (active) setAllBooks(data);
+
+        if (active) setSuggestedBooks(data);
       } catch (err) {
         if (!active) return;
-        setError(err instanceof Error ? err.message : 'Failed to load books');
-        setAllBooks([]);
+        setError(
+          err instanceof Error ? err.message : 'Failed to load suggestions'
+        );
+        setSuggestedBooks([]);
       } finally {
         if (active) setLoading(false);
       }
     };
 
-    loadBooks();
+    loadSuggestions();
+
     return () => {
       active = false;
     };
-  }, []);
-
-  const suggestedBooks = useMemo(() => {
-    if (normalizedGenres.length === 0) return [];
-
-    return allBooks
-      .filter((book) => {
-        if (book.id === currentBookId) return false;
-
-        const bookGenres = (book.genres ?? [])
-          .map((g) => g.trim().toLowerCase())
-          .filter(Boolean);
-
-        return bookGenres.some((g) => normalizedGenres.includes(g));
-      })
-      .slice(0, limit);
-  }, [allBooks, currentBookId, limit, normalizedGenres]);
+  }, [currentBookId, limit, normalizedGenres]);
 
   if (normalizedGenres.length === 0) return null;
 
@@ -83,23 +86,23 @@ export default function BookSuggestion({
         Similar books by genre
       </h2>
 
-      {loading ? (
+      {loading && (
         <p className="text-center text-sm text-muted-foreground mt-2">
           Loading suggestions...
         </p>
-      ) : null}
+      )}
 
-      {error ? (
+      {error && (
         <p className="text-center text-sm text-destructive mt-2">{error}</p>
-      ) : null}
+      )}
 
-      {!loading && !error && suggestedBooks.length === 0 ? (
+      {!loading && !error && suggestedBooks.length === 0 && (
         <p className="text-center text-sm text-muted-foreground mt-2">
           No suggestions found for this genre yet.
         </p>
-      ) : null}
+      )}
 
-      {!loading && !error && suggestedBooks.length > 0 ? (
+      {!loading && !error && suggestedBooks.length > 0 && (
         <div className="flex gap-6 overflow-x-auto pb-4">
           {suggestedBooks.map((book) => {
             const normalizedBook = {
@@ -111,7 +114,7 @@ export default function BookSuggestion({
             return <BookCard key={book.id} book={normalizedBook} />;
           })}
         </div>
-      ) : null}
+      )}
     </section>
   );
 }

@@ -145,3 +145,46 @@ class BookListView(APIView):
         books = Book.objects.all()[:10]  # limit for homepage
         serializer = BookSerializer(books, many=True)
         return Response(serializer.data)
+
+
+class SuggestedBooksView(APIView):
+    """
+    Suggest books from the local DB that share genres with the current book.
+    Book.genres is a JSONField (list of strings), not a related Genre model.
+    """
+
+    def get(self, request):
+        genres_param = request.query_params.get("genres", "")
+        exclude_id = request.query_params.get("exclude")
+        try:
+            limit = max(1, min(int(request.query_params.get("limit", 10)), 50))
+        except (TypeError, ValueError):
+            limit = 10
+
+        genre_list = [
+            g.strip().lower() for g in genres_param.split(",") if g.strip()
+        ]
+
+        queryset = Book.objects.all()
+        if exclude_id is not None and str(exclude_id).strip() != "":
+            try:
+                queryset = queryset.exclude(pk=int(exclude_id))
+            except (TypeError, ValueError):
+                pass
+
+        if not genre_list:
+            return Response([])
+
+        genre_set = set(genre_list)
+        scored = []
+        for book in queryset.iterator(chunk_size=200):
+            book_genres = {g.lower() for g in book.genre_list}
+            overlap = genre_set & book_genres
+            if overlap:
+                scored.append((len(overlap), book.title, book))
+
+        scored.sort(key=lambda row: (-row[0], row[1]))
+        books = [b for _, _, b in scored[:limit]]
+
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
