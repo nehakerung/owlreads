@@ -33,16 +33,21 @@ export default function Log() {
           </div>
         </Link>
       )}
-      <Link href="/user/collection">
-        <div className="flex items-center justify-center w-10 h-10">
-          <FiAward className="text-2xl" />
-        </div>
-      </Link>
-      <Link href="/user/bookshelf">
-        <div className="flex items-center justify-center w-10 h-10">
-          <FiBookOpen className="text-2xl" />
-        </div>
-      </Link>
+      {!isTeacher && (
+        <>
+          <Link href="/user/collection">
+            <div className="flex items-center justify-center w-10 h-10">
+              <FiAward className="text-2xl" />
+            </div>
+          </Link>
+          <Link href="/user/bookshelf">
+            <div className="flex items-center justify-center w-10 h-10">
+              <FiBookOpen className="text-2xl" />
+            </div>
+          </Link>
+        </>
+      )}
+
       <Link href="/social">
         <div className="flex items-center justify-center w-10 h-10">
           <FaUserFriends className="text-2xl" />

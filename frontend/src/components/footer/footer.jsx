@@ -31,8 +31,9 @@ const Footer = () => {
             <li className="hover:text-white transition">
               <Link href="/">Home</Link>
             </li>
-            <li className="hover:text-white transition">Browse Books</li>
-            <li className="hover:text-white transition">Browse Genres</li>
+            <li className="hover:text-white transition">
+              <Link href="/user/register">Register</Link>
+            </li>
           </ul>
         </div>
 
@@ -40,8 +41,6 @@ const Footer = () => {
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Categories</h2>
           <ul className="space-y-3">
-            <li className="hover:text-white transition">FAQ</li>
-
             <li className="hover:text-white transition">
               <Link href="/aboutus">About Us</Link>
             </li>
@@ -49,8 +48,6 @@ const Footer = () => {
             <li className="hover:text-white transition">
               <Link href="/contactus">Contact Us</Link>
             </li>
-
-            <li className="hover:text-white transition">Privacy Policy</li>
           </ul>
         </div>
       </div>

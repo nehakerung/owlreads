@@ -1,6 +1,6 @@
 'use client';
 import '@/styles/bp.css';
-
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
@@ -136,9 +136,13 @@ export default function BookPage() {
               {book.genres && book.genres.length > 0 && (
                 <div className="bp-chips">
                   {book.genres.slice(0, 3).map((g) => (
-                    <span key={g} className="bp-chip">
+                    <Link
+                      key={g}
+                      href={`/book/genres/${g.toLowerCase()}`}
+                      className="bp-chip"
+                    >
                       {g}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               )}

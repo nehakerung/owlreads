@@ -15,20 +15,12 @@ class Collection(models.Model):
 
 
 class Award(models.Model):
-    AWARD_CHOICES = [
-        ('books_1', 'First Book Completed'),
-        ('books_2', '2 Books Completed'),
-        ('books_3', '3 Books Completed'),
-        ('books_5', '5 Books Completed'),
-        ('books_10', '10 Books Completed'),
-    ]
-
     collection = models.ForeignKey(
         Collection,
         on_delete=models.CASCADE,
         related_name='awards'
     )
-    award_type = models.CharField(max_length=50, choices=AWARD_CHOICES)
+    award_type = models.CharField(max_length=150)
     earned_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

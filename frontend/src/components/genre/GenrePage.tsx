@@ -14,7 +14,7 @@ function GenrePage({ genres = [] }: GenrePageProps) {
   const pathname = usePathname() ?? '';
 
   return (
-    <div className="main-max-width mx-auto padding-x py-9">
+    <div className="main-max-width mx-auto py-9">
       <p className="font-semibold text-center">Browse Books by Genre</p>
 
       <div className="flex-center flex-wrap my-6 gap-4">
