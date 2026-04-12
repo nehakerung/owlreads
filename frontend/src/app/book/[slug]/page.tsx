@@ -20,7 +20,7 @@ interface BookDetail {
   published_date: string;
   publisher?: string;
   page_count?: number;
-  categories?: string[];
+  genres?: string[];
   preview_link?: string;
   average_rating?: number;
   ratings_count?: number;
@@ -133,11 +133,11 @@ export default function BookPage() {
 
             {/* Right: metadata */}
             <div className="bp-meta-panel">
-              {book.categories && book.categories.length > 0 && (
+              {book.genres && book.genres.length > 0 && (
                 <div className="bp-chips">
-                  {book.categories.slice(0, 3).map((c) => (
-                    <span key={c} className="bp-chip">
-                      {c}
+                  {book.genres.slice(0, 3).map((g) => (
+                    <span key={g} className="bp-chip">
+                      {g}
                     </span>
                   ))}
                 </div>
@@ -195,11 +195,12 @@ export default function BookPage() {
               </p>
             </section>
           )}
-
-          <BookSuggestion
-            currentBookId={Number(book.id)}
-            categories={book.categories}
-          />
+          <div className="p-10 min-h-screen flex items-center justify-center --background">
+            <BookSuggestion
+              currentBookId={Number(book.id)}
+              genres={book.genres}
+            />
+          </div>
         </div>
       </div>
     </>

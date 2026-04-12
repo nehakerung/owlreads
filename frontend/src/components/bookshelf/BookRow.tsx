@@ -9,7 +9,7 @@ interface Book {
   authors: string[];
   thumbnail: string;
   page_count: number | null;
-  categories: string[];
+  genres?: string[];
   average_rating: number | null;
 }
 
