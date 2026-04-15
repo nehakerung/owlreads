@@ -2,10 +2,11 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from .views import SuggestedBooksView
-from .viewsets import BookViewSet, book_detail_page, book_search_page
+from .viewsets import BookViewSet, ReviewViewSet, book_detail_page, book_search_page
 
 router = DefaultRouter()
 router.register(r'books', BookViewSet, basename='book')
+router.register(r'reviews', ReviewViewSet, basename='review')
 
 urlpatterns = [
     # Must be before router so /api/books/suggestions/ is not captured as /api/books/<pk>/

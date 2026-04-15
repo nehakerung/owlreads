@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Book
+from .models import Book, Review
 
 
 def genres_as_list(value):
@@ -36,3 +36,9 @@ class BookSerializer(serializers.Serializer):
         if isinstance(obj, Book):
             return obj.genre_list
         return genres_as_list(getattr(obj, "genres", None))
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ['id', 'book', 'name', 'role', 'rating', 'comment', 'created_at']

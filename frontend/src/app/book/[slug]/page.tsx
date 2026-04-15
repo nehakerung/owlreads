@@ -8,6 +8,7 @@ import { ShelfButton } from '@/components/bookshelf/ShelfButton';
 import AllocateButton from '@/components/bookshelf/AllocateBook';
 import BookSuggestion from '@/components/suggestions/BookSuggestion';
 import { useAuth } from '@/context/AuthContext';
+import ReviewsSection from '@/components/reviews/ReviewsSection';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 // --- Types ---
@@ -25,6 +26,7 @@ interface BookDetail {
   average_rating?: number;
   ratings_count?: number;
 }
+
 // --- Helpers ---
 async function fetchBook(id: string): Promise<BookDetail> {
   const res = await fetch(`${API_BASE_URL}/books/${id}/`, {
@@ -199,6 +201,7 @@ export default function BookPage() {
               </p>
             </section>
           )}
+          <ReviewsSection bookId={Number(book.id)} bookTitle={book.title} />
           <div className="p-10 min-h-screen flex items-center justify-center --background">
             <BookSuggestion
               currentBookId={Number(book.id)}
