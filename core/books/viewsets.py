@@ -1,10 +1,11 @@
 from django.db.models import Q
 from django.shortcuts import render
 from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
-from .models import Book
-from .serializers import BookSerializer
+from .models import Book, Review
+from .serializers import BookSerializer, ReviewSerializer
 
 
 class BookViewSet(viewsets.ViewSet):
@@ -46,6 +47,19 @@ class BookViewSet(viewsets.ViewSet):
 
         serializer = BookSerializer(book)
         return Response(serializer.data)
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Review.objects.all()
+        book_id = self.request.query_params.get('book')
+        if book_id:
+            queryset = queryset.filter(book_id=book_id)
+        return queryset
 
 
 # Template Views (for frontend pages)
