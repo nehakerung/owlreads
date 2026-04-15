@@ -8,7 +8,7 @@ import { ShelfButton } from '@/components/bookshelf/ShelfButton';
 import AllocateButton from '@/components/bookshelf/AllocateBook';
 import BookSuggestion from '@/components/suggestions/BookSuggestion';
 import { useAuth } from '@/context/AuthContext';
-import ReviewsSection from '@/components/home/ReviewsSection';
+import ReviewsSection from '@/components/reviews/ReviewsSection';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 // --- Types ---

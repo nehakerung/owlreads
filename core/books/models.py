@@ -35,6 +35,7 @@ class Review(models.Model):
         blank=True,
     )
     name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100, blank=True)
     rating = models.PositiveSmallIntegerField()
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
