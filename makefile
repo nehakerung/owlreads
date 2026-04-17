@@ -45,3 +45,7 @@ superuser:
 .PHONY: seed_books
 seed_books:
 	poetry run python core/manage.py seed_books
+
+.PHONY: seed_users
+seed_users:
+	poetry run python core/manage.py seed_classroom
