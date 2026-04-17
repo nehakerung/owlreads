@@ -1,5 +1,4 @@
 from books.models import Book
-from books.serializers import genres_as_list
 from rest_framework import serializers
 
 from .models import BookShelfEntry
@@ -14,7 +13,7 @@ class BookSummarySerializer(serializers.ModelSerializer):
                   "page_count", "genres", "average_rating"]
 
     def get_genres(self, obj):
-        return genres_as_list(obj.genres)
+        return obj.genre_list
 
 
 class BookShelfEntrySerializer(serializers.ModelSerializer):
