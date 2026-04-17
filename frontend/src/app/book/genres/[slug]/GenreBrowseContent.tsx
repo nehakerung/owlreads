@@ -9,8 +9,10 @@ import GenrePage from '@/components/genre/GenrePage';
 import Pagination from '@/components/pagination/pagination';
 import { ShelfButton } from '@/components/bookshelf/ShelfButton';
 import { resolveGenreFromSlug } from '@/lib/genreSlug';
+import AllocateButton from '@/components/bookshelf/AllocateBook';
 
 import styles from '@/app/book/search/SearchContent.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
@@ -30,6 +32,7 @@ async function fetchBooks(): Promise<Book[]> {
 }
 
 function BookItem({ book }: { book: Book }) {
+  const { isTeacher } = useAuth();
   return (
     <div className={styles.resultCard}>
       {book.thumbnail && (
@@ -51,7 +54,8 @@ function BookItem({ book }: { book: Book }) {
           <p className={styles.resultAuthors}>{book.authors.join(', ')}</p>
         )}
         <div className="bp-actions flex gap-3 flex-wrap">
-          <ShelfButton bookId={Number(book.id)} />
+          {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
+          {isTeacher && <AllocateButton bookId={Number(book.id)} />}
         </div>
 
         {book.description && (

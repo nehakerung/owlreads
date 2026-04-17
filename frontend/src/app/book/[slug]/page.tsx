@@ -180,7 +180,7 @@ export default function BookPage() {
 
               {/* ── Shelf + Preview buttons ── */}
               <div className="bp-actions flex gap-3 flex-wrap">
-                <ShelfButton bookId={Number(book.id)} />
+                {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
                 {isTeacher && <AllocateButton bookId={Number(book.id)} />}
               </div>
             </div>

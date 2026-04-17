@@ -7,8 +7,10 @@ import Link from 'next/link';
 
 import Pagination from '@/components/pagination/pagination';
 import { ShelfButton } from '@/components/bookshelf/ShelfButton';
+import AllocateButton from '@/components/bookshelf/AllocateBook';
 
 import styles from './SearchContent.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
@@ -37,6 +39,7 @@ async function searchBooks(query: string, maxResults = 30): Promise<Book[]> {
 }
 
 function BookItem({ book }: { book: Book }) {
+  const { isTeacher } = useAuth();
   return (
     <div className={styles.resultCard}>
       {book.thumbnail && (
@@ -58,7 +61,8 @@ function BookItem({ book }: { book: Book }) {
           <p className={styles.resultAuthors}>{book.authors.join(', ')}</p>
         )}
         <div className="bp-actions flex gap-3 flex-wrap">
-          <ShelfButton bookId={Number(book.id)} />
+          {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
+          {isTeacher && <AllocateButton bookId={Number(book.id)} />}
         </div>
 
         {book.description && (
