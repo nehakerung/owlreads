@@ -22,16 +22,15 @@ export default function TeacherAllocationsPage() {
   if (!isTeacher) {
     return (
       <RequireAuth>
-        <div className="p-8 text-center">
-          <p className="text-red-500">
-            You are not authorized to view this page.
-          </p>
-          <Link
-            href="/teacher"
-            className="mt-4 text-sm text-gray-500 underline"
-          >
-            Go to Dashboard
-          </Link>
+        <div className="page-container">
+          <div className="update-card rounded-lg p-8 text-center">
+            <p className="font-medium text-destructive">
+              You are not authorized to view this page.
+            </p>
+            <Link href="/teacher" className="btnsecondary mt-4 inline-block">
+              Go to Dashboard
+            </Link>
+          </div>
         </div>
       </RequireAuth>
     );
@@ -40,9 +39,11 @@ export default function TeacherAllocationsPage() {
   return (
     <RequireAuth>
       <div className="page-container">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Manage Allocations</h1>
-          <Link href="/teacher" className="btnsecondary">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
+          <h1 className="text-2xl font-bold text-foreground">
+            Manage Allocations
+          </h1>
+          <Link href="/teacher" className="btnsecondary shrink-0 text-center">
             Back to Dashboard
           </Link>
         </div>
@@ -50,16 +51,8 @@ export default function TeacherAllocationsPage() {
         <div className="bg-card rounded-lg p-4 mb-6">
           <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
             <div className="flex gap-2 items-center">
-              <input
-                className="input-field"
-                placeholder="Search by book or student"
-                value={teacherAllocations.query}
-                onChange={(event) =>
-                  teacherAllocations.setQuery(event.target.value)
-                }
-              />
               <select
-                className="input-field"
+                className="block w-full max-w-[220px] rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 value={teacherAllocations.sortOrder}
                 onChange={(event) =>
                   teacherAllocations.setSortOrder(
@@ -86,15 +79,18 @@ export default function TeacherAllocationsPage() {
         />
 
         {teacherAllocations.error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div
+            className="mb-4 rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-destructive"
+            role="alert"
+          >
             {teacherAllocations.error}
           </div>
         )}
 
         {teacherAllocations.loading ? (
-          <p className="text-gray-500">Loading allocations...</p>
+          <p className="text-muted-foreground">Loading allocations...</p>
         ) : teacherAllocations.allocationGroups.length === 0 ? (
-          <p className="text-gray-500">No allocations found.</p>
+          <p className="text-muted-foreground">No allocations found.</p>
         ) : (
           <div className="space-y-4">
             {teacherAllocations.allocationGroups.map((group) => (

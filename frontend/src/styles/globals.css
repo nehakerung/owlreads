@@ -40,6 +40,8 @@
   --input: #e5e5e5;
   --ring: #9dcd5a;
 
+  --destructive: #b91c1c;
+
   /* Sidebar */
   --sidebar: #fafafa;
   --sidebar-foreground: #2a2624;
@@ -80,6 +82,8 @@
   --border: #3a3431;
   --input: #3a3431;
   --ring: #9dcd5a;
+
+  --destructive: #f87171;
 
   /* Sidebar */
   --sidebar: #221e1b;

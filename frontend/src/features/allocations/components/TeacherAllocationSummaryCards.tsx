@@ -7,7 +7,7 @@ export function TeacherAllocationSummaryCards(props: {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Engaged
         </div>
@@ -25,7 +25,7 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
       </div>
 
-      <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Not Started
         </div>
@@ -37,7 +37,7 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
       </div>
 
-      <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Reading
         </div>
@@ -49,7 +49,7 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
       </div>
 
-      <div className="bg-white border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Read
         </div>

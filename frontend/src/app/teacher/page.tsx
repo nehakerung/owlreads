@@ -97,30 +97,12 @@ export default function TeacherDashboard() {
             students were active today or yesterday
           </p>
         </div>
-
-        <div className="flex gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
           <Link href="/teacher/create-student" className="btnprimary">
             Create Student Account
           </Link>
           <Link href="/teacher/allocations" className="btnsecondary">
             Manage Allocations
-          </Link>
-        </div>
-
-        {/* Reset password by student ID */}
-        <div className="flex gap-2 mb-8">
-          <input
-            type="text"
-            placeholder="Enter Student ID to reset password"
-            value={studentId}
-            onChange={(e) => setStudentId(e.target.value)}
-            className="input-field flex-1"
-          />
-          <Link
-            href={`/teacher/reset-password/${studentId}`}
-            className="btnsecondary"
-          >
-            Reset Password
           </Link>
         </div>
 
