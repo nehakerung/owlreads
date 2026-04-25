@@ -11,6 +11,24 @@ services:
             - ./docker/frontend/development:/etc/frontend/conf.d
         depends_on:
             - backend
+
+    # postgres:
+    #     image: postgres:16-alpine
+    #     restart: unless-stopped
+    #     environment:
+    #         POSTGRES_DB: owlreads
+    #         POSTGRES_USER: owl
+    #         POSTGRES_PASSWORD: owl
+    #     volumes:
+    #         - postgres_data:/var/lib/postgresql/data
+    #     ports:
+    #         - "5432:5432"
+    #     healthcheck:
+    #         test: ["CMD-SHELL", "pg_isready -U owl -d owlreads"]
+    #         interval: 5s
+    #         timeout: 5s
+    #         retries: 5
+
     backend:
         restart: unless-stopped
         build:
@@ -21,7 +39,12 @@ services:
             - static_volume:/app/backend/server/django_static
         expose:
             - 8000
-
+        # depends_on:
+        #     postgres:
+        #         condition: service_healthy
+        # After enabling Postgres, switch DATABASES in core/owlreads/settings/base.py to the
+        # Docker PostgreSQL block (HOST `postgres`).
 
 volumes:
     static_volume: {}
+    # postgres_data: {}

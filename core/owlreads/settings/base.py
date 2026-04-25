@@ -74,16 +74,36 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'db-owlreads',
-        # 'USER': 'owl',
-        # 'PASSWORD': 'mypassword',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
-        # 'ATOMIC_REQUESTS': True,
-        # 'CONN_MAX_AGE': 600,
     }
 }
+
+# PostgreSQL via Docker Compose
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "owlreads",
+#         "USER": "owl",
+#         "PASSWORD": "owl",
+#         "HOST": "postgres",
+#         "PORT": "5432",
+#         "ATOMIC_REQUESTS": True,
+#         "CONN_MAX_AGE": 600,
+#     }
+# }
+
+# 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "owlreads",
+#         "USER": "owl",
+#         "PASSWORD": "owl",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#         "ATOMIC_REQUESTS": True,
+#         "CONN_MAX_AGE": 600,
+#     }
+# }
 
 AUTH_USER_MODEL = "users.User"
 # Password validation
