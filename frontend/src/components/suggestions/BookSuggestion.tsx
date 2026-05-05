@@ -29,7 +29,6 @@ export default function BookSuggestion({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Still useful for consistency
   const normalizedGenres = useMemo(
     () => genres.map((g) => g.trim().toLowerCase()).filter(Boolean),
     [genres]

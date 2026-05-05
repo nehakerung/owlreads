@@ -94,15 +94,6 @@ def is_valid_book(volume_info):
     if any(kw in category_str for kw in ALLOWED_CATEGORY_KEYWORDS):
         return True
 
-    # If no categories at all, apply a heuristic: check description/title for child-friendliness
-    if not categories:
-        desc = (volume_info.get("description", "") + " " + volume_info.get("title", "")).lower()
-        child_signals = [
-            "children", "kids", "child", "young readers", "ages",
-            "picture book", "middle grade", "juvenile", "bedtime"
-        ]
-        return any(signal in desc for signal in child_signals)
-
     return False
 
 
