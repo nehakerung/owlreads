@@ -65,7 +65,7 @@ export default function BookShelfPage() {
 
   useEffect(() => {
     const fromUrl = shelfStatusFromQuery(searchParams);
-    if (fromUrl) setActiveFilter(fromUrl);
+    setActiveFilter(fromUrl ?? 'all');
   }, [searchParams]);
 
   useEffect(() => {

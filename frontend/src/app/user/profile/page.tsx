@@ -94,26 +94,35 @@ export default function Profile() {
               </div>
               <div className="text-sm text-green-700">Books Read</div>
             </Link>
-            <div className="text-center p-4 bg-blue-50 rounded-lg block hover:ring-2 hover:ring-blue-200/80 transition">
+            <Link
+              href="/user/bookshelf?status=reading"
+              className="text-center p-4 bg-blue-50 rounded-lg block hover:ring-2 hover:ring-blue-200/80 transition"
+            >
               <div className="text-2xl font-bold text-blue-600">
                 {user.books_reading_count || 0}
               </div>
               <div className="text-sm text-blue-700">Currently Reading</div>
-            </div>
-            <div className="text-center p-4 bg-yellow-50 rounded-lg block hover:ring-2 hover:ring-yellow-200/80 transition">
+            </Link>
+            <Link
+              href="/user/bookshelf?status=to_read"
+              className="text-center p-4 bg-yellow-50 rounded-lg block hover:ring-2 hover:ring-yellow-200/80 transition"
+            >
               <div className="text-2xl font-bold text-yellow-600">
                 {user.books_to_read_count || 0}
               </div>
               <div className="text-sm text-yellow-700">To Read</div>
-            </div>
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
+            </Link>
+            <Link
+              href="/user/bookshelf"
+              className="text-center p-4 bg-gray-50 rounded-lg block hover:ring-2 hover:ring-gray-200/80 transition"
+            >
               <div className="text-2xl font-bold text-gray-600">
                 {(user.books_read_count || 0) +
                   (user.books_reading_count || 0) +
                   (user.books_to_read_count || 0)}
               </div>
               <div className="text-sm text-gray-700">Total Books</div>
-            </div>
+            </Link>
           </div>
           <div className="mt-4 pt-4 border-t">
             <p className="text-sm text-gray-600">
