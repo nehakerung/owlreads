@@ -3,10 +3,17 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import {
+  CollectionSummaryHeader,
+  useCollectionSummaryStats,
+  useUserCollection,
+} from '@/components/collection';
 
 export default function Profile() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const { collection, fetching, error } = useUserCollection(user);
+  const summary = useCollectionSummaryStats(collection);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -113,6 +120,20 @@ export default function Profile() {
             </p>
           </div>
         </div>
+
+        {fetching && !collection ? (
+          <div className="bg-card rounded-lg shadow p-6 mt-6 text-muted-foreground">
+            Loading collection…
+          </div>
+        ) : null}
+        {error ? (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-6">
+            {error}
+          </div>
+        ) : null}
+        {!(fetching && !collection) && !error ? (
+          <CollectionSummaryHeader {...summary} className="mt-6 mb-0" />
+        ) : null}
       </div>
     </div>
   );
