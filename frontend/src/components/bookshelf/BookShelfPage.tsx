@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import {
   fetchShelf,
   updateShelfEntry,
@@ -46,10 +47,26 @@ type FilterValue = ShelfStatus | 'all';
 
 type StatusCounts = Partial<Record<ShelfStatus, number>>;
 
+function shelfStatusFromQuery(params: {
+  get: (name: string) => string | null;
+}): ShelfStatus | null {
+  const raw = params.get('status');
+  if (raw === 'to_read' || raw === 'reading' || raw === 'read') return raw;
+  return null;
+}
+
 export default function BookShelfPage() {
+  const searchParams = useSearchParams();
   const [entries, setEntries] = useState<ShelfEntry[]>([]);
-  const [activeFilter, setActiveFilter] = useState<FilterValue>('all');
+  const [activeFilter, setActiveFilter] = useState<FilterValue>(
+    () => shelfStatusFromQuery(searchParams) ?? 'all'
+  );
   const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fromUrl = shelfStatusFromQuery(searchParams);
+    setActiveFilter(fromUrl ?? 'all');
+  }, [searchParams]);
 
   useEffect(() => {
     const load = async () => {
