@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import {
@@ -84,19 +85,22 @@ export default function Profile() {
         <div className="bg-card rounded-lg shadow p-6 mt-6">
           <h3 className="text-xl font-bold mb-4">Bookshelf Statistics</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center p-4 bg-green-50 rounded-lg">
+            <Link
+              href="/user/bookshelf?status=read"
+              className="text-center p-4 bg-green-50 rounded-lg block hover:ring-2 hover:ring-green-200/80 transition"
+            >
               <div className="text-2xl font-bold text-green-600">
                 {user.books_read_count || 0}
               </div>
               <div className="text-sm text-green-700">Books Read</div>
-            </div>
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
+            </Link>
+            <div className="text-center p-4 bg-blue-50 rounded-lg block hover:ring-2 hover:ring-blue-200/80 transition">
               <div className="text-2xl font-bold text-blue-600">
                 {user.books_reading_count || 0}
               </div>
               <div className="text-sm text-blue-700">Currently Reading</div>
             </div>
-            <div className="text-center p-4 bg-yellow-50 rounded-lg">
+            <div className="text-center p-4 bg-yellow-50 rounded-lg block hover:ring-2 hover:ring-yellow-200/80 transition">
               <div className="text-2xl font-bold text-yellow-600">
                 {user.books_to_read_count || 0}
               </div>
