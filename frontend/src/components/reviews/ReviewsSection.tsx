@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Quote, Star } from 'lucide-react';
+import Link from 'next/link';
 import {
   createReaderReview,
   fetchReaderReviews,
@@ -164,8 +165,18 @@ const ReviewsSection = ({ bookId, bookTitle }: ReviewsSectionProps) => {
             </button>
           </form>
         ) : (
-          <p className="mb-6 text-sm text-muted-foreground">
-            Log in to add a review for this book.
+          <p className="mb-6 text-center text-sm">
+            <Link href="/user/login" className="secondary-link hover:underline">
+              Log in
+            </Link>{' '}
+            or{' '}
+            <Link
+              href="/user/register"
+              className="secondary-link hover:underline"
+            >
+              Sign up
+            </Link>{' '}
+            to add a review for this book.
           </p>
         )}
 
@@ -188,7 +199,7 @@ const ReviewsSection = ({ bookId, bookTitle }: ReviewsSectionProps) => {
           ))}
         </div>
         {reviews.length === 0 ? (
-          <p className="mt-4 text-sm text-muted-foreground">
+          <p className="mt-4 text-center text-sm">
             No reviews yet for this book. Be the first to leave one.
           </p>
         ) : null}
