@@ -106,6 +106,10 @@ export default function BookShelfPage() {
   return (
     <div className="page-container">
       <h1 className="text-2xl font-bold mb-6">My Bookshelf</h1>
+      <p className="mb-6 text-sm max-w-3xl">
+        Keep track of your reading journey. Add books to your shelf and update
+        their status as you go!
+      </p>
       <div className="bg-card rounded-lg shadow p-6 mb-6">
         <p>
           {' '}

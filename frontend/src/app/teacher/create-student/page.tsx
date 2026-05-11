@@ -57,6 +57,11 @@ export default function CreateStudentPage() {
         <h2 className="text-3xl font-bold text-center">
           Create Student Account
         </h2>
+        <p className="text-sm text-center max-w-md mx-auto">
+          Students sign in with the username and password you set here. Share
+          these credentials securely; you can reset a forgotten password from
+          the teacher dashboard.
+        </p>
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -73,6 +78,10 @@ export default function CreateStudentPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium">Username</label>
+            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
+              They will use this every time they sign in, so keep it memorable
+              and unique in your class.
+            </p>
             <input
               type="text"
               value={username}
@@ -84,6 +93,9 @@ export default function CreateStudentPage() {
 
           <div>
             <label className="block text-sm font-medium">First Name</label>
+            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
+              Shown in your roster and can help you match accounts to learners.
+            </p>
             <input
               type="text"
               value={first_name}
@@ -95,6 +107,10 @@ export default function CreateStudentPage() {
 
           <div>
             <label className="block text-sm font-medium">Last Name</label>
+            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
+              Used with first name on your roster and when you look up this
+              student.
+            </p>
             <input
               type="text"
               value={last_name}
@@ -108,6 +124,11 @@ export default function CreateStudentPage() {
             <label className="block text-sm font-medium">
               Temporary Password
             </label>
+            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
+              Initial password for their first login. Use something easy to
+              communicate in person; you can reset it anytime from the
+              dashboard.
+            </p>
             <input
               type="password"
               value={password}

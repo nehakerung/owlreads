@@ -39,7 +39,7 @@ export default function TeacherAllocationsPage() {
   return (
     <RequireAuth>
       <div className="page-container">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-2">
           <h1 className="text-2xl font-bold text-foreground">
             Manage Allocations
           </h1>
@@ -47,11 +47,24 @@ export default function TeacherAllocationsPage() {
             Back to Dashboard
           </Link>
         </div>
+        <p className="mb-6 text-sm max-w-3xl">
+          Allocations are books you have assigned to students. Open a book in
+          the list to change who it is assigned to, update dates, or remove an
+          assignment. The summary cards show totals across all current
+          assignments.
+        </p>
 
         <div className="bg-card rounded-lg p-4 mb-6">
           <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-            <div className="flex gap-2 items-center">
+            <div className="flex flex-col gap-1 sm:gap-2">
+              <label
+                htmlFor="allocation-sort"
+                className="text-xs font-medium uppercase tracking-wide"
+              >
+                Sort books
+              </label>
               <select
+                id="allocation-sort"
                 className="block w-full max-w-[220px] rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 value={teacherAllocations.sortOrder}
                 onChange={(event) =>
@@ -63,6 +76,11 @@ export default function TeacherAllocationsPage() {
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
               </select>
+              <p className="text-xs max-w">
+                Books are ordered by the latest assignment date on each title
+                (if there are several allocations for one book, the most recent
+                date is used).
+              </p>
             </div>
             <div className="text-sm text-muted-foreground">
               Showing{' '}
@@ -90,7 +108,14 @@ export default function TeacherAllocationsPage() {
         {teacherAllocations.loading ? (
           <p className="text-muted-foreground">Loading allocations...</p>
         ) : teacherAllocations.allocationGroups.length === 0 ? (
-          <p className="text-muted-foreground">No allocations found.</p>
+          <div className="rounded-lg border border-border bg-muted/30 px-4 py-5 text-sm text-muted-foreground max-w-xl">
+            <p className="font-medium text-foreground">No allocations yet</p>
+            <p className="mt-2">
+              When you assign a book to a student from a book page (or anywhere
+              the allocate action is available), it will show up here for
+              tracking and edits.
+            </p>
+          </div>
         ) : (
           <div className="space-y-4">
             {teacherAllocations.allocationGroups.map((group) => (

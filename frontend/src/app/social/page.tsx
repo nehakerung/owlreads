@@ -26,6 +26,11 @@ export default function SocialPage() {
     <RequireAuth>
       <div className="page-container">
         <h1 className="text-2xl font-bold mb-6">Class Social Feed</h1>
+        <p className="mb-6 text-sm max-w-3xl">
+          See recent activity from your class here. When students add books to
+          their to-read shelf, they will show up in this feed so you can stay
+          updated on their reading interests and progress.
+        </p>
 
         {loading ? (
           <div className="space-y-3">

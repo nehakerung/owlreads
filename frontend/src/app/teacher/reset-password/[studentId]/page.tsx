@@ -83,6 +83,11 @@ export default function TeacherResetStudentPasswordPage() {
             Student ID:{' '}
             <span className="font-mono font-semibold">{studentId}</span>
           </p>
+          <p className="text-sm text-center max-w-sm mx-auto">
+            Use this when the student cannot log in. They should change this
+            default as soon as they are back in their account so the classroom
+            default is not left in place.
+          </p>
           <p className="text-sm text-center">
             Their login password will be set to the default:{' '}
             <span className="font-mono font-semibold">password</span>
