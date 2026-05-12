@@ -11,20 +11,20 @@ export const ALLOCATION_STATUS_META: Record<
 > = {
   not_started: {
     label: 'Not Started',
-    pill: 'bg-slate-100 text-slate-700 border-slate-200',
-    dot: 'bg-slate-400',
+    pill: 'bg-red-100 text-[var(--red)]-700 border-[var(--red)]-200',
+    dot: 'bg-red-400',
     sortRank: 0,
   },
   reading: {
     label: 'Reading',
-    pill: 'bg-amber-50 text-amber-800 border-amber-200',
-    dot: 'bg-amber-500',
+    pill: 'bg-yellow-50 text-[var(--yellow)] border-[var(--yellow)]-200',
+    dot: 'bg-yellow-500',
     sortRank: 1,
   },
   read: {
     label: 'Read',
-    pill: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    dot: 'bg-emerald-500',
+    pill: 'bg-green-50 text-[var(--mint)] border-[var(--mint)]-200',
+    dot: 'bg-green-500',
     sortRank: 2,
   },
 };

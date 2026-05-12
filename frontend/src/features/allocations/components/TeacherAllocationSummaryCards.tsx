@@ -7,7 +7,7 @@ export function TeacherAllocationSummaryCards(props: {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-gray-50 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Engaged
         </div>
@@ -19,13 +19,13 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
         <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-blue-500 rounded-full"
+            className="h-full bg-[var(--green)] rounded-full"
             style={{ width: `${overallStats.engagedPct}%` }}
           />
         </div>
       </div>
 
-      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-red-100 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Not Started
         </div>
@@ -37,7 +37,7 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
       </div>
 
-      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-yellow-100 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Reading
         </div>
@@ -49,7 +49,7 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
       </div>
 
-      <div className="bg-card-2 border border-input rounded-xl p-4 shadow-sm">
+      <div className="bg-green-100 border border-input rounded-xl p-4 shadow-sm">
         <div className="text-xs uppercase tracking-wide text-muted-foreground">
           Read
         </div>
@@ -61,7 +61,7 @@ export function TeacherAllocationSummaryCards(props: {
         </div>
         <div className="mt-3 h-2 bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-emerald-500 rounded-full"
+            className="h-full bg-[var(--green)] rounded-full"
             style={{ width: `${overallStats.readPct}%` }}
           />
         </div>

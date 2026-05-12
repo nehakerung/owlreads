@@ -56,16 +56,16 @@ export function AllocationBookCard(props: {
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs text-black font-medium bg-slate-50 border-slate-200">
-            <span className="w-2 h-2 rounded-full bg-slate-400" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs text-[var(--red)] font-medium bg-red-50 border-red-200">
+            <span className="w-2 h-2 rounded-full bg-[var(--red)]" />
             Not Started: {bookStats.notStarted}
           </span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-amber-50 text-amber-800 border-amber-200">
-            <span className="w-2 h-2 rounded-full bg-amber-500" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-yellow-50 text-[var(--yellow)] border-yellow-200">
+            <span className="w-2 h-2 rounded-full bg-[var(--yellow)]" />
             Reading: {bookStats.reading}
           </span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-emerald-50 text-emerald-800 border-emerald-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-green-50 text-[var(--mint)] border-green-200">
+            <span className="w-2 h-2 rounded-full bg-[var(--mint)]" />
             Read: {bookStats.read}
           </span>
         </div>

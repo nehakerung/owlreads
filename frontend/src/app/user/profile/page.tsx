@@ -89,28 +89,30 @@ export default function Profile() {
               href="/user/bookshelf?status=read"
               className="text-center p-4 bg-green-50 rounded-lg block hover:ring-2 hover:ring-green-200/80 transition"
             >
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-[var(--mint)]">
                 {user.books_read_count || 0}
               </div>
-              <div className="text-sm text-green-700">Books Read</div>
+              <div className="text-sm text-[var(--mint)]">Books Read</div>
             </Link>
             <Link
               href="/user/bookshelf?status=reading"
-              className="text-center p-4 bg-blue-50 rounded-lg block hover:ring-2 hover:ring-blue-200/80 transition"
+              className="text-center p-4 bg-yellow-50 rounded-lg block hover:ring-2 hover:ring-yellow-200/80 transition"
             >
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-[var(--yellow)]">
                 {user.books_reading_count || 0}
               </div>
-              <div className="text-sm text-blue-700">Currently Reading</div>
+              <div className="text-sm text-[var(--yellow)]">
+                Currently Reading
+              </div>
             </Link>
             <Link
               href="/user/bookshelf?status=to_read"
-              className="text-center p-4 bg-yellow-50 rounded-lg block hover:ring-2 hover:ring-yellow-200/80 transition"
+              className="text-center p-4 bg-red-50 rounded-lg block hover:ring-2 hover:ring-red-200/80 transition"
             >
-              <div className="text-2xl font-bold text-yellow-600">
+              <div className="text-2xl font-bold text-[var(--red)]">
                 {user.books_to_read_count || 0}
               </div>
-              <div className="text-sm text-yellow-700">To Read</div>
+              <div className="text-sm text-[var(--red)]">To Read</div>
             </Link>
             <Link
               href="/user/bookshelf"
