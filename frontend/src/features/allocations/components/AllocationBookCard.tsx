@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import type { Allocation, AllocationGroup } from '../types';
 import { computeAllocationStats } from '../mappers';
 import { AllocationStatusBadge } from './AllocationStatusBadge';
@@ -18,7 +20,12 @@ export function AllocationBookCard(props: {
               Book allocation
             </div>
             <div className="text-lg font-semibold truncate">
-              {group.book_title}
+              <Link
+                href={`/book/${group.book_id}`}
+                className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+              >
+                {group.book_title}
+              </Link>
             </div>
 
             <div className="mt-2 text-sm flex flex-wrap gap-x-3 gap-y-1">
@@ -26,7 +33,7 @@ export function AllocationBookCard(props: {
                 <span className="font-semibold">
                   {bookStats.engaged}/{bookStats.total}
                 </span>{' '}
-                engaged
+                on track
               </span>
               <span>
                 <span className="font-semibold">
@@ -51,7 +58,7 @@ export function AllocationBookCard(props: {
                 style={{ width: `${bookStats.engagedPct}%` }}
               />
             </div>
-            <div className="mt-1 text-xs">{bookStats.engagedPct}% engaged</div>
+            <div className="mt-1 text-xs">{bookStats.engagedPct}% on track</div>
           </div>
         </div>
 
@@ -81,7 +88,7 @@ export function AllocationBookCard(props: {
               type="button"
               onClick={() => onSelectAllocation(allocation)}
               className={`w-full text-left px-5 py-3 ${rowBackground} hover:bg-blue-50/40 transition`}
-              title="Click to manage this allocation"
+              title="Edit assignment, date, or remove"
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className="min-w-0">
@@ -99,8 +106,8 @@ export function AllocationBookCard(props: {
 
                 <div className="flex items-center gap-2">
                   <AllocationStatusBadge shelfStatus={allocation.status} />
-                  <span className="text-xs text-muted-foreground">
-                    Click to manage
+                  <span className="text-xs text-muted-foreground shrink-0">
+                    Edit
                   </span>
                 </div>
               </div>

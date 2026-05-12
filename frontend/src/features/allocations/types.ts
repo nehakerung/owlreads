@@ -7,6 +7,7 @@ export type Student = {
   first_name: string;
   last_name: string;
   full_name?: string;
+  student_id?: string | null;
 };
 
 export type Allocation = {
@@ -15,6 +16,8 @@ export type Allocation = {
   book_title: string;
   student_id: number;
   student_name: string;
+  student_username?: string | null;
+  class_student_id?: string | null;
   allocated_at: string | null;
   status: string;
   updated_at?: string | null;

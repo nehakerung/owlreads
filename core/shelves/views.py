@@ -262,6 +262,7 @@ class TeacherAllocationsListView(APIView):
                 | models.Q(user__username__icontains=q)
                 | models.Q(user__first_name__icontains=q)
                 | models.Q(user__last_name__icontains=q)
+                | models.Q(user__student_id__icontains=q)
             )
 
         data = [
@@ -270,6 +271,8 @@ class TeacherAllocationsListView(APIView):
                 "book_id": entry.book_id,
                 "book_title": entry.book.title,
                 "student_id": entry.user_id,
+                "student_username": entry.user.username,
+                "class_student_id": entry.user.student_id or None,
                 "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
                 or entry.user.username,
                 "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,
@@ -360,6 +363,8 @@ class TeacherAllocationDetailView(APIView):
                             "book_id": target_entry.book_id,
                             "book_title": target_entry.book.title,
                             "student_id": target_entry.user_id,
+                            "student_username": target_entry.user.username,
+                            "class_student_id": target_entry.user.student_id or None,
                             "student_name": f"{target_entry.user.first_name} {target_entry.user.last_name}".strip()
                             or target_entry.user.username,
                             "allocated_at": target_entry.allocated_at.isoformat()
@@ -383,6 +388,8 @@ class TeacherAllocationDetailView(APIView):
                     "book_id": entry.book_id,
                     "book_title": entry.book.title,
                     "student_id": entry.user_id,
+                    "student_username": entry.user.username,
+                    "class_student_id": entry.user.student_id or None,
                     "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
                     or entry.user.username,
                     "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,

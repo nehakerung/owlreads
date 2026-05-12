@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { RefreshCw } from 'lucide-react';
 
 import RequireAuth from '@/components/user/RequireAuth';
 import { useAuth } from '@/context/AuthContext';
@@ -18,6 +20,28 @@ export default function TeacherAllocationsPage() {
   const allocationEditor = useAllocationEditor({
     reloadAllocations: teacherAllocations.reloadAllocations,
   });
+
+  const [searchDraft, setSearchDraft] = useState(teacherAllocations.query);
+  const setQueryRef = useRef(teacherAllocations.setQuery);
+  setQueryRef.current = teacherAllocations.setQuery;
+
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      setQueryRef.current(searchDraft);
+    }, 350);
+    return () => window.clearTimeout(id);
+  }, [searchDraft]);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await teacherAllocations.reloadAllocations();
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   if (!isTeacher) {
     return (
@@ -43,19 +67,50 @@ export default function TeacherAllocationsPage() {
           <h1 className="text-2xl font-bold text-foreground">
             Manage Allocations
           </h1>
-          <Link href="/teacher" className="btnsecondary shrink-0 text-center">
-            Back to Dashboard
-          </Link>
+          <div className="flex flex-wrap gap-2 shrink-0">
+            <button
+              type="button"
+              className="btnsecondary inline-flex items-center justify-center gap-2"
+              onClick={() => void handleRefresh()}
+              disabled={refreshing || teacherAllocations.loading}
+            >
+              <RefreshCw
+                className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`}
+                aria-hidden
+              />
+              Refresh
+            </button>
+            <Link href="/teacher" className="btnsecondary text-center">
+              Dashboard
+            </Link>
+          </div>
         </div>
-        <p className="mb-6 text-sm max-w-3xl">
-          Allocations are books you have assigned to students. Open a book in
-          the list to change who it is assigned to, update dates, or remove an
-          assignment. The summary cards show totals across all current
-          assignments.
+        <p className="mb-6 text-sm max-w-3xl text-muted-foreground">
+          Books you have assigned appear grouped by title. Search by book name,
+          student name, login, or roster ID. Open a row to reassign another
+          learner, fix the assigned date, or remove the assignment. Summary
+          numbers reflect the current filter.
         </p>
 
         <div className="bg-card rounded-lg p-4 mb-6">
-          <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="flex flex-col gap-1 flex-1 min-w-0 max-w-md">
+              <label
+                htmlFor="allocation-search"
+                className="text-xs font-medium uppercase tracking-wide"
+              >
+                Search
+              </label>
+              <input
+                id="allocation-search"
+                type="search"
+                placeholder="Book title, student name, @username, or roster ID"
+                className="block w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                value={searchDraft}
+                onChange={(event) => setSearchDraft(event.target.value)}
+                autoComplete="off"
+              />
+            </div>
             <div className="flex flex-col gap-1 sm:gap-2">
               <label
                 htmlFor="allocation-sort"
@@ -76,18 +131,17 @@ export default function TeacherAllocationsPage() {
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
               </select>
-              <p className="text-xs max-w">
-                Books are ordered by the latest assignment date on each title
-                (if there are several allocations for one book, the most recent
-                date is used).
+              <p className="text-xs text-muted-foreground max-w-xs">
+                Order uses the latest assignment time on each book.
               </p>
             </div>
-            <div className="text-sm text-muted-foreground">
-              Showing{' '}
-              <span className="font-semibold">
+            <div className="text-sm text-muted-foreground lg:text-right">
+              <span className="font-semibold text-foreground">
                 {teacherAllocations.allocationGroups.length}
               </span>{' '}
-              books
+              book
+              {teacherAllocations.allocationGroups.length === 1 ? '' : 's'}
+              {teacherAllocations.query.trim() ? ' (filtered)' : ''}
             </div>
           </div>
         </div>
@@ -111,9 +165,11 @@ export default function TeacherAllocationsPage() {
           <div className="rounded-lg border border-border bg-muted/30 px-4 py-5 text-sm text-muted-foreground max-w-xl">
             <p className="font-medium text-foreground">No allocations yet</p>
             <p className="mt-2">
-              When you assign a book to a student from a book page (or anywhere
-              the allocate action is available), it will show up here for
-              tracking and edits.
+              Assign books from a book&apos;s page when you are logged in as a
+              teacher, then return here to review progress.{' '}
+              <Link href="/book/search" className="underline text-foreground">
+                Browse books
+              </Link>
             </p>
           </div>
         ) : (
