@@ -126,8 +126,8 @@ export default function TeacherDashboard() {
               <span className="font-medium text-foreground">
                 Manage Allocations
               </span>{' '}
-              is where you assign books from your collection to students and
-              adjust those assignments.
+              is where you allocate books from your collection to students and
+              adjust those allocations.
             </p>
           </div>
         </div>
