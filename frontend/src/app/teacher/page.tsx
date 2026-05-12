@@ -201,7 +201,7 @@ export default function TeacherDashboard() {
                               `/teacher/reset-password/${student.student_id}`
                             )
                           }
-                          className="text-sm text-blue-500 hover:underline"
+                          className="text-sm text-[var(--green)]-500 hover:underline"
                         >
                           Reset Password
                         </button>

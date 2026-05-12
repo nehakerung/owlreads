@@ -47,7 +47,7 @@ export function AllocationBookCard(props: {
             <div className="text-xs mb-1">Progress</div>
             <div className="h-2 bg-slate-100 rounded-full overflow-hidden text-grey-500">
               <div
-                className="h-full bg-blue-500 rounded-full"
+                className="h-full bg-[var(--green)] rounded-full"
                 style={{ width: `${bookStats.engagedPct}%` }}
               />
             </div>

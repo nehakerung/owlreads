@@ -96,7 +96,7 @@ export function AllocateBookModal(props: {
               type="button"
               onClick={onSubmitAllocate}
               disabled={!canSubmit || selectedStudentIds.length === 0}
-              className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:bg-gray-300"
+              className="mt-4 w-full bg-[var(--green)] text-white py-2 rounded-lg hover:bg--[var(--green)]-700 disabled:bg-gray-300"
             >
               {isAllocating ? (
                 <Loader2 className="animate-spin mx-auto" size={16} />
