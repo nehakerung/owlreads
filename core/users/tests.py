@@ -1,3 +1,7 @@
-# from django.test import TestCase
+from django.apps import apps
+from django.test import TestCase
 
-# Create your tests here.
+
+class UsersAppTests(TestCase):
+    def test_app_label(self):
+        self.assertIn("users", apps.app_configs)

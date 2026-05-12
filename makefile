@@ -49,3 +49,7 @@ seed_books:
 .PHONY: seed_users
 seed_users:
 	poetry run python core/manage.py seed_classroom
+
+.PHONY: test
+test:
+	cd core && poetry run python manage.py test

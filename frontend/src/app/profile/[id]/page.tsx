@@ -133,22 +133,24 @@ export default function UserProfile() {
             <h3 className="text-xl font-bold mb-4">Bookshelf Statistics</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">
+                <div className="text-2xl font-bold text-[var(--mint)]">
                   {profileUser.books_read_count || 0}
                 </div>
-                <div className="text-sm text-green-700">Books Read</div>
-              </div>
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">
-                  {profileUser.books_reading_count || 0}
-                </div>
-                <div className="text-sm text-blue-700">Currently Reading</div>
+                <div className="text-sm text-[var(--mint)]">Books Read</div>
               </div>
               <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">
+                <div className="text-2xl font-bold text-[var(--yellow)]">
+                  {profileUser.books_reading_count || 0}
+                </div>
+                <div className="text-sm text-[var(--yellow)]">
+                  Currently Reading
+                </div>
+              </div>
+              <div className="text-center p-4 bg-red-50 rounded-lg">
+                <div className="text-2xl font-bold text-[var(--red)]">
                   {profileUser.books_to_read_count || 0}
                 </div>
-                <div className="text-sm text-yellow-700">To Read</div>
+                <div className="text-sm text-[var(--red)]">To Read</div>
               </div>
               <div className="text-center p-4 bg-gray-50 rounded-lg">
                 <div className="text-2xl font-bold text-gray-600">

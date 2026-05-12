@@ -57,6 +57,11 @@ export default function CreateStudentPage() {
         <h2 className="text-3xl font-bold text-center">
           Create Student Account
         </h2>
+        <p className="text-sm text-center max-w-md mx-auto">
+          Students sign in with the username and password you set here. Share
+          these credentials securely; you can reset a forgotten password from
+          the teacher dashboard.
+        </p>
 
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -108,6 +113,9 @@ export default function CreateStudentPage() {
             <label className="block text-sm font-medium">
               Temporary Password
             </label>
+            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
+              Initial password for their first login.
+            </p>
             <input
               type="password"
               value={password}

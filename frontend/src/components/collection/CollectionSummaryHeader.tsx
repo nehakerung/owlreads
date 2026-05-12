@@ -25,7 +25,7 @@ export function CollectionSummaryHeader({
         {earnedCount} of {totalAwardSlots} awards earned
         {totalAwardSlots > MILESTONE_AWARDS.length ? (
           <span className="block mt-1 text-xs">
-            Includes reading milestones and one medal per genre in the catalog.
+            This tracks reading rewards you can earn by completing books.
           </span>
         ) : null}
       </p>

@@ -25,6 +25,7 @@ export async function fetchTeacherStudents(): Promise<Student[]> {
     username: string;
     first_name?: string;
     last_name?: string;
+    student_id?: string | null;
   };
 
   const students = (response.data ?? []) as RawStudent[];
@@ -40,6 +41,7 @@ export async function fetchTeacherStudents(): Promise<Student[]> {
       first_name: String(firstName),
       last_name: String(lastName),
       full_name: fullName || undefined,
+      student_id: student.student_id ?? null,
     };
   });
 }

@@ -86,7 +86,11 @@ export default function TeacherDashboard() {
   return (
     <RequireAuth>
       <div className="page-container">
-        <h1 className="text-2xl font-bold mb-6">Teacher Dashboard</h1>
+        <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
+        <p className="mt-2 mb-6 text-sm max-w-2xl">
+          View your class, see who has been reading recently, register new
+          student logins, manage allocations, and reset passwords when needed.
+        </p>
 
         <div className="update-card rounded-lg p-4 mb-6">
           <p className="font-semibold">
@@ -96,19 +100,41 @@ export default function TeacherDashboard() {
             </span>{' '}
             students were active today or yesterday
           </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            A student counts as active if they updated their bookshelf on
+            today&apos;s date or yesterday&apos;s date (based on their last
+            shelf update).
+          </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
-          <Link href="/teacher/create-student" className="btnprimary">
-            Create Student Account
-          </Link>
-          <Link href="/teacher/allocations" className="btnsecondary">
-            Manage Allocations
-          </Link>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 mb-8">
+          <div className="flex flex-col gap-2">
+            <Link href="/teacher/create-student" className="btnprimary">
+              Create Student Account
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">
+                Create Student
+              </span>{' '}
+              adds a new login you can share with the learner.
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Link href="/teacher/allocations" className="btnsecondary">
+              Manage Allocations
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">
+                Manage Allocations
+              </span>{' '}
+              is where you allocate books from your collection to students and
+              adjust those allocations.
+            </p>
+          </div>
         </div>
 
         {/* Student list */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className="text-xl font-semibold">
             Your Students ({students.length})
           </h2>
 
@@ -175,7 +201,7 @@ export default function TeacherDashboard() {
                               `/teacher/reset-password/${student.student_id}`
                             )
                           }
-                          className="text-sm text-blue-500 hover:underline"
+                          className="text-sm text-[var(--green)]-500 hover:underline"
                         >
                           Reset Password
                         </button>

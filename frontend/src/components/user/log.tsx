@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { FaUser } from 'react-icons/fa6';
 import { FaUserFriends, FaList } from 'react-icons/fa';
+import { PiTreeStructureFill } from 'react-icons/pi';
 export default function Log() {
   const { user, logout, isTeacher, loading } = useAuth();
 
@@ -27,11 +28,18 @@ export default function Log() {
   return (
     <div className="flex items-center gap-3 h-10">
       {isTeacher && (
-        <Link href="/teacher">
-          <div className="flex items-center justify-center w-10 h-10">
-            <FaList className="text-2xl" />
-          </div>
-        </Link>
+        <>
+          <Link href="/teacher">
+            <div className="flex items-center justify-center w-10 h-10">
+              <FaList className="text-2xl" />
+            </div>
+          </Link>
+          <Link href="/teacher/allocations">
+            <div className="flex items-center justify-center w-10 h-10">
+              <PiTreeStructureFill className="text-2xl" />
+            </div>
+          </Link>
+        </>
       )}
       {!isTeacher && (
         <>

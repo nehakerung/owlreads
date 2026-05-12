@@ -152,5 +152,4 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 SITE_NAME = "OwlReads"
 
-DOMAIN = ["localhost:3000}",
-          "127.0.0.1:3000", "owlreads"]
+DOMAIN = ["localhost:3000", "127.0.0.1:3000", "owlreads"]

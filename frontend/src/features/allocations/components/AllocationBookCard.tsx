@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import type { Allocation, AllocationGroup } from '../types';
 import { computeAllocationStats } from '../mappers';
 import { AllocationStatusBadge } from './AllocationStatusBadge';
@@ -18,7 +20,12 @@ export function AllocationBookCard(props: {
               Book allocation
             </div>
             <div className="text-lg font-semibold truncate">
-              {group.book_title}
+              <Link
+                href={`/book/${group.book_id}`}
+                className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+              >
+                {group.book_title}
+              </Link>
             </div>
 
             <div className="mt-2 text-sm flex flex-wrap gap-x-3 gap-y-1">
@@ -26,7 +33,7 @@ export function AllocationBookCard(props: {
                 <span className="font-semibold">
                   {bookStats.engaged}/{bookStats.total}
                 </span>{' '}
-                engaged
+                on track
               </span>
               <span>
                 <span className="font-semibold">
@@ -47,25 +54,25 @@ export function AllocationBookCard(props: {
             <div className="text-xs mb-1">Progress</div>
             <div className="h-2 bg-slate-100 rounded-full overflow-hidden text-grey-500">
               <div
-                className="h-full bg-blue-500 rounded-full"
+                className="h-full bg-[var(--green)] rounded-full"
                 style={{ width: `${bookStats.engagedPct}%` }}
               />
             </div>
-            <div className="mt-1 text-xs">{bookStats.engagedPct}% engaged</div>
+            <div className="mt-1 text-xs">{bookStats.engagedPct}% on track</div>
           </div>
         </div>
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs text-black font-medium bg-slate-50 border-slate-200">
-            <span className="w-2 h-2 rounded-full bg-slate-400" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs text-[var(--red)] font-medium bg-red-50 border-red-200">
+            <span className="w-2 h-2 rounded-full bg-[var(--red)]" />
             Not Started: {bookStats.notStarted}
           </span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-amber-50 text-amber-800 border-amber-200">
-            <span className="w-2 h-2 rounded-full bg-amber-500" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-yellow-50 text-[var(--yellow)] border-yellow-200">
+            <span className="w-2 h-2 rounded-full bg-[var(--yellow)]" />
             Reading: {bookStats.reading}
           </span>
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-emerald-50 text-emerald-800 border-emerald-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-xs font-medium bg-green-50 text-[var(--mint)] border-green-200">
+            <span className="w-2 h-2 rounded-full bg-[var(--mint)]" />
             Read: {bookStats.read}
           </span>
         </div>
@@ -81,7 +88,7 @@ export function AllocationBookCard(props: {
               type="button"
               onClick={() => onSelectAllocation(allocation)}
               className={`w-full text-left px-5 py-3 ${rowBackground} hover:bg-blue-50/40 transition`}
-              title="Click to manage this allocation"
+              title="Edit assignment, date, or remove"
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className="min-w-0">
@@ -99,8 +106,8 @@ export function AllocationBookCard(props: {
 
                 <div className="flex items-center gap-2">
                   <AllocationStatusBadge shelfStatus={allocation.status} />
-                  <span className="text-xs text-muted-foreground">
-                    Click to manage
+                  <span className="text-xs text-muted-foreground shrink-0">
+                    Edit
                   </span>
                 </div>
               </div>

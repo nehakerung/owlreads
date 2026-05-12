@@ -18,12 +18,7 @@ from .serializers import BookShelfEntrySerializer, SocialUpdateSerializer
 User = get_user_model()
 
 
-# ---------------------------------------------------------------------------
-# Shelf views (unchanged)
-# ---------------------------------------------------------------------------
-
 class ShelfListView(generics.ListAPIView):
-    """GET /api/shelf/ — returns all shelf entries for the logged-in user"""
     serializer_class = BookShelfEntrySerializer
     permission_classes = [IsAuthenticated]
 
@@ -36,7 +31,6 @@ class ShelfListView(generics.ListAPIView):
 
 
 class ShelfAddView(APIView):
-    """POST /api/shelf/add/ — add a book to shelf or update its status"""
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
@@ -65,7 +59,6 @@ class ShelfAddView(APIView):
 
 
 class ShelfUpdateView(APIView):
-    """PATCH /api/shelf/<entry_id>/update/ — change status of an existing entry"""
     permission_classes = [IsAuthenticated]
 
     def patch(self, request, entry_id):
@@ -85,7 +78,6 @@ class ShelfUpdateView(APIView):
 
 
 class ShelfRemoveView(APIView):
-    """DELETE /api/shelf/<entry_id>/remove/ — remove a book from shelf"""
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, entry_id):
@@ -94,12 +86,7 @@ class ShelfRemoveView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# ---------------------------------------------------------------------------
-# Allocation views
-# ---------------------------------------------------------------------------
-
 class TeacherStudentListView(generics.ListAPIView):
-    """GET /api/teacher/students/ — returns the teacher's students for the allocate dropdown"""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -195,10 +182,8 @@ class AllocateBookView(APIView):
                 },
             )
 
-            # Always update allocation info
             entry.allocated_by = request.user
 
-            # OPTIONAL (recommended)
             if hasattr(entry, "allocated_at"):
                 entry.allocated_at = timezone.now()
 
@@ -236,7 +221,6 @@ class AllocateBookView(APIView):
 
 
 class SocialFeedView(generics.ListAPIView):
-    """GET /api/social/ — to_read shelf updates for users in same class"""
     serializer_class = SocialUpdateSerializer
     permission_classes = [IsAuthenticated]
 
@@ -254,7 +238,6 @@ class SocialFeedView(generics.ListAPIView):
 
 
 class TeacherAllocationsListView(APIView):
-    """GET /api/allocations/ — list allocations made by the logged-in teacher"""
 
     permission_classes = [IsAuthenticated]
 
@@ -273,13 +256,13 @@ class TeacherAllocationsListView(APIView):
             .order_by("-allocated_at", "-updated_at")
         )
 
-        # Optional search (book title + student name/username).
         if q:
             qs = qs.filter(
                 models.Q(book__title__icontains=q)
                 | models.Q(user__username__icontains=q)
                 | models.Q(user__first_name__icontains=q)
                 | models.Q(user__last_name__icontains=q)
+                | models.Q(user__student_id__icontains=q)
             )
 
         data = [
@@ -288,6 +271,8 @@ class TeacherAllocationsListView(APIView):
                 "book_id": entry.book_id,
                 "book_title": entry.book.title,
                 "student_id": entry.user_id,
+                "student_username": entry.user.username,
+                "class_student_id": entry.user.student_id or None,
                 "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
                 or entry.user.username,
                 "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,
@@ -301,10 +286,6 @@ class TeacherAllocationsListView(APIView):
 
 
 class TeacherAllocationDetailView(APIView):
-    """
-    PATCH /api/allocations/<entry_id>/ — update allocation metadata.
-    DELETE /api/allocations/<entry_id>/ — remove allocation.
-    """
 
     permission_classes = [IsAuthenticated]
 
@@ -312,14 +293,12 @@ class TeacherAllocationDetailView(APIView):
         if value is None:
             return None
 
-        # Accept ISO datetime strings (including those produced by JS toISOString()).
         dt = parse_datetime(value)
         if dt is not None:
             if timezone.is_naive(dt):
                 dt = timezone.make_aware(dt, timezone.get_current_timezone())
             return dt
 
-        # Accept YYYY-MM-DD if a date-only string is provided.
         d = parse_date(value)
         if d is not None:
             return timezone.make_aware(
@@ -350,7 +329,6 @@ class TeacherAllocationDetailView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        # If student_id is provided, do a "move" by creating/getting the target entry.
         if student_id is not None:
             target_student = get_object_or_404(
                 User,
@@ -372,7 +350,6 @@ class TeacherAllocationDetailView(APIView):
                 )
                 target_entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
 
-                # Clear the old allocation.
                 entry.allocated_by = None
                 entry.allocated_at = None
                 entry.save(update_fields=["allocated_by", "allocated_at", "updated_at"])
@@ -386,6 +363,8 @@ class TeacherAllocationDetailView(APIView):
                             "book_id": target_entry.book_id,
                             "book_title": target_entry.book.title,
                             "student_id": target_entry.user_id,
+                            "student_username": target_entry.user.username,
+                            "class_student_id": target_entry.user.student_id or None,
                             "student_name": f"{target_entry.user.first_name} {target_entry.user.last_name}".strip()
                             or target_entry.user.username,
                             "allocated_at": target_entry.allocated_at.isoformat()
@@ -397,7 +376,6 @@ class TeacherAllocationDetailView(APIView):
                     status=200,
                 )
 
-        # Otherwise, update allocated_at only (or leave unchanged if omitted).
         if allocated_at is not None:
             entry.allocated_at = allocated_at
             entry.save(update_fields=["allocated_at", "updated_at"])
@@ -410,6 +388,8 @@ class TeacherAllocationDetailView(APIView):
                     "book_id": entry.book_id,
                     "book_title": entry.book.title,
                     "student_id": entry.user_id,
+                    "student_username": entry.user.username,
+                    "class_student_id": entry.user.student_id or None,
                     "student_name": f"{entry.user.first_name} {entry.user.last_name}".strip()
                     or entry.user.username,
                     "allocated_at": entry.allocated_at.isoformat() if entry.allocated_at else None,

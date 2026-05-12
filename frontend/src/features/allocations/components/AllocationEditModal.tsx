@@ -38,7 +38,7 @@ export function AllocationEditModal(props: {
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Edit Allocation</h3>
+          <h3 className="text-lg font-semibold">Edit assignment</h3>
           <button
             type="button"
             onClick={onClose}
@@ -92,6 +92,10 @@ export function AllocationEditModal(props: {
               value={draftAllocatedAt}
               onChange={(event) => onChangeDraftAllocatedAt(event.target.value)}
             />
+            <p className="mt-1 text-xs text-muted-foreground">
+              Adjust if you need the allocation date to match your class
+              records.
+            </p>
           </div>
 
           <div className="flex gap-2 justify-end pt-2">
