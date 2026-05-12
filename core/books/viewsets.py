@@ -11,21 +11,14 @@ from .serializers import BookSerializer, ReviewSerializer
 class BookViewSet(viewsets.ViewSet):
 
     def list(self, request):
-        """
-        Search books from your own database
-        GET /api/books/?q=harry
-        """
         query = request.query_params.get('q', '')
 
         if not query:
-            # Return all books if no query provided
             books = Book.objects.all()
         else:
             books = Book.objects.filter(
                 Q(title__icontains=query)
-
                 | Q(authors__icontains=query)
-
                 | Q(description__icontains=query)
             )
 
@@ -33,10 +26,6 @@ class BookViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
-        """
-        Retrieve a single book by its database ID
-        GET /api/books/{id}/
-        """
         try:
             book = Book.objects.get(pk=pk)
         except Book.DoesNotExist:
@@ -62,9 +51,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-# Template Views (for frontend pages)
 def book_search_page(request):
-    """Render the book search page with results"""
     query = request.GET.get('q', '')
     books = []
     error = None
@@ -73,7 +60,7 @@ def book_search_page(request):
         books = Book.objects.filter(
             Q(title__icontains=query) |
             Q(description__icontains=query) |
-            Q(authors__icontains=query)  # JSONField supports icontains
+            Q(authors__icontains=query)
         )
     else:
         books = Book.objects.all()
@@ -88,7 +75,6 @@ def book_search_page(request):
 
 
 def book_detail_page(request, book_id):
-    """Render the book detail page"""
     book = None
     error = None
 

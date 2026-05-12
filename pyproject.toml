@@ -2,7 +2,7 @@
 name = "owlreads"
 version = "0.1.0"
 description = ""
-authors = ["Neha Kerung <you@example.com>"]
+authors = ["Neha Kerung"]
 readme = "README.md"
 package-mode = false
 
