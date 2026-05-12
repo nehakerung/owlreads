@@ -78,10 +78,6 @@ export default function CreateStudentPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium">Username</label>
-            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
-              They will use this every time they sign in, so keep it memorable
-              and unique in your class.
-            </p>
             <input
               type="text"
               value={username}
@@ -93,9 +89,6 @@ export default function CreateStudentPage() {
 
           <div>
             <label className="block text-sm font-medium">First Name</label>
-            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
-              Shown in your roster and can help you match accounts to learners.
-            </p>
             <input
               type="text"
               value={first_name}
@@ -107,10 +100,6 @@ export default function CreateStudentPage() {
 
           <div>
             <label className="block text-sm font-medium">Last Name</label>
-            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
-              Used with first name on your roster and when you look up this
-              student.
-            </p>
             <input
               type="text"
               value={last_name}
@@ -125,9 +114,7 @@ export default function CreateStudentPage() {
               Temporary Password
             </label>
             <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
-              Initial password for their first login. Use something easy to
-              communicate in person; you can reset it anytime from the
-              dashboard.
+              Initial password for their first login.
             </p>
             <input
               type="password"
