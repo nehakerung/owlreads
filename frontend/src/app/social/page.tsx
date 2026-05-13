@@ -5,6 +5,8 @@ import Link from 'next/link';
 import RequireAuth from '@/components/user/RequireAuth';
 import { fetchSocialUpdates, SocialUpdate } from '@/services/api/social';
 
+const MAX_VISIBLE_POSTS = 30;
+
 export default function SocialPage() {
   const [updates, setUpdates] = useState<SocialUpdate[]>([]);
   const [loading, setLoading] = useState(true);
@@ -21,6 +23,9 @@ export default function SocialPage() {
 
     loadUpdates();
   }, []);
+
+  const visibleUpdates = updates.slice(0, MAX_VISIBLE_POSTS);
+  const truncatedCount = updates.length - visibleUpdates.length;
 
   return (
     <RequireAuth>
@@ -52,7 +57,7 @@ export default function SocialPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {updates.map((update) => (
+            {visibleUpdates.map((update) => (
               <div key={update.id} className="bg-card rounded-lg shadow p-4">
                 <p className="font-medium">
                   <Link
@@ -71,6 +76,11 @@ export default function SocialPage() {
                 </p>
               </div>
             ))}
+            {truncatedCount > 0 ? (
+              <p className="text-sm text-gray-500 text-center pt-2">
+                Showing the {MAX_VISIBLE_POSTS} most recent updates
+              </p>
+            ) : null}
           </div>
         )}
 
