@@ -11,7 +11,7 @@ type PublicUser = NonNullable<ReturnType<typeof useAuth>['user']>;
 export default function UserProfile() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
-  const { user: authedUser, loading, isTeacher } = useAuth();
+  const { user: authedUser, loading } = useAuth();
 
   const profileId = useMemo(() => `${params?.id ?? ''}`, [params]);
 
@@ -25,7 +25,10 @@ export default function UserProfile() {
   useEffect(() => {
     const loadProfile = async () => {
       if (loading) return;
-      if (!authedUser) return;
+      if (!authedUser) {
+        setProfileLoading(false);
+        return;
+      }
 
       setProfileLoading(true);
       try {
@@ -34,23 +37,19 @@ export default function UserProfile() {
           return;
         }
 
-        if (!isTeacher) {
-          setProfileUser(null);
-          return;
-        }
-
-        const resp = await apiClient.get<PublicUser[]>('/auth/students/list/');
-        const match = resp.data.find(
-          (u) => String(u.id) === profileId || u.username === profileId
+        const resp = await apiClient.get<PublicUser>(
+          `/auth/users/${encodeURIComponent(profileId)}/`
         );
-        setProfileUser(match ?? null);
+        setProfileUser(resp.data);
+      } catch {
+        setProfileUser(null);
       } finally {
         setProfileLoading(false);
       }
     };
 
     loadProfile();
-  }, [authedUser, isOwnProfile, isTeacher, loading, profileId]);
+  }, [authedUser, isOwnProfile, loading, profileId]);
 
   if (loading || profileLoading) {
     return (
@@ -67,7 +66,7 @@ export default function UserProfile() {
           <div className="text-center">
             <h1 className="text-2xl font-bold">Profile not available</h1>
             <p className="text-sm text-gray-500 mt-2">
-              This profile could not be found (or you don’t have access).
+              This profile could not be found.
             </p>
             <button
               onClick={() => router.back()}
