@@ -132,7 +132,6 @@ export default function TeacherDashboard() {
           </div>
         </div>
 
-        {/* Student list */}
         <div>
           <h2 className="text-xl font-semibold">
             Your Students ({students.length})

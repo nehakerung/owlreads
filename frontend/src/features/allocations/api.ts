@@ -51,9 +51,6 @@ export type FetchTeacherAllocationsArgs = {
   sortOrder?: AllocationSortOrder;
 };
 
-// Keep sort semantics aligned with the existing frontend:
-// - The backend returns newest first by allocated_at.
-// - The UI re-sorts by sortOrder client-side.
 export async function fetchTeacherAllocations(
   args: FetchTeacherAllocationsArgs
 ): Promise<Allocation[]> {
@@ -87,7 +84,6 @@ export async function removeTeacherAllocation(entryId: number): Promise<void> {
   });
 }
 
-// AllocateBook modal (existing allocate endpoints)
 export async function fetchExistingBookAllocations(args: {
   bookId: number;
 }): Promise<number[]> {

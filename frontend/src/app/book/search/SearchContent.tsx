@@ -129,7 +129,6 @@ export default function SearchPage() {
 
   return (
     <div className={`page-container ${styles.container}`}>
-      {/* Header */}
       <div className={styles.header}>
         <button onClick={() => router.push('/')} className={styles.backButton}>
           <ArrowLeft size={18} />
@@ -164,8 +163,6 @@ export default function SearchPage() {
           </button>
         </form>
       </div>
-
-      {/* States */}
 
       {loading && (
         <>
