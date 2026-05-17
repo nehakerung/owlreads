@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import BookCard from './BookCard';
 import GenrePage from '@/components/genre/GenrePage';
 
@@ -11,13 +13,29 @@ interface Book {
   genres?: string[];
 }
 
+const FEATURED_COUNT = 10;
+const API_BASE_URL = 'http://localhost:8000/api';
+
+function shuffleBooks<T>(items: T[]): T[] {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 const BookSection = () => {
   const [books, setBooks] = useState<Book[]>([]);
+  const [featuredBooks, setFeaturedBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/books/')
+    fetch(`${API_BASE_URL}/books/`)
       .then((res) => res.json())
-      .then((data) => setBooks(data))
+      .then((data: Book[]) => {
+        setBooks(data);
+        setFeaturedBooks(shuffleBooks(data).slice(0, FEATURED_COUNT));
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -38,11 +56,11 @@ const BookSection = () => {
       </h2>
 
       <div className="flex gap-6 overflow-x-auto pb-4">
-        {books.slice(0, 10).map((book) => (
+        {featuredBooks.map((book) => (
           <BookCard key={book.id} book={book} />
         ))}
       </div>
-      {books.length === 0 ? (
+      {featuredBooks.length === 0 ? (
         <p className="text-center text-sm text-muted-foreground mt-2">
           No books to show yet.
         </p>
