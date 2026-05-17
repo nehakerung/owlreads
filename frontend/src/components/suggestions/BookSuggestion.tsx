@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import BookCard from '@/components/home/BookCard';
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
@@ -18,12 +18,14 @@ type BookSuggestionProps = {
   currentBookId: number;
   genres?: string[];
   limit?: number;
+  heading?: ReactNode;
 };
 
 export default function BookSuggestion({
   currentBookId,
   genres = [],
   limit = 10,
+  heading = 'Similar books by genre',
 }: BookSuggestionProps) {
   const [suggestedBooks, setSuggestedBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,9 +84,7 @@ export default function BookSuggestion({
 
   return (
     <section className="main-max-width padding-x mx-auto pb-8 mt-10 border-t border-border pt-8">
-      <h2 className="my-9 text-center text-xl font-bold">
-        Similar books by genre
-      </h2>
+      <h2 className="my-9 text-center text-xl font-bold">{heading}</h2>
 
       {loading && (
         <p className="text-center text-sm text-muted-foreground mt-2">
