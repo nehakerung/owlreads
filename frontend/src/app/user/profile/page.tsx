@@ -81,7 +81,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Bookshelf Statistics */}
         <div className="bg-card rounded-lg shadow p-6 mt-6">
           <h3 className="text-xl font-bold mb-4">Bookshelf Statistics</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

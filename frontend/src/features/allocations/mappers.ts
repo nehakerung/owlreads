@@ -108,7 +108,6 @@ export function groupAllocationsByBook(
         ].sortRank;
 
       if (firstStatusRank !== secondStatusRank) {
-        // Not Started first
         return firstStatusRank - secondStatusRank;
       }
 
@@ -119,7 +118,6 @@ export function groupAllocationsByBook(
         ? new Date(secondAllocation.allocated_at).getTime()
         : 0;
 
-      // Newest first within same status
       return secondTimeMs - firstTimeMs;
     });
   }

@@ -23,12 +23,10 @@ const BookCard = ({ book }: { book: Book }) => {
         />
       </div>
 
-      {/* Title */}
       <Link href={`/book/${book.id}`} className={styles.titleLink}>
         <p className="text-center text-lg font-semibold">{book.title}</p>
       </Link>
 
-      {/* Rating */}
       <div className="flex items-center">
         <svg
           className="w-5 h-5 text-fg-yellow"

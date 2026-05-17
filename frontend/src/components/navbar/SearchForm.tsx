@@ -13,7 +13,6 @@ export default function HomePage() {
     const query = formData.get('query') as string;
 
     if (query.trim()) {
-      // Redirect to search results page with query parameter
       router.push(`/book/search?query=${encodeURIComponent(query)}`);
     }
   };

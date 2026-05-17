@@ -36,13 +36,12 @@ interface StatusOption {
   label: string;
 }
 
-// --- Constants ---
 const STATUS_OPTIONS: StatusOption[] = [
   { value: 'to_read', label: 'To Read' },
   { value: 'reading', label: 'Reading' },
   { value: 'read', label: 'Read' },
 ];
-// --- BookShelfPage ---
+
 type FilterValue = ShelfStatus | 'all';
 
 type StatusCounts = Partial<Record<ShelfStatus, number>>;

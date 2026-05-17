@@ -11,7 +11,6 @@ import { useAuth } from '@/context/AuthContext';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
-// --- Types ---
 interface BookDetail {
   id: string;
   title: string;
@@ -27,7 +26,6 @@ interface BookDetail {
   ratings_count?: number;
 }
 
-// --- Helpers ---
 async function fetchBook(id: string): Promise<BookDetail> {
   const res = await fetch(`${API_BASE_URL}/books/${id}/`, {
     method: 'GET',
@@ -37,7 +35,6 @@ async function fetchBook(id: string): Promise<BookDetail> {
   return res.json();
 }
 
-// --- StarRow ---
 function StarRow({ rating }: { rating: number }) {
   return (
     <div className="bp-stars">
@@ -59,7 +56,6 @@ function StarRow({ rating }: { rating: number }) {
   );
 }
 
-// --- BookPage ---
 export default function BookPage() {
   const { isTeacher } = useAuth();
   const router = useRouter();
@@ -99,7 +95,6 @@ export default function BookPage() {
           </button>
 
           <div className="bp-hero">
-            {/* Left: cover panel */}
             <div className="bp-cover-panel">
               <div className="bp-cover-frame">
                 {hasCover ? (
@@ -133,7 +128,6 @@ export default function BookPage() {
               )}
             </div>
 
-            {/* Right: metadata */}
             <div className="bp-meta-panel">
               {book.genres && book.genres.length > 0 && (
                 <div className="bp-chips">
@@ -178,7 +172,6 @@ export default function BookPage() {
                 )}
               </div>
 
-              {/* ── Shelf + Preview buttons ── */}
               <div className="bp-actions flex gap-3 flex-wrap">
                 {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
                 {isTeacher && <AllocateButton bookId={Number(book.id)} />}

@@ -29,7 +29,6 @@ export const ALLOCATION_STATUS_META: Record<
   },
 };
 
-// Keep existing behavior: current code hardcodes the backend origin.
 export const API_BASE_URL = 'http://localhost:8000/api';
 
 export const AUTH_STUDENTS_LIST_URL = `${API_BASE_URL}/auth/students/list/`;

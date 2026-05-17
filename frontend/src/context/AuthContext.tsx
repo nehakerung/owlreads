@@ -4,7 +4,6 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-// interface ensure endpoint returns it
 interface User {
   id: number;
   username: string;
@@ -100,7 +99,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (token) {
         try {
           const response = await api.get('/user/');
-          setUser(response.data); // role comes from here
+          setUser(response.data);
         } catch (error) {
           console.error('Failed to load user', error);
           Cookies.remove('access_token');
@@ -121,7 +120,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     Cookies.set('refresh_token', refresh);
 
     const userResponse = await api.get('/user/');
-    setUser(userResponse.data); // role comes from here too
+    setUser(userResponse.data);
   };
 
   const register = async (

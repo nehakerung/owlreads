@@ -12,30 +12,26 @@
   --mint: #6edfb5;
   --radius: 0.625rem;
 
-  /* Base */
   --background: #eef6df;
   --foreground: #2a2624;
 
-  /* Cards */
   --card: #ffffff;
   --card-foreground: #2a2624;
 
   --card-2: #eef6df;
   --card-2-foreground: #473c38;
 
-  /* Brand */
-  --primary: #473c38; /* Brown */
+  --primary: #473c38;
   --primary-foreground: #ffffff;
   --primary-hover: #5a4d47;
 
-  --secondary: #9dcd5a; /* Green */
+  --secondary: #9dcd5a;
   --secondary-foreground: #ffffff;
   --secondary-hover: #9dcd5a;
 
-  --accent: #eef6df; /* Soft green tint */
+  --accent: #eef6df;
   --accent-foreground: #473c38;
 
-  /* UI */
   --muted: #f3f3f3;
   --muted-foreground: #6b6b6b;
 
@@ -45,40 +41,34 @@
 
   --destructive: #b91c1c;
 
-  /* Sidebar */
   --sidebar: #fafafa;
   --sidebar-foreground: #2a2624;
 
-  /* text */
   --text-primary: #2a2624;
   --text-secondary: #6b6b6b;
 }
 
 .dark {
-  /* Base */
-  --background: #1c1816; /* Deep warm brown-black */
+  --background: #1c1816;
   --foreground: #f5f5f5;
 
-  /* Cards */
   --card: #473c38;
   --card-foreground: #f5f5f5;
 
   --card-2: #9dcd5a;
   --card-2-foreground: #473c38;
 
-  /* Brand */
-  --primary: #9dcd5a; /* Green becomes main pop */
+  --primary: #9dcd5a;
   --primary-foreground: #1c1816;
   --primary-hover: #8db851;
 
-  --secondary: #473c38; /* Brown becomes secondary */
+  --secondary: #473c38;
   --secondary-foreground: #ffffff;
   --secondary-hover: #5a4d47;
 
   --accent: #2f2a27;
   --accent-foreground: #9dcd5a;
 
-  /* UI */
   --muted: #2a2624;
   --muted-foreground: #b3b3b3;
 
@@ -88,10 +78,8 @@
 
   --destructive: #f87171;
 
-  /* Sidebar */
   --sidebar: #221e1b;
   --sidebar-foreground: #f5f5f5;
-  /* text */
   --text-primary: white;
   --text-secondary: #d6d4d4;
 }
@@ -184,7 +172,6 @@
     border: 2px solid var(--secondary);
   }
 
-  /* Theme helpers for consistent brand colors */
   .primary-bg {
     background-color: var(--primary);
   }
@@ -209,7 +196,6 @@
     color: var(--secondary);
   }
 
-  /* Consistent icon button styling */
   .primary-icon-btn {
     background-color: var(--primary);
     color: var(--primary-foreground);
@@ -243,7 +229,6 @@
     @apply mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md;
   }
 
-  /* Shared page width for consistent left/right alignment */
   .page-container {
     @apply max-w-4xl w-full mx-auto px-4 py-8;
   }
