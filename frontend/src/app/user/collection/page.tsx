@@ -1,7 +1,7 @@
 'use client';
 
-import RequireAuth from '@/components/user/RequireAuth';
-import { MyCollection, useUserCollection } from '@/components/collection';
+import RequireAuth from '@/components/auth/RequireAuth';
+import { MyCollection, useUserCollection } from '@/features/collection';
 import { useAuth } from '@/context/AuthContext';
 
 function CollectionContent() {

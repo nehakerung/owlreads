@@ -43,7 +43,9 @@ export function AuthFormLayout({
         <h2 className="text-3xl font-bold text-center">{title}</h2>
 
         {description ? (
-          <div className="text-sm text-center text-muted-foreground">{description}</div>
+          <div className="text-sm text-center text-muted-foreground">
+            {description}
+          </div>
         ) : null}
 
         {children}

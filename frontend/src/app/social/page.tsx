@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import RequireAuth from '@/components/user/RequireAuth';
+import RequireAuth from '@/components/auth/RequireAuth';
 import { fetchSocialUpdates, SocialUpdate } from '@/services/api/social';
 
 const MAX_VISIBLE_POSTS = 30;

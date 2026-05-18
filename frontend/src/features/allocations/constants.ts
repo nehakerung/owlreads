@@ -28,17 +28,3 @@ export const ALLOCATION_STATUS_META: Record<
     sortRank: 2,
   },
 };
-
-import { API_BASE_URL } from '@/lib/config';
-
-export { API_BASE_URL };
-
-export const AUTH_STUDENTS_LIST_URL = `${API_BASE_URL}/auth/students/list/`;
-
-export const TEACHER_ALLOCATIONS_LIST_URL = `${API_BASE_URL}/allocations/`;
-export const teacherAllocationDetailUrl = (entryId: number) =>
-  `${API_BASE_URL}/allocations/${entryId}/`;
-
-export const TEACHER_ALLOCATE_URL = `${API_BASE_URL}/allocate/`;
-export const teacherAllocateDetailUrl = (entryId: number) =>
-  `${API_BASE_URL}/allocate/${entryId}/`;

@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
-import { BookRoleActions } from '@/components/books/BookRoleActions';
-import BookSuggestion from '@/components/suggestions/BookSuggestion';
-import ReviewsSection from '@/components/reviews/ReviewsSection';
+import { BookRoleActions } from '@/features/books/components/BookRoleActions';
+import BookSuggestion from '@/features/books/components/BookSuggestion';
+import ReviewsSection from '@/features/reviews/components/ReviewsSection';
 import { API_BASE_URL } from '@/lib/config';
 
 interface BookDetail {

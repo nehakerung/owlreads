@@ -5,7 +5,10 @@ type InlineLoadingCardProps = {
   className?: string;
 };
 
-export function InlineLoadingCard({ message, className }: InlineLoadingCardProps) {
+export function InlineLoadingCard({
+  message,
+  className,
+}: InlineLoadingCardProps) {
   return (
     <div
       className={cn(

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { AuthFormLayout } from '@/components/ui/AuthFormLayout';
 import { AlertBanner } from '@/components/ui/AlertBanner';
-import RequireTeacher from '@/components/user/RequireTeacher';
+import RequireTeacher from '@/components/auth/RequireTeacher';
 import { apiClient } from '@/services/api/client';
 import { getApiErrorMessage } from '@/lib/apiError';
 
@@ -56,9 +56,7 @@ function CreateStudentForm() {
       }
     >
       {error ? <AlertBanner>{error}</AlertBanner> : null}
-      {success ? (
-        <AlertBanner variant="success">{success}</AlertBanner>
-      ) : null}
+      {success ? <AlertBanner variant="success">{success}</AlertBanner> : null}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -92,7 +90,9 @@ function CreateStudentForm() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Temporary Password</label>
+          <label className="block text-sm font-medium">
+            Temporary Password
+          </label>
           <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
             Initial password for their first login.
           </p>

@@ -1,5 +1,5 @@
-import RequireAuth from '@/components/user/RequireAuth';
-import BookShelfPage from '@/components/bookshelf/BookShelfPage';
+import RequireAuth from '@/components/auth/RequireAuth';
+import BookShelfPage from '@/features/bookshelf/BookShelfPage';
 import Link from 'next/link';
 export default function ShelfPage() {
   return (

@@ -19,7 +19,10 @@ export function UnauthorizedCard({
     <div className={className}>
       <p className="text-red-500 font-medium">{message}</p>
       {backHref ? (
-        <Link href={backHref} className="mt-4 text-sm text-gray-500 underline inline-block">
+        <Link
+          href={backHref}
+          className="mt-4 text-sm text-gray-500 underline inline-block"
+        >
           {backLabel}
         </Link>
       ) : onBack ? (

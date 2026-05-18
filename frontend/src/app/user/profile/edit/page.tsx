@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import RequireAuth from '@/components/user/RequireAuth';
+import RequireAuth from '@/components/auth/RequireAuth';
 import { AlertBanner } from '@/components/ui/AlertBanner';
 import { apiClient } from '@/services/api/client';
 import { getApiErrorMessage } from '@/lib/apiError';

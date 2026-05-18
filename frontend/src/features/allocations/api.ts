@@ -1,24 +1,9 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import { apiClient } from '@/services/api/client';
 
 import type { Allocation, AllocationSortOrder, Student } from './types';
-import {
-  AUTH_STUDENTS_LIST_URL,
-  TEACHER_ALLOCATIONS_LIST_URL,
-  TEACHER_ALLOCATE_URL,
-  teacherAllocationDetailUrl,
-  teacherAllocateDetailUrl,
-} from './constants';
-
-export function getAuthHeadersFromCookies() {
-  const token = Cookies.get('access_token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
-}
 
 export async function fetchTeacherStudents(): Promise<Student[]> {
-  const response = await axios.get(AUTH_STUDENTS_LIST_URL, {
-    headers: getAuthHeadersFromCookies(),
-  });
+  const response = await apiClient.get('/auth/students/list/');
 
   type RawStudent = {
     id: number;
@@ -55,8 +40,7 @@ export async function fetchTeacherAllocations(
   args: FetchTeacherAllocationsArgs
 ): Promise<Allocation[]> {
   const query = args.query?.trim();
-  const response = await axios.get(TEACHER_ALLOCATIONS_LIST_URL, {
-    headers: getAuthHeadersFromCookies(),
+  const response = await apiClient.get('/allocations/', {
     params: { q: query || undefined },
   });
 
@@ -68,28 +52,21 @@ export async function updateTeacherAllocation(args: {
   studentId: number;
   allocatedAtIso: string;
 }): Promise<void> {
-  await axios.patch(
-    teacherAllocationDetailUrl(args.entryId),
-    {
-      student_id: args.studentId,
-      allocated_at: args.allocatedAtIso,
-    },
-    { headers: getAuthHeadersFromCookies() }
-  );
+  await apiClient.patch(`/allocations/${args.entryId}/`, {
+    student_id: args.studentId,
+    allocated_at: args.allocatedAtIso,
+  });
 }
 
 export async function removeTeacherAllocation(entryId: number): Promise<void> {
-  await axios.delete(teacherAllocationDetailUrl(entryId), {
-    headers: getAuthHeadersFromCookies(),
-  });
+  await apiClient.delete(`/allocations/${entryId}/`);
 }
 
 export async function fetchExistingBookAllocations(args: {
   bookId: number;
 }): Promise<number[]> {
-  const response = await axios.get(TEACHER_ALLOCATE_URL, {
+  const response = await apiClient.get('/allocate/', {
     params: { book_id: args.bookId },
-    headers: getAuthHeadersFromCookies(),
   });
 
   const studentIds = response.data?.student_ids;
@@ -100,14 +77,10 @@ export async function allocateBookToStudents(args: {
   bookId: number;
   studentIds: number[];
 }): Promise<{ allocatedAt: string | null }> {
-  const response = await axios.post(
-    TEACHER_ALLOCATE_URL,
-    {
-      book_id: args.bookId,
-      student_ids: args.studentIds,
-    },
-    { headers: getAuthHeadersFromCookies() }
-  );
+  const response = await apiClient.post('/allocate/', {
+    book_id: args.bookId,
+    student_ids: args.studentIds,
+  });
 
   return { allocatedAt: response.data?.allocated_at ?? null };
 }
@@ -115,7 +88,5 @@ export async function allocateBookToStudents(args: {
 export async function deleteBookAllocation(args: {
   entryId: number;
 }): Promise<void> {
-  await axios.delete(teacherAllocateDetailUrl(args.entryId), {
-    headers: getAuthHeadersFromCookies(),
-  });
+  await apiClient.delete(`/allocate/${args.entryId}/`);
 }

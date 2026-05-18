@@ -1,7 +1,7 @@
 'use client';
 
-import RequireAuth from '@/components/user/RequireAuth';
-import { ProfilePageContent } from '@/components/profile';
+import RequireAuth from '@/components/auth/RequireAuth';
+import { ProfilePageContent } from '@/features/profile';
 import { useAuth } from '@/context/AuthContext';
 
 function OwnProfileContent() {

@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import Hero from '@/components/home/Hero';
-import BookSection from '@/components/home/BookSection';
-import BookSuggest from '@/components/home/BookSuggest';
+import Hero from '@/features/home/components/Hero';
+import BookSection from '@/features/home/components/BookSection';
+import BookSuggest from '@/features/home/components/BookSuggest';
 
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';

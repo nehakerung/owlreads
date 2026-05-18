@@ -1,9 +1,9 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { ProfilePageContent } from '@/components/profile';
-import { usePublicProfile } from '@/components/profile/hooks/usePublicProfile';
-import RequireAuth from '@/components/user/RequireAuth';
+import { ProfilePageContent } from '@/features/profile';
+import { usePublicProfile } from '@/features/profile/hooks/usePublicProfile';
+import RequireAuth from '@/components/auth/RequireAuth';
 import { PageLoading } from '@/components/ui/PageLoading';
 
 export default function UserProfile() {

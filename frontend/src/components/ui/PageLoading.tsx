@@ -11,10 +11,7 @@ export function PageLoading({
 }: PageLoadingProps) {
   return (
     <div
-      className={cn(
-        'min-h-screen flex items-center justify-center',
-        className
-      )}
+      className={cn('min-h-screen flex items-center justify-center', className)}
     >
       <div className="text-xl">{message}</div>
     </div>

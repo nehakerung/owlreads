@@ -1,4 +1,4 @@
-import GenreBrowseContent from './GenreBrowseContent';
+import GenreBrowseContent from '@/features/books/components/GenreBrowseContent';
 
 export const dynamic = 'force-dynamic';
 

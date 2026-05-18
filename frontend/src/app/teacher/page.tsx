@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import RequireTeacher from '@/components/user/RequireTeacher';
+import RequireTeacher from '@/components/auth/RequireTeacher';
 import { AlertBanner } from '@/components/ui/AlertBanner';
 import { InlineLoadingCard } from '@/components/ui/InlineLoadingCard';
 import { apiClient } from '@/services/api/client';
@@ -126,13 +126,17 @@ function TeacherDashboardContent() {
             <table className="w-full border-collapse bg-card rounded-lg shadow">
               <thead>
                 <tr className="border-b border-input text-left">
-                  <th className="px-4 py-3 text-sm font-semibold">Student ID</th>
+                  <th className="px-4 py-3 text-sm font-semibold">
+                    Student ID
+                  </th>
                   <th className="px-4 py-3 text-sm font-semibold">Name</th>
                   <th className="px-4 py-3 text-sm font-semibold">Username</th>
                   <th className="px-4 py-3 text-sm font-semibold">
                     Last Updated
                   </th>
-                  <th className="px-4 py-3 text-sm font-semibold">Books Read</th>
+                  <th className="px-4 py-3 text-sm font-semibold">
+                    Books Read
+                  </th>
                   <th className="px-4 py-3 text-sm font-semibold">Actions</th>
                 </tr>
               </thead>
@@ -151,7 +155,9 @@ function TeacherDashboardContent() {
                     <td className="px-4 py-3 text-sm">{student.username}</td>
                     <td className="px-4 py-3 text-sm">
                       {student.last_shelf_update
-                        ? new Date(student.last_shelf_update).toLocaleDateString()
+                        ? new Date(
+                            student.last_shelf_update
+                          ).toLocaleDateString()
                         : 'Never'}
                     </td>
                     <td className="px-4 py-3 text-sm font-semibold text-green-600">

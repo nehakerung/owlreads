@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { AuthFormLayout } from '@/components/ui/AuthFormLayout';
 import { AlertBanner } from '@/components/ui/AlertBanner';
-import RequireTeacher from '@/components/user/RequireTeacher';
+import RequireTeacher from '@/components/auth/RequireTeacher';
 import { apiClient } from '@/services/api/client';
 import { getApiErrorMessage } from '@/lib/apiError';
 

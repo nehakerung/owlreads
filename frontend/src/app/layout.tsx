@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Ubuntu } from 'next/font/google';
 import '@/styles/globals.css';
-import Navbar from '@/components/navbar/NavBar';
-import Footer from '@/components/footer/footer';
+import Navbar from '@/components/layout/navbar/NavBar';
+import Footer from '@/components/layout/footer/footer';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 const ubuntu = Ubuntu({ subsets: ['latin'], weight: ['400', '500', '700'] });
