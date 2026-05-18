@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   BookMarked,
   BookOpen,
@@ -171,6 +171,7 @@ type ShelfButtonProps =
 
 function ShelfButtonBook({ bookId }: { bookId: number }) {
   const { user } = useAuth();
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [entry, setEntry] = useState<ShelfEntry | null>(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -194,9 +195,20 @@ function ShelfButtonBook({ bookId }: { bookId: number }) {
 
   useEffect(() => {
     if (!open) return;
-    const close = () => setOpen(false);
-    document.addEventListener('click', close);
-    return () => document.removeEventListener('click', close);
+
+    const close = (event: MouseEvent) => {
+      if (wrapperRef.current?.contains(event.target as Node)) return;
+      setOpen(false);
+    };
+
+    const id = window.setTimeout(() => {
+      document.addEventListener('click', close);
+    }, 0);
+
+    return () => {
+      window.clearTimeout(id);
+      document.removeEventListener('click', close);
+    };
   }, [open]);
 
   const handleSelect = async (status: ShelfStatus) => {
@@ -226,8 +238,15 @@ function ShelfButtonBook({ bookId }: { bookId: number }) {
 
   if (loading) {
     return (
-      <div className={`${styles.button} ${styles.buttonGhost}`}>
-        <Loader2 size={14} className="animate-spin" />
+      <div className={styles.wrapper}>
+        <button
+          type="button"
+          className={`${styles.button} ${styles.buttonGhost}`}
+          disabled
+          aria-busy="true"
+        >
+          <Loader2 size={14} className="animate-spin" />
+        </button>
       </div>
     );
   }
@@ -235,7 +254,7 @@ function ShelfButtonBook({ bookId }: { bookId: number }) {
   const currentOption = SHELF_OPTIONS.find((o) => o.value === entry?.status);
 
   return (
-    <div className={styles.wrapper} onClick={(e) => e.stopPropagation()}>
+    <div ref={wrapperRef} className={styles.wrapper}>
       <button
         className={[
           styles.button,

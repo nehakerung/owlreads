@@ -127,7 +127,6 @@ export default function UserProfile() {
             </div>
           </div>
 
-          {/* Bookshelf Statistics (same UI as /user/profile) */}
           <div className="bg-card rounded-lg shadow p-6 mt-6">
             <h3 className="text-xl font-bold mb-4">Bookshelf Statistics</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

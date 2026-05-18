@@ -3,7 +3,6 @@
   --brown: #473c38;
   --white: #ffffff;
 }
-/* button */
 .btnprimary {
   border-radius: 0.5rem;
   background-color: var(--brown);

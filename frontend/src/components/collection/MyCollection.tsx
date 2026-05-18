@@ -11,7 +11,6 @@ import type { Collection } from './types';
 export interface MyCollectionProps {
   collection: Collection | null;
   error: string;
-  /** Inline loading state (e.g. on profile while the collection request runs). */
   loading?: boolean;
   className?: string;
 }

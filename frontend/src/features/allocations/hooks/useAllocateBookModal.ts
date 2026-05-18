@@ -58,8 +58,6 @@ export function useAllocateBookModal(args: {
         setStudents(studentList);
       })
       .catch(() => {
-        // Preserve existing behavior: log errors, but don't crash the UI.
-        // The modal can still be opened once students are available.
         console.error('Failed to fetch students');
       })
       .finally(() => {

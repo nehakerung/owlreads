@@ -8,12 +8,10 @@ import { PiTreeStructureFill } from 'react-icons/pi';
 export default function Log() {
   const { user, logout, isTeacher, loading } = useAuth();
 
-  // Prevent layout shift
   if (loading) {
     return <div className="h-10 w-20" />;
   }
 
-  // Logged out
   if (!user) {
     return (
       <div className="flex items-center h-10">
@@ -24,7 +22,6 @@ export default function Log() {
     );
   }
 
-  // Logged in
   return (
     <div className="flex items-center gap-3 h-10">
       {isTeacher && (

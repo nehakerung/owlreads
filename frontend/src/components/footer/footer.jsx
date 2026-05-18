@@ -8,7 +8,6 @@ const Footer = () => {
   return (
     <footer className="secondary-bg primary-text w-full py-16">
       <div className="flex justify-between items-center main-max-width mx-auto padding-x flex-wrap gap-6 max-md:justify-center">
-        {/* Logo & Description */}
         <div className="flex flex-col gap-6 w-125">
           <Image
             src="/logowTitle.png"
@@ -24,7 +23,6 @@ const Footer = () => {
           </p>
         </div>
 
-        {/* Quick Links */}
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Quick Links</h2>
           <ul className="space-y-3">
@@ -37,7 +35,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Customer Support */}
         <div className="flex flex-col gap-5">
           <h2 className="text-lg font-semibold">Categories</h2>
           <ul className="space-y-3">
@@ -52,7 +49,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Social Media */}
       <div className="flex justify-center items-center gap-6 mt-10">
         <Link href="https://www.linkedin.com/">
           <FaLinkedin className="text-2xl hover:text-white transition cursor-pointer" />
@@ -66,10 +62,8 @@ const Footer = () => {
         <Link href="https://www.youtube.com/">
           <FaYoutube className="text-2xl hover:text-white transition cursor-pointer" />
         </Link>
-        {/* <ContactLinks /> */}
       </div>
 
-      {/* Copyright */}
       <div className="text-center text-sm mt-8">
         © {new Date().getFullYear()} Owlreads. All rights reserved.
       </div>

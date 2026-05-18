@@ -20,7 +20,7 @@ const Pagination: React.FC<PaginationProps> = ({
   };
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
-    const delta = 1; // how many pages around current page
+    const delta = 1;
 
     const left = currentPage - delta;
     const right = currentPage + delta;
@@ -39,19 +39,16 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className="flex-center flex-wrap my-6 gap-4">
       <div className="flex items-center gap-2">
-        {/* Previous button - only show if not on first page */}
         {currentPage > 1 && (
           <button
             onClick={() => handleClick(currentPage - 1)}
             className="btn-icon"
-            // className="flex items-center gap-1 px-4 py-2 border rounded hover:bg-gray-100 transition"
           >
             <HiOutlineArrowSmLeft />
             Previous
           </button>
         )}
 
-        {/* Page numbers */}
         <div className="flex justify-center gap-2 px-6 py-4">
           {getPageNumbers().map((page, index) =>
             page === '...' ? (
@@ -78,11 +75,9 @@ const Pagination: React.FC<PaginationProps> = ({
           )}
         </div>
 
-        {/* Next button - only show if not on last page */}
         {currentPage < totalPages && (
           <button
             onClick={() => handleClick(currentPage + 1)}
-            // className="btnsecondary items-center"
             className="btn-icon"
           >
             Next
