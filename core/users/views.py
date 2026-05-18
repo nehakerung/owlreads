@@ -89,3 +89,17 @@ class StudentListView(APIView):
         students = User.objects.filter(teacher=request.user)
         serializer = UserSerializer(students, many=True)
         return Response(serializer.data)
+
+
+class PublicUserProfileView(APIView):
+    """Any authenticated user can view another user’s public profile fields."""
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, lookup):
+        user = User.objects.filter(username=lookup).first()
+        if user is None and lookup.isdigit():
+            user = User.objects.filter(pk=int(lookup)).first()
+        if user is None:
+            return Response({"detail": "User not found."}, status=404)
+        return Response(UserSerializer(user).data)

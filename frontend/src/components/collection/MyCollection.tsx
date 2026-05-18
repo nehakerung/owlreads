@@ -13,6 +13,7 @@ export interface MyCollectionProps {
   error: string;
   loading?: boolean;
   className?: string;
+  title?: string;
 }
 
 export function MyCollection({
@@ -20,6 +21,7 @@ export function MyCollection({
   error,
   loading = false,
   className,
+  title,
 }: MyCollectionProps) {
   const displayAwards = useMemo(
     () => buildDisplayAwards(collection),
@@ -52,6 +54,7 @@ export function MyCollection({
         earnedCount={earnedCount}
         totalAwardSlots={totalAwardSlots}
         progressPct={progressPct}
+        title={title}
       />
 
       {error ? (
