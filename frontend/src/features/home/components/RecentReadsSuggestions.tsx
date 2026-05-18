@@ -5,23 +5,18 @@ import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { fetchShelf } from '@/services/api/shelf';
 import BookSuggestion from './BookSuggestion';
+import {
+  pickMostRecentReadBook,
+  type ShelfEntry,
+} from '../lib/pickMostRecentReadBook';
 import styles from '@/features/books/styles/book-search.module.css';
-
-type ShelfBook = {
-  id: number;
-  title: string;
-  genres?: string[];
-};
-
-type ShelfEntry = {
-  book: ShelfBook;
-  updated_at: string;
-};
 
 /** Home-page suggestions based on the user's most recently read book. */
 export default function RecentReadsSuggestions() {
   const { user, loading: authLoading } = useAuth();
-  const [recentRead, setRecentRead] = useState<ShelfBook | null>(null);
+  const [recentRead, setRecentRead] = useState<
+    Awaited<ReturnType<typeof pickMostRecentReadBook>>
+  >(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -34,14 +29,11 @@ export default function RecentReadsSuggestions() {
     setLoading(true);
 
     fetchShelf('read')
-      .then((res) => {
+      .then(async (res) => {
         if (!active) return;
         const entries = res.data as ShelfEntry[];
-        if (entries.length === 0) {
-          setRecentRead(null);
-          return;
-        }
-        setRecentRead(entries[0].book);
+        const book = await pickMostRecentReadBook(entries);
+        if (active) setRecentRead(book);
       })
       .catch(() => {
         if (active) setRecentRead(null);
