@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import {
+  CollectionSummaryHeader,
+  useCollectionSummaryStats,
+  useUserCollection,
+} from '@/components/collection';
 import RequireAuth from '@/components/user/RequireAuth';
 import { useAuth } from '@/context/AuthContext';
 import { apiClient } from '@/services/api/client';
@@ -21,6 +26,20 @@ export default function UserProfile() {
   const isOwnProfile =
     !!authedUser &&
     (profileId === String(authedUser.id) || profileId === authedUser.username);
+
+  const {
+    collection,
+    fetching: collectionFetching,
+    error: collectionError,
+  } = useUserCollection(
+    profileUser,
+    isOwnProfile ? undefined : { lookup: profileId }
+  );
+  const summary = useCollectionSummaryStats(collection);
+
+  const achievementsTitle = isOwnProfile
+    ? 'My Achievements'
+    : `${profileUser?.username ?? 'User'}'s Achievements`;
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -168,6 +187,24 @@ export default function UserProfile() {
               </p>
             </div>
           </div>
+
+          {collectionFetching && !collection ? (
+            <div className="bg-card rounded-lg shadow p-6 mt-6 text-muted-foreground">
+              Loading achievements…
+            </div>
+          ) : null}
+          {collectionError ? (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mt-6">
+              {collectionError}
+            </div>
+          ) : null}
+          {!(collectionFetching && !collection) && !collectionError ? (
+            <CollectionSummaryHeader
+              {...summary}
+              title={achievementsTitle}
+              className="mt-6 mb-0"
+            />
+          ) : null}
         </div>
       </div>
     </RequireAuth>

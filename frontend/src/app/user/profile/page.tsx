@@ -44,7 +44,7 @@ export default function Profile() {
         <div className="bg-card rounded-lg shadow p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold">
-              Welcome back, {user.username}!
+              Welcome back, {user.first_name}!
             </h2>
             <button
               onClick={() => router.push('/user/profile/edit')}

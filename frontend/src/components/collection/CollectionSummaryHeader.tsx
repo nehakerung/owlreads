@@ -7,6 +7,7 @@ import type { CollectionProgressStats } from './collectionProgress';
 
 export interface CollectionSummaryHeaderProps extends CollectionProgressStats {
   className?: string;
+  title?: string;
 }
 
 export function CollectionSummaryHeader({
@@ -14,12 +15,13 @@ export function CollectionSummaryHeader({
   totalAwardSlots,
   progressPct,
   className,
+  title = 'My Collection',
 }: CollectionSummaryHeaderProps) {
   return (
     <div className={cn('bg-card rounded-lg shadow p-6 mb-6', className)}>
       <div className="flex items-center gap-3 mb-2">
         <Trophy size={28} className="text-yellow-500" />
-        <h2 className="text-2xl font-bold">My Collection</h2>
+        <h2 className="text-2xl font-bold">{title}</h2>
       </div>
       <p className="text-sm text-muted-foreground">
         {earnedCount} of {totalAwardSlots} awards earned
