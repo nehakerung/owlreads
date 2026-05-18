@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { fetchShelf } from '@/services/api/shelf';
-import BookSuggestion from '@/features/books/components/BookSuggestion';
+import BookSuggestion from './BookSuggestion';
 import styles from '@/features/books/styles/book-search.module.css';
 
 type ShelfBook = {
@@ -18,7 +18,8 @@ type ShelfEntry = {
   updated_at: string;
 };
 
-export default function BookSuggest() {
+/** Home-page suggestions based on the user's most recently read book. */
+export default function RecentReadsSuggestions() {
   const { user, loading: authLoading } = useAuth();
   const [recentRead, setRecentRead] = useState<ShelfBook | null>(null);
   const [loading, setLoading] = useState(false);

@@ -1,2 +1,2 @@
 export { default as Navbar } from './navbar/NavBar';
-export { default as Footer } from './footer/footer';
+export { default as Footer } from './footer/Footer';

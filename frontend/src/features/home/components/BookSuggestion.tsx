@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import BookCard from '@/features/home/components/BookCard';
-
+import BookCard from './BookCard';
 import { API_BASE_URL } from '@/lib/config';
 
 type Book = {
@@ -14,7 +13,7 @@ type Book = {
   ratings_count?: number;
 };
 
-type BookSuggestionProps = {
+export type BookSuggestionProps = {
   currentBookId: number;
   genres?: string[];
   limit?: number;
@@ -72,7 +71,7 @@ export default function BookSuggestion({
       }
     };
 
-    loadSuggestions();
+    void loadSuggestions();
 
     return () => {
       active = false;
@@ -85,23 +84,23 @@ export default function BookSuggestion({
     <section className="main-max-width padding-x mx-auto pb-8 mt-10 border-t border-border pt-8">
       <h2 className="my-9 text-center text-xl font-bold">{heading}</h2>
 
-      {loading && (
+      {loading ? (
         <p className="text-center text-sm text-muted-foreground mt-2">
           Loading suggestions...
         </p>
-      )}
+      ) : null}
 
-      {error && (
+      {error ? (
         <p className="text-center text-sm text-destructive mt-2">{error}</p>
-      )}
+      ) : null}
 
-      {!loading && !error && suggestedBooks.length === 0 && (
+      {!loading && !error && suggestedBooks.length === 0 ? (
         <p className="text-center text-sm text-muted-foreground mt-2">
           No suggestions found for this genre yet.
         </p>
-      )}
+      ) : null}
 
-      {!loading && !error && suggestedBooks.length > 0 && (
+      {!loading && !error && suggestedBooks.length > 0 ? (
         <div className="flex gap-6 overflow-x-auto pb-4">
           {suggestedBooks.map((book) => {
             const normalizedBook = {
@@ -113,7 +112,7 @@ export default function BookSuggestion({
             return <BookCard key={book.id} book={normalizedBook} />;
           })}
         </div>
-      )}
+      ) : null}
     </section>
   );
 }

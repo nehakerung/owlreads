@@ -135,7 +135,9 @@ function AwardGridSection({
                 subtitle={isMilestone ? undefined : 'Genre medal'}
                 unlockHint={
                   isMilestone && threshold !== undefined
-                    ? `Read ${threshold} book${threshold > 1 ? 's' : ''} to unlock`
+                    ? `Read ${threshold} book${
+                        threshold > 1 ? 's' : ''
+                      } to unlock`
                     : 'Mark a book in this genre as read to unlock'
                 }
               />

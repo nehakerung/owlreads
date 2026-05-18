@@ -2,7 +2,7 @@
 import React from 'react';
 import Hero from '@/features/home/components/Hero';
 import BookSection from '@/features/home/components/BookSection';
-import BookSuggest from '@/features/home/components/BookSuggest';
+import { RecentReadsSuggestions } from '@/features/home';
 
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -23,7 +23,7 @@ export default function Home() {
       <div>
         <Hero />
         <BookSection />
-        <BookSuggest />
+        <RecentReadsSuggestions />
       </div>
     </div>
   );

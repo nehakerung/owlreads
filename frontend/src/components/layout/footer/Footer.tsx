@@ -1,10 +1,9 @@
-import React from 'react';
-import { FaLinkedin, FaFacebookF, FaYoutube } from 'react-icons/fa';
-import { BsTwitterX } from 'react-icons/bs';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FaFacebookF, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { BsTwitterX } from 'react-icons/bs';
 
-const Footer = () => {
+export default function Footer() {
   return (
     <footer className="secondary-bg primary-text w-full py-16">
       <div className="flex justify-between items-center main-max-width mx-auto padding-x flex-wrap gap-6 max-md:justify-center">
@@ -16,7 +15,7 @@ const Footer = () => {
             height={38}
             priority
           />
-          <p className="text-[15px]leading-[1.6]">
+          <p className="text-[15px] leading-[1.6]">
             Encourage reading for pleasure and personal growth. Discover a wide
             range of books, from timeless classics to contemporary bestsellers,
             all in one place.
@@ -41,7 +40,6 @@ const Footer = () => {
             <li className="hover:text-white transition">
               <Link href="/aboutus">About Us</Link>
             </li>
-
             <li className="hover:text-white transition">
               <Link href="/contactus">Contact Us</Link>
             </li>
@@ -69,6 +67,4 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

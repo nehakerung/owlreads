@@ -4,8 +4,8 @@ import Link from 'next/link';
 import {
   createReaderReview,
   fetchReaderReviews,
-  ReaderReview,
-} from '@/services/api/reviews';
+  type ReaderReview,
+} from '@/features/reviews/api';
 import { useAuth } from '@/context/AuthContext';
 
 interface Review {
