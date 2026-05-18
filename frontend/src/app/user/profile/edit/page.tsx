@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import RequireAuth from '@/components/user/RequireAuth';
+import { AlertBanner } from '@/components/ui/AlertBanner';
+import { apiClient } from '@/services/api/client';
 
-export default function EditProfile() {
-  const { user, loading, setUser } = useAuth();
+function EditProfileForm() {
+  const { user, setUser } = useAuth();
   const router = useRouter();
 
   const [formData, setFormData] = useState({
@@ -22,9 +23,6 @@ export default function EditProfile() {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/user/login');
-    }
     if (user) {
       setFormData({
         first_name: user.first_name || '',
@@ -34,7 +32,7 @@ export default function EditProfile() {
         teachername: user.teachername || '',
       });
     }
-  }, [user, loading, router]);
+  }, [user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -47,35 +45,28 @@ export default function EditProfile() {
     setSuccess('');
 
     try {
-      const token = Cookies.get('access_token');
-      const response = await axios.patch(
-        'http://localhost:8000/api/auth/user/update/',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
+      const response = await apiClient.patch('/auth/user/update/', formData);
       setUser(response.data);
       setSuccess('Profile updated successfully!');
       setTimeout(() => router.push('/user/profile'), 1500);
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Failed to update profile');
+    } catch (err: unknown) {
+      const message =
+        err &&
+        typeof err === 'object' &&
+        'response' in err &&
+        err.response &&
+        typeof err.response === 'object' &&
+        'data' in err.response &&
+        err.response.data &&
+        typeof err.response.data === 'object' &&
+        'detail' in err.response.data
+          ? String(err.response.data.detail)
+          : 'Failed to update profile';
+      setError(message);
     } finally {
       setSaving(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-xl">Loading...</div>
-      </div>
-    );
-  }
 
   if (!user) return null;
 
@@ -97,16 +88,12 @@ export default function EditProfile() {
         <div className="bg-card rounded-lg shadow p-6">
           <h2 className="text-2xl font-bold mb-6">Edit Profile</h2>
 
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
-          {success && (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          {error ? <AlertBanner className="mb-4">{error}</AlertBanner> : null}
+          {success ? (
+            <AlertBanner variant="success" className="mb-4">
               {success}
-            </div>
-          )}
+            </AlertBanner>
+          ) : null}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {fields.map(({ label, name, type }) => (
@@ -144,5 +131,13 @@ export default function EditProfile() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EditProfile() {
+  return (
+    <RequireAuth>
+      <EditProfileForm />
+    </RequireAuth>
   );
 }

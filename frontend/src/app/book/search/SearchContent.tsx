@@ -3,16 +3,11 @@
 import { useEffect, useState, FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Search } from 'lucide-react';
-import Link from 'next/link';
-
 import Pagination from '@/components/pagination/pagination';
-import { ShelfButton } from '@/components/bookshelf/ShelfButton';
-import AllocateButton from '@/components/bookshelf/AllocateBook';
+import { BookBrowseResultItem } from '@/components/books/BookBrowseResultItem';
+import { API_BASE_URL } from '@/lib/config';
 
 import styles from './SearchContent.module.css';
-import { useAuth } from '@/context/AuthContext';
-
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 type Book = {
   id: number;
@@ -36,41 +31,6 @@ async function searchBooks(query: string, maxResults = 30): Promise<Book[]> {
   }
 
   return res.json();
-}
-
-function BookItem({ book }: { book: Book }) {
-  const { isTeacher } = useAuth();
-  return (
-    <div className={styles.resultCard}>
-      {book.thumbnail && (
-        <img
-          src={book.thumbnail.replace('http:', 'https:')}
-          alt={book.title}
-          width={96}
-          height={128}
-          className={styles.thumbnail}
-        />
-      )}
-
-      <div className="flex-1">
-        <Link href={`/book/${book.id}`} className={styles.titleLink}>
-          <h3 className={styles.resultTitle}>{book.title}</h3>
-        </Link>
-
-        {book.authors?.length > 0 && (
-          <p className={styles.resultAuthors}>{book.authors.join(', ')}</p>
-        )}
-        <div className="bp-actions flex gap-3 flex-wrap">
-          {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
-          {isTeacher && <AllocateButton bookId={Number(book.id)} />}
-        </div>
-
-        {book.description && (
-          <p className={styles.resultDescription}>{book.description}</p>
-        )}
-      </div>
-    </div>
-  );
 }
 
 export default function SearchPage() {
@@ -205,7 +165,7 @@ export default function SearchPage() {
 
           <div className={styles.resultsList}>
             {currentItems.map((book) => (
-              <BookItem key={book.id} book={book} />
+              <BookBrowseResultItem key={book.id} book={book} />
             ))}
           </div>
 

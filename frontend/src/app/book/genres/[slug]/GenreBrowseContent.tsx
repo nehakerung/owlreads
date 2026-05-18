@@ -3,18 +3,13 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-
 import GenrePage from '@/components/genre/GenrePage';
 import Pagination from '@/components/pagination/pagination';
-import { ShelfButton } from '@/components/bookshelf/ShelfButton';
+import { BookBrowseResultItem } from '@/components/books/BookBrowseResultItem';
 import { resolveGenreFromSlug } from '@/lib/genreSlug';
-import AllocateButton from '@/components/bookshelf/AllocateBook';
+import { API_BASE_URL } from '@/lib/config';
 
 import styles from '@/app/book/search/SearchContent.module.css';
-import { useAuth } from '@/context/AuthContext';
-
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 type Book = {
   id: number;
@@ -29,41 +24,6 @@ async function fetchBooks(): Promise<Book[]> {
   const res = await fetch(`${API_BASE_URL}/books/`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
-}
-
-function BookItem({ book }: { book: Book }) {
-  const { isTeacher } = useAuth();
-  return (
-    <div className={styles.resultCard}>
-      {book.thumbnail && (
-        <img
-          src={book.thumbnail.replace('http:', 'https:')}
-          alt={book.title}
-          width={96}
-          height={128}
-          className={styles.thumbnail}
-        />
-      )}
-
-      <div className="flex-1">
-        <Link href={`/book/${book.id}`} className={styles.titleLink}>
-          <h3 className={styles.resultTitle}>{book.title}</h3>
-        </Link>
-
-        {book.authors?.length > 0 && (
-          <p className={styles.resultAuthors}>{book.authors.join(', ')}</p>
-        )}
-        <div className="bp-actions flex gap-3 flex-wrap">
-          {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
-          {isTeacher && <AllocateButton bookId={Number(book.id)} />}
-        </div>
-
-        {book.description && (
-          <p className={styles.resultDescription}>{book.description}</p>
-        )}
-      </div>
-    </div>
-  );
 }
 
 export default function GenreBrowseContent() {
@@ -202,7 +162,7 @@ export default function GenreBrowseContent() {
 
           <div className={styles.resultsList}>
             {currentItems.map((book) => (
-              <BookItem key={book.id} book={book} />
+              <BookBrowseResultItem key={book.id} book={book} />
             ))}
           </div>
 
