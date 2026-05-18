@@ -3,6 +3,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { AUTH_BASE_URL } from '@/lib/config';
 
 interface User {
   id: number;
@@ -49,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const isTeacher = user?.role === 'teacher';
 
   const api = axios.create({
-    baseURL: 'http://localhost:8000/api/auth',
+    baseURL: AUTH_BASE_URL,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -73,10 +74,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
         try {
           const refreshToken = Cookies.get('refresh_token');
-          const response = await axios.post(
-            'http://localhost:8000/api/auth/token/refresh/',
-            { refresh: refreshToken }
-          );
+          const response = await axios.post(`${AUTH_BASE_URL}/token/refresh/`, {
+            refresh: refreshToken,
+          });
 
           const { access } = response.data;
           Cookies.set('access_token', access);

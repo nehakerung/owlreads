@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import GenrePage from '@/components/genre/GenrePage';
 import Pagination from '@/components/pagination/pagination';
 import { BookBrowseResultItem } from '@/components/books/BookBrowseResultItem';
+import { BookListSkeleton } from '@/components/books/BookListSkeleton';
 import { resolveGenreFromSlug } from '@/lib/genreSlug';
 import { API_BASE_URL } from '@/lib/config';
 
@@ -121,34 +122,9 @@ export default function GenreBrowseContent() {
 
       {genres.length > 0 ? <GenrePage genres={genres} /> : null}
 
-      {loading && (
-        <>
-          <div className={styles.stateLoading}>Loading books...</div>
-          {[0, 1, 2].map((i) => (
-            <div key={i} className={styles.skeletonCard} aria-hidden="true">
-              <div className={styles.skeletonGlow} />
-              <div
-                className={styles.skeletonBlock}
-                style={{ width: 96, height: 128 }}
-              />
-              <div style={{ flex: 1 }}>
-                <div
-                  className={styles.skeletonBlock}
-                  style={{ width: '60%', height: 16, marginBottom: 10 }}
-                />
-                <div
-                  className={styles.skeletonBlock}
-                  style={{ width: '80%', height: 12, marginBottom: 10 }}
-                />
-                <div
-                  className={styles.skeletonBlock}
-                  style={{ width: '70%', height: 12 }}
-                />
-              </div>
-            </div>
-          ))}
-        </>
-      )}
+      {loading ? (
+        <BookListSkeleton loadingMessage="Loading books..." />
+      ) : null}
 
       {error ? <div className={styles.stateError}>{error}</div> : null}
 

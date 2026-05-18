@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import Link from 'next/link';
+import { AuthFormLayout } from '@/components/ui/AuthFormLayout';
+import { AlertBanner } from '@/components/ui/AlertBanner';
+import RequireTeacher from '@/components/user/RequireTeacher';
+import { apiClient } from '@/services/api/client';
+import { getApiErrorMessage } from '@/lib/apiError';
 
-export default function CreateStudentPage() {
+function CreateStudentForm() {
   const [username, setUsername] = useState('');
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
@@ -14,128 +16,107 @@ export default function CreateStudentPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const router = useRouter();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
     try {
-      const token = Cookies.get('access_token');
-
-      await axios.post(
-        'http://localhost:8000/api/auth/students/',
-        {
-          username,
-          first_name,
-          last_name,
-          password,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await apiClient.post('/auth/students/', {
+        username,
+        first_name,
+        last_name,
+        password,
+      });
 
       setSuccess('Student account created successfully');
-
       setUsername('');
       setFirstName('');
       setLastName('');
       setPassword('');
-    } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.username?.[0] || 'Failed to create student');
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'Failed to create student'));
     }
   };
 
   return (
-    <div className="p-10 min-h-screen flex items-center justify-center">
-      <div className="bg-card max-w-md w-full space-y-8 p-8 rounded-lg shadow">
-        <h2 className="text-3xl font-bold text-center">
-          Create Student Account
-        </h2>
-        <p className="text-sm text-center max-w-md mx-auto">
+    <AuthFormLayout
+      title="Create Student Account"
+      description={
+        <p className="max-w-md mx-auto">
           Students sign in with the username and password you set here. Share
           these credentials securely; you can reset a forgotten password from
           the teacher dashboard.
         </p>
+      }
+      footer={
+        <Link href="/teacher" className="secondary-link hover:underline">
+          Back to Dashboard
+        </Link>
+      }
+    >
+      {error ? <AlertBanner>{error}</AlertBanner> : null}
+      {success ? (
+        <AlertBanner variant="success">{success}</AlertBanner>
+      ) : null}
 
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
-          </div>
-        )}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">First Name</label>
+          <input
+            type="text"
+            value={first_name}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Last Name</label>
+          <input
+            type="text"
+            value={last_name}
+            onChange={(e) => setLastName(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Temporary Password</label>
+          <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
+            Initial password for their first login.
+          </p>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
 
-        {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-            {success}
-          </div>
-        )}
+        <button type="submit" className="btnsecondary w-full">
+          Create Student
+        </button>
+      </form>
+    </AuthFormLayout>
+  );
+}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">First Name</label>
-            <input
-              type="text"
-              value={first_name}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Last Name</label>
-            <input
-              type="text"
-              value={last_name}
-              onChange={(e) => setLastName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">
-              Temporary Password
-            </label>
-            <p className="mt-0.5 mb-1.5 text-xs text-muted-foreground">
-              Initial password for their first login.
-            </p>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <button type="submit" className="btnsecondary w-full">
-            Create Student
-          </button>
-        </form>
-
-        <p className="text-center text-sm">
-          <Link href="/teacher" className="secondary-link hover:underline">
-            Back to Dashboard
-          </Link>
-        </p>
-      </div>
-    </div>
+export default function CreateStudentPage() {
+  return (
+    <RequireTeacher>
+      <CreateStudentForm />
+    </RequireTeacher>
   );
 }

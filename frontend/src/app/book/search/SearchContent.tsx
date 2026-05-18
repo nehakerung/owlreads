@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Search } from 'lucide-react';
 import Pagination from '@/components/pagination/pagination';
 import { BookBrowseResultItem } from '@/components/books/BookBrowseResultItem';
+import { BookListSkeleton } from '@/components/books/BookListSkeleton';
 import { API_BASE_URL } from '@/lib/config';
 
 import styles from './SearchContent.module.css';
@@ -124,34 +125,9 @@ export default function SearchPage() {
         </form>
       </div>
 
-      {loading && (
-        <>
-          <div className={styles.stateLoading}>Searching books...</div>
-          {[0, 1, 2].map((i) => (
-            <div key={i} className={styles.skeletonCard} aria-hidden="true">
-              <div className={styles.skeletonGlow} />
-              <div
-                className={styles.skeletonBlock}
-                style={{ width: 96, height: 128 }}
-              />
-              <div style={{ flex: 1 }}>
-                <div
-                  className={styles.skeletonBlock}
-                  style={{ width: '60%', height: 16, marginBottom: 10 }}
-                />
-                <div
-                  className={styles.skeletonBlock}
-                  style={{ width: '80%', height: 12, marginBottom: 10 }}
-                />
-                <div
-                  className={styles.skeletonBlock}
-                  style={{ width: '70%', height: 12 }}
-                />
-              </div>
-            </div>
-          ))}
-        </>
-      )}
+      {loading ? (
+        <BookListSkeleton loadingMessage="Searching books..." />
+      ) : null}
 
       {error ? <div className={styles.stateError}>{error}</div> : null}
 

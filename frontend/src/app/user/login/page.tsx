@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
+import { AuthFormLayout } from '@/components/ui/AuthFormLayout';
+import { AlertBanner } from '@/components/ui/AlertBanner';
+import { getApiErrorMessage } from '@/lib/apiError';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -20,69 +22,57 @@ export default function Login() {
     try {
       await login(username, password);
       router.push('/user/profile');
-    } catch (err: any) {
-      setError(err.response?.data?.detail || 'Invalid credentials');
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'Invalid credentials'));
     }
   };
 
   return (
-    <div className="p-10 min-h-screen flex items-center justify-center">
-      <div className="bg-card max-w-md w-full space-y-8 p-8 rounded-lg shadow">
-        <div className="flex items-center justify-center">
-          <Image
-            src="/OwlReadsLogo.png"
-            alt="OwlReads Logo"
-            width={500}
-            height={500}
-            className="mr-3"
-          />
-        </div>
-        <h2 className="text-3xl font-bold text-center">Sign In</h2>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <button type="submit" className="btnsecondary w-full">
-            Sign In
-          </button>
-        </form>
-
-        <p className="text-center text-sm">
-          Don't have an account?{' '}
+    <AuthFormLayout
+      title="Sign In"
+      showLogo
+      logoSize={500}
+      footer={
+        <>
+          Don&apos;t have an account?{' '}
           <Link
             href="/user/register"
             className="secondary-link hover:underline"
           >
             Sign up
           </Link>
-        </p>
-      </div>
-    </div>
+        </>
+      }
+    >
+      {error ? <AlertBanner>{error}</AlertBanner> : null}
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+
+        <button type="submit" className="btnsecondary w-full">
+          Sign In
+        </button>
+      </form>
+    </AuthFormLayout>
   );
 }

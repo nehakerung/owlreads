@@ -6,6 +6,7 @@ import { useAuth } from '@/context/AuthContext';
 import RequireAuth from '@/components/user/RequireAuth';
 import { AlertBanner } from '@/components/ui/AlertBanner';
 import { apiClient } from '@/services/api/client';
+import { getApiErrorMessage } from '@/lib/apiError';
 
 function EditProfileForm() {
   const { user, setUser } = useAuth();
@@ -50,19 +51,7 @@ function EditProfileForm() {
       setSuccess('Profile updated successfully!');
       setTimeout(() => router.push('/user/profile'), 1500);
     } catch (err: unknown) {
-      const message =
-        err &&
-        typeof err === 'object' &&
-        'response' in err &&
-        err.response &&
-        typeof err.response === 'object' &&
-        'data' in err.response &&
-        err.response.data &&
-        typeof err.response.data === 'object' &&
-        'detail' in err.response.data
-          ? String(err.response.data.detail)
-          : 'Failed to update profile';
-      setError(message);
+      setError(getApiErrorMessage(err, 'Failed to update profile'));
     } finally {
       setSaving(false);
     }

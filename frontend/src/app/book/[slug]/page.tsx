@@ -4,12 +4,10 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, BookOpen, Calendar, User } from 'lucide-react';
-import { ShelfButton } from '@/components/bookshelf/ShelfButton';
-import AllocateButton from '@/components/bookshelf/AllocateBook';
+import { BookRoleActions } from '@/components/books/BookRoleActions';
 import BookSuggestion from '@/components/suggestions/BookSuggestion';
-import { useAuth } from '@/context/AuthContext';
 import ReviewsSection from '@/components/reviews/ReviewsSection';
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+import { API_BASE_URL } from '@/lib/config';
 
 interface BookDetail {
   id: string;
@@ -57,7 +55,6 @@ function StarRow({ rating }: { rating: number }) {
 }
 
 export default function BookPage() {
-  const { isTeacher } = useAuth();
   const router = useRouter();
   const params = useParams();
   const id = params?.slug as string;
@@ -172,10 +169,7 @@ export default function BookPage() {
                 )}
               </div>
 
-              <div className="bp-actions flex gap-3 flex-wrap">
-                {!isTeacher && <ShelfButton bookId={Number(book.id)} />}
-                {isTeacher && <AllocateButton bookId={Number(book.id)} />}
-              </div>
+              <BookRoleActions bookId={Number(book.id)} />
             </div>
           </div>
 

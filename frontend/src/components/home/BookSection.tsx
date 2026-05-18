@@ -14,7 +14,7 @@ interface Book {
 }
 
 const FEATURED_COUNT = 10;
-const API_BASE_URL = 'http://localhost:8000/api';
+import { API_BASE_URL } from '@/lib/config';
 
 function shuffleBooks<T>(items: T[]): T[] {
   const shuffled = [...items];

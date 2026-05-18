@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import BookCard from '@/components/home/BookCard';
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+import { API_BASE_URL } from '@/lib/config';
 
 type Book = {
   id: number;

@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import RequireAuth from '@/components/user/RequireAuth';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import RequireTeacher from '@/components/user/RequireTeacher';
+import { AlertBanner } from '@/components/ui/AlertBanner';
+import { InlineLoadingCard } from '@/components/ui/InlineLoadingCard';
+import { apiClient } from '@/services/api/client';
 
 interface Student {
   id: number;
@@ -20,199 +20,171 @@ interface Student {
   books_read_count?: number;
 }
 
-export default function TeacherDashboard() {
+function getActiveStudents(students: Student[]) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  return students.filter((student) => {
+    if (!student.last_shelf_update) return false;
+    const updateDate = new Date(student.last_shelf_update);
+    updateDate.setHours(0, 0, 0, 0);
+    return updateDate >= yesterday;
+  });
+}
+
+function TeacherDashboardContent() {
   const router = useRouter();
-  const { isTeacher } = useAuth();
-  const [studentId, setStudentId] = useState('');
   const [students, setStudents] = useState<Student[]>([]);
   const [loadingStudents, setLoadingStudents] = useState(true);
   const [error, setError] = useState('');
 
-  const getActiveStudents = () => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    return students.filter((student) => {
-      if (!student.last_shelf_update) return false;
-      const updateDate = new Date(student.last_shelf_update);
-      updateDate.setHours(0, 0, 0, 0);
-      return updateDate >= yesterday;
-    });
-  };
-
-  const activeCount = getActiveStudents().length;
-
   useEffect(() => {
-    if (!isTeacher) return;
-
     const fetchStudents = async () => {
       try {
-        const token = Cookies.get('access_token');
-        const response = await axios.get(
-          'http://localhost:8000/api/auth/students/list/',
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await apiClient.get<Student[]>('/auth/students/list/');
         setStudents(response.data);
-      } catch (err) {
+      } catch {
         setError('Failed to load students');
       } finally {
         setLoadingStudents(false);
       }
     };
 
-    fetchStudents();
-  }, [isTeacher]);
+    void fetchStudents();
+  }, []);
 
-  if (!isTeacher) {
-    return (
-      <RequireAuth>
-        <div className="p-8 text-center">
-          <p className="text-red-500">
-            You are not authorized to view this page.
-          </p>
-          <button
-            onClick={() => router.back()}
-            className="mt-4 text-sm text-gray-500 underline"
-          >
-            Go Back
-          </button>
-        </div>
-      </RequireAuth>
-    );
-  }
+  const activeCount = getActiveStudents(students).length;
+
   return (
-    <RequireAuth>
-      <div className="page-container">
-        <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
-        <p className="mt-2 mb-6 text-sm max-w-2xl">
-          View your class, see who has been reading recently, register new
-          student logins, manage allocations, and reset passwords when needed.
+    <div className="page-container">
+      <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
+      <p className="mt-2 mb-6 text-sm max-w-2xl">
+        View your class, see who has been reading recently, register new student
+        logins, manage allocations, and reset passwords when needed.
+      </p>
+
+      <div className="update-card rounded-lg p-4 mb-6">
+        <p className="font-semibold">
+          Activity Summary:{' '}
+          <span className="text-blue-600">
+            {activeCount} of {students.length}
+          </span>{' '}
+          students were active today or yesterday
         </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          A student counts as active if they updated their bookshelf on
+          today&apos;s date or yesterday&apos;s date (based on their last shelf
+          update).
+        </p>
+      </div>
 
-        <div className="update-card rounded-lg p-4 mb-6">
-          <p className="font-semibold">
-            Activity Summary:{' '}
-            <span className="text-blue-600">
-              {activeCount} of {students.length}
-            </span>{' '}
-            students were active today or yesterday
-          </p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            A student counts as active if they updated their bookshelf on
-            today&apos;s date or yesterday&apos;s date (based on their last
-            shelf update).
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 mb-8">
+        <div className="flex flex-col gap-2">
+          <Link href="/teacher/create-student" className="btnprimary">
+            Create Student Account
+          </Link>
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">Create Student</span>{' '}
+            adds a new login you can share with the learner.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 mb-8">
-          <div className="flex flex-col gap-2">
-            <Link href="/teacher/create-student" className="btnprimary">
-              Create Student Account
-            </Link>
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">
-                Create Student
-              </span>{' '}
-              adds a new login you can share with the learner.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Link href="/teacher/allocations" className="btnsecondary">
+        <div className="flex flex-col gap-2">
+          <Link href="/teacher/allocations" className="btnsecondary">
+            Manage Allocations
+          </Link>
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">
               Manage Allocations
-            </Link>
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">
-                Manage Allocations
-              </span>{' '}
-              is where you allocate books from your collection to students and
-              adjust those allocations.
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-xl font-semibold">
-            Your Students ({students.length})
-          </h2>
-
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
-
-          {loadingStudents ? (
-            <p className="text-gray-500">Loading students...</p>
-          ) : students.length === 0 ? (
-            <p className="text-gray-500">
-              No students yet. Create one to get started.
-            </p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse bg-card rounded-lg shadow">
-                <thead>
-                  <tr className="border-b border-input text-left">
-                    <th className="px-4 py-3 text-sm font-semibold">
-                      Student ID
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold">Name</th>
-                    <th className="px-4 py-3 text-sm font-semibold">
-                      Username
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold">
-                      Last Updated
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold">
-                      Books Read
-                    </th>
-                    <th className="px-4 py-3 text-sm font-semibold">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((student) => (
-                    <tr
-                      key={student.id}
-                      className="border-b border-input hover:bg-muted transition"
-                    >
-                      <td className="px-4 py-3 text-sm">
-                        {student.student_id ?? student.id}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        {student.first_name} {student.last_name}
-                      </td>
-                      <td className="px-4 py-3 text-sm">{student.username}</td>
-                      <td className="px-4 py-3 text-sm">
-                        {student.last_shelf_update
-                          ? new Date(
-                              student.last_shelf_update
-                            ).toLocaleDateString()
-                          : 'Never'}
-                      </td>
-                      <td className="px-4 py-3 text-sm font-semibold text-green-600">
-                        {student.books_read_count || 0}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        <button
-                          onClick={() =>
-                            router.push(
-                              `/teacher/reset-password/${student.student_id}`
-                            )
-                          }
-                          className="text-sm text-[var(--green)]-500 hover:underline"
-                        >
-                          Reset Password
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+            </span>{' '}
+            is where you allocate books from your collection to students and
+            adjust those allocations.
+          </p>
         </div>
       </div>
-    </RequireAuth>
+
+      <div>
+        <h2 className="text-xl font-semibold">
+          Your Students ({students.length})
+        </h2>
+
+        {error ? <AlertBanner className="mb-4">{error}</AlertBanner> : null}
+
+        {loadingStudents ? (
+          <InlineLoadingCard
+            message="Loading students..."
+            className="mt-4 shadow-none"
+          />
+        ) : students.length === 0 ? (
+          <p className="text-gray-500 mt-4">
+            No students yet. Create one to get started.
+          </p>
+        ) : (
+          <div className="overflow-x-auto mt-4">
+            <table className="w-full border-collapse bg-card rounded-lg shadow">
+              <thead>
+                <tr className="border-b border-input text-left">
+                  <th className="px-4 py-3 text-sm font-semibold">Student ID</th>
+                  <th className="px-4 py-3 text-sm font-semibold">Name</th>
+                  <th className="px-4 py-3 text-sm font-semibold">Username</th>
+                  <th className="px-4 py-3 text-sm font-semibold">
+                    Last Updated
+                  </th>
+                  <th className="px-4 py-3 text-sm font-semibold">Books Read</th>
+                  <th className="px-4 py-3 text-sm font-semibold">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student) => (
+                  <tr
+                    key={student.id}
+                    className="border-b border-input hover:bg-muted transition"
+                  >
+                    <td className="px-4 py-3 text-sm">
+                      {student.student_id ?? student.id}
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                      {student.first_name} {student.last_name}
+                    </td>
+                    <td className="px-4 py-3 text-sm">{student.username}</td>
+                    <td className="px-4 py-3 text-sm">
+                      {student.last_shelf_update
+                        ? new Date(student.last_shelf_update).toLocaleDateString()
+                        : 'Never'}
+                    </td>
+                    <td className="px-4 py-3 text-sm font-semibold text-green-600">
+                      {student.books_read_count || 0}
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          router.push(
+                            `/teacher/reset-password/${student.student_id}`
+                          )
+                        }
+                        className="text-sm text-[var(--green)]-500 hover:underline"
+                      >
+                        Reset Password
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function TeacherDashboard() {
+  return (
+    <RequireTeacher onBack={() => window.history.back()} backLabel="Go Back">
+      <TeacherDashboardContent />
+    </RequireTeacher>
   );
 }

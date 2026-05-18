@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
-import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
+import { AuthFormLayout } from '@/components/ui/AuthFormLayout';
+import { AlertBanner } from '@/components/ui/AlertBanner';
+import { getApiErrorMessage } from '@/lib/apiError';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -39,131 +41,111 @@ export default function RegisterPage() {
         password,
         password2
       );
-
       router.push('/');
-    } catch (err: any) {
-      console.log('Fetching:', err);
-      setError(err.response?.data?.username?.[0] || 'Registration failed');
+    } catch (err: unknown) {
+      setError(getApiErrorMessage(err, 'Registration failed'));
     }
   };
 
   return (
-    <div className="p-10 min-h-screen flex items-center justify-center">
-      <div className="bg-card max-w-md w-full space-y-8 p-8 rounded-lg shadow">
-        <div className="flex items-center justify-center">
-          <Image
-            src="/OwlReadsLogo.png"
-            alt="OwlReads Logo"
-            width={250}
-            height={250}
-            className="mr-3"
-          />
-        </div>
-        <h2 className="text-3xl font-bold text-center">Create Account</h2>
-
-        {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">First name</label>
-            <input
-              type="text"
-              value={first_name}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Last name</label>
-            <input
-              type="text"
-              value={last_name}
-              onChange={(e) => setLastName(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Class Name</label>
-            <input
-              type="classname"
-              value={classname}
-              onChange={(e) => setClassName(e.target.value)}
-              className="input-field"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium">Teacher Name</label>
-            <input
-              type="classname"
-              value={teachername}
-              onChange={(e) => setTeacherName(e.target.value)}
-              className="input-field"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-              className="input-field"
-              required
-            />
-          </div>
-
-          <button type="submit" className="btnsecondary w-full">
-            Sign Up
-          </button>
-        </form>
-
-        <p className="text-center text-sm">
+    <AuthFormLayout
+      title="Create Account"
+      showLogo
+      footer={
+        <>
           Already have an account?{' '}
           <Link href="/user/login" className="secondary-link hover:underline">
             Sign in
           </Link>
-        </p>
-      </div>
-    </div>
+        </>
+      }
+    >
+      {error ? <AlertBanner>{error}</AlertBanner> : null}
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium">Username</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">First name</label>
+          <input
+            type="text"
+            value={first_name}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Last name</label>
+          <input
+            type="text"
+            value={last_name}
+            onChange={(e) => setLastName(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Class Name</label>
+          <input
+            type="text"
+            value={classname}
+            onChange={(e) => setClassName(e.target.value)}
+            className="input-field"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Teacher Name</label>
+          <input
+            type="text"
+            value={teachername}
+            onChange={(e) => setTeacherName(e.target.value)}
+            className="input-field"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Password</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium">Confirm Password</label>
+          <input
+            type="password"
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+
+        <button type="submit" className="btnsecondary w-full">
+          Sign Up
+        </button>
+      </form>
+    </AuthFormLayout>
   );
 }

@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { RefreshCw } from 'lucide-react';
 
-import RequireAuth from '@/components/user/RequireAuth';
-import { useAuth } from '@/context/AuthContext';
+import RequireTeacher from '@/components/user/RequireTeacher';
 import { AllocationBookCard } from '@/features/allocations/components/AllocationBookCard';
 import { AllocationEditModal } from '@/features/allocations/components/AllocationEditModal';
 import { TeacherAllocationSummaryCards } from '@/features/allocations/components/TeacherAllocationSummaryCards';
@@ -13,10 +12,8 @@ import { useAllocationEditor } from '@/features/allocations/hooks/useAllocationE
 import { useTeacherAllocations } from '@/features/allocations/hooks/useTeacherAllocations';
 import type { AllocationSortOrder } from '@/features/allocations/types';
 
-export default function TeacherAllocationsPage() {
-  const { isTeacher } = useAuth();
-
-  const teacherAllocations = useTeacherAllocations(isTeacher);
+function TeacherAllocationsContent() {
+  const teacherAllocations = useTeacherAllocations(true);
   const allocationEditor = useAllocationEditor({
     reloadAllocations: teacherAllocations.reloadAllocations,
   });
@@ -43,26 +40,8 @@ export default function TeacherAllocationsPage() {
     }
   };
 
-  if (!isTeacher) {
-    return (
-      <RequireAuth>
-        <div className="page-container">
-          <div className="update-card rounded-lg p-8 text-center">
-            <p className="font-medium text-destructive">
-              You are not authorized to view this page.
-            </p>
-            <Link href="/teacher" className="btnsecondary mt-4 inline-block">
-              Go to Dashboard
-            </Link>
-          </div>
-        </div>
-      </RequireAuth>
-    );
-  }
-
   return (
-    <RequireAuth>
-      <div className="page-container">
+    <div className="page-container">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-2">
           <h1 className="text-2xl font-bold text-foreground">
             Manage Allocations
@@ -198,6 +177,13 @@ export default function TeacherAllocationsPage() {
           />
         )}
       </div>
-    </RequireAuth>
+  );
+}
+
+export default function TeacherAllocationsPage() {
+  return (
+    <RequireTeacher>
+      <TeacherAllocationsContent />
+    </RequireTeacher>
   );
 }

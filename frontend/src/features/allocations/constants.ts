@@ -29,7 +29,9 @@ export const ALLOCATION_STATUS_META: Record<
   },
 };
 
-export const API_BASE_URL = 'http://localhost:8000/api';
+import { API_BASE_URL } from '@/lib/config';
+
+export { API_BASE_URL };
 
 export const AUTH_STUDENTS_LIST_URL = `${API_BASE_URL}/auth/students/list/`;
 
