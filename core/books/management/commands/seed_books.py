@@ -92,11 +92,11 @@ def is_valid_book(volume_info):
     # Must have a description
     if not volume_info.get("description"):
         return False
-    
+
     # Must have at least one author (helps filter out non-book items and ensures better metadata)
     if not volume_info.get("authors"):
         return False
-    
+
     categories = [c.lower() for c in volume_info.get("categories", [])]
     category_str = " ".join(categories)
 

@@ -50,6 +50,10 @@ seed_books:
 seed_users:
 	poetry run python core/manage.py seed_classroom
 
+.PHONY: seed_demo
+seed_demo:
+	poetry run python core/manage.py seed_test_class
+
 .PHONY: test
 test:
 	cd core && poetry run python manage.py test
