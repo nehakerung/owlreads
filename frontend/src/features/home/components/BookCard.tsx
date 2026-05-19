@@ -1,6 +1,9 @@
-import React from 'react';
-import Image from 'next/image';
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import { BookOpen } from 'lucide-react';
+import '@/styles/bp.css';
 import styles from '@/features/books/styles/book-search.module.css';
 
 interface Book {
@@ -12,15 +15,27 @@ interface Book {
 }
 
 const BookCard = ({ book }: { book: Book }) => {
+  const [imgFailed, setImgFailed] = useState(false);
+  const hasCover = book.thumbnail && !imgFailed;
+  const coverSrc = book.thumbnail?.replace('http:', 'https:');
+
   return (
     <div className="w-50 rounded-lg shadow-md bg-card flex flex-col items-center gap-4 px-5 py-6 transition-all duration-300 hover:shadow-xl hover:scale-105">
-      <div className="w-40 h-60 rounded-md overflow-hidden relative">
-        <Image
-          src={book.thumbnail || '/book.jpg'}
-          className="object-cover"
-          fill
-          alt={book.title}
-        />
+      <div className="bp-cover-frame">
+        {hasCover ? (
+          <img
+            src={coverSrc}
+            alt={`Cover of ${book.title}`}
+            className="bp-cover-img"
+            onError={() => setImgFailed(true)}
+          />
+        ) : (
+          <div className="bp-cover-fallback">
+            <BookOpen size={48} strokeWidth={1} />
+            <span>No cover</span>
+          </div>
+        )}
+        <div className="bp-spine" />
       </div>
 
       <Link href={`/book/${book.id}`} className={styles.titleLink}>

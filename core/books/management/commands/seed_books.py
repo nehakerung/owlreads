@@ -9,13 +9,19 @@ from django.core.management.base import BaseCommand
 GOOGLE_BOOKS_API_KEY = config('GOOGLE_BOOKS_API_KEY', default='')
 
 BASE_URL = "https://www.googleapis.com/books/v1/volumes"
-MAX_BOOKS = 1500
+MAX_BOOKS = 1000
 
 # Broader, more popular-focused queries with known children's authors/series
 QUERIES = [
     "subject:juvenile fiction",
     "subject:juvenile nonfiction",
     "subject:picture books",
+    "Beast Quest",
+    "David Walliams children",
+    "Louis Sachar children",
+    "Anne Fine children",
+    "Rachel Renée Russell children",
+    "Jacqueline Wilson children",
     "Harry Potter children",
     "Diary of a Wimpy Kid",
     "Magic Tree House",
@@ -81,6 +87,14 @@ def is_valid_book(volume_info):
 
     # Must have a title
     if not volume_info.get("title"):
+        return False
+
+    # Must have a description
+    if not volume_info.get("description"):
+        return False
+
+    # Must have at least one author (helps filter out non-book items and ensures better metadata)
+    if not volume_info.get("authors"):
         return False
 
     categories = [c.lower() for c in volume_info.get("categories", [])]

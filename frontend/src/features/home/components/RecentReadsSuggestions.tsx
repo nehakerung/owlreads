@@ -14,9 +14,8 @@ import styles from '@/features/books/styles/book-search.module.css';
 /** Home-page suggestions based on the user's most recently read book. */
 export default function RecentReadsSuggestions() {
   const { user, loading: authLoading } = useAuth();
-  const [recentRead, setRecentRead] = useState<
-    Awaited<ReturnType<typeof pickMostRecentReadBook>>
-  >(null);
+  const [recentRead, setRecentRead] =
+    useState<Awaited<ReturnType<typeof pickMostRecentReadBook>>>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
